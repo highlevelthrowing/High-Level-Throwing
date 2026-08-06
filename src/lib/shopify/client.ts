@@ -37,7 +37,11 @@ export async function shopifyFetch<T>({
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "X-Shopify-Storefront-Access-Token": token,
+      // Headless-channel private tokens (shpat_*) authenticate with a different
+      // header than public storefront tokens.
+      ...(token.startsWith("shpat_")
+        ? { "Shopify-Storefront-Private-Token": token }
+        : { "X-Shopify-Storefront-Access-Token": token }),
     },
     body: JSON.stringify({ query, variables }),
     cache: revalidate === undefined ? cache : undefined,
