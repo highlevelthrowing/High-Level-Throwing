@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "PATH=\"/Users/austinwasserman/Desktop/Claude Code 2026/.tools/node/bin:$PATH\" next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"
