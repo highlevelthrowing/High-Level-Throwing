@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import TrustedByLogos from "@/components/TrustedByLogos";
 import VideoEmbed from "@/components/VideoEmbed";
+import TestimonialSlider from "@/components/TestimonialSlider";
 
 export const metadata: Metadata = {
   title: "Clinics & On-Site Sessions",
@@ -139,14 +139,7 @@ export default function Clinics() {
             </a>
           </div>
           <div className="col-media">
-            <Image
-              src="https://highlevelthrowing.com/cdn/shop/files/High_level_throwing-2.jpg?v=1711116525&width=800"
-              alt="High Level Throwing clinic session"
-              width={600}
-              height={450}
-              className="media-photo"
-              unoptimized
-            />
+            <TestimonialSlider />
             <div className="badge">Foundational + Advanced Sessions</div>
             <p style={{ color: "var(--muted)", fontSize: "0.9rem", marginBottom: 18 }}>
               We can price by Team Rate or Individual Registrations.
