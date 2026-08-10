@@ -22,7 +22,7 @@ export default async function BooksPage() {
       <div className="section-head">
         <div className="section-tag">Training Books</div>
         <h2>Learn the System</h2>
-        <p>The High Level Throwing method, written down — synced live from our Shopify store.</p>
+        <p>The High Level Throwing method, written down.</p>
       </div>
 
       {books.length === 0 ? (

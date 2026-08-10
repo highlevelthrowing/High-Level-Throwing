@@ -32,45 +32,69 @@ export default function Clinics() {
         </div>
       </section>
 
-      <TrustedByLogos />
-
-      <section id="overview">
+      <section id="videos">
         <div className="section-head">
-          <div className="section-tag">High Level Throwing Clinics</div>
-          <h2>On-Site Clinics for Every Program</h2>
+          <div className="section-tag">See It In Action</div>
+          <h2>Watch a Clinic Up Close</h2>
+          <p>A look at what a High Level Throwing clinic looks like on-site.</p>
+        </div>
+        <div className="video-grid">
+          <VideoEmbed
+            vimeoId="375431966"
+            title="High Level Throwing® Clinic: Training Video"
+            poster="https://i.vimeocdn.com/video/834204228-a2acec68baba15ca3db1411597eab2be81eb85801183ae394e5bdbba445d8c24-d_295x166"
+          />
+          <VideoEmbed
+            vimeoId="1061105417"
+            title="High Level Throwing® Clinic Highlights"
+            poster="https://highlevelthrowing.com/cdn/shop/files/Screen_Shot_2025-05-15_at_10.28.06_PM.png?v=1747362497&width=1500"
+          />
+        </div>
+      </section>
+
+      <section id="schedule">
+        <div className="section-head">
+          <div className="section-tag">Clinic Schedule</div>
+          <h2>Upcoming Clinics</h2>
+          <p>See where High Level Throwing is headed next and find a clinic near you.</p>
+        </div>
+        <div className="tockify-wrap">
+          <div data-tockify-component="calendar" data-tockify-calendar="travelclinics" />
+        </div>
+        <Script src="https://public.tockify.com/browser/embed.js" strategy="lazyOnload" data-cfasync="false" />
+      </section>
+
+      <section id="model">
+        <div className="section-head">
+          <div className="section-tag">How It Works</div>
+          <h2>Simple to Add During the Year</h2>
           <p>
-            Foundational and Advanced clinics for athletes and coaches — priced to live inside registration and
-            membership dues, or outside as a separate cost, depending on your organization.
+            Programs that bring in HLT clinics see stronger, faster and more efficient throws, with arm care
+            techniques that last!
           </p>
         </div>
-        <div className="grid" style={{ maxWidth: 420 }}>
-          <div className="pillar-card">
-            <div className="pillar-num">ON-SITE</div>
-            <h3>Clinics</h3>
+        <div className="steps">
+          <div className="step">
+            <div className="step-num">1</div>
+            <h3>Pick your Clinic Type</h3>
             <p>
-              Foundational and Advanced in-person sessions delivered directly to your Rec League, Travel
-              Organization, or Training Facility.
+              Confirm a clinic date and choose Foundational, Advanced, or both — based on what your athletes and
+              coaches need this season.
             </p>
-            <div className="tag-row">
-              <span className="tag price-blur">$160 / player</span>
-              <span className="tag price-blur">20% Host Revenue Share</span>
-            </div>
-            <div
-              style={{
-                background: "rgba(198,255,46,0.1)",
-                border: "1px solid rgba(198,255,46,0.4)",
-                borderRadius: 12,
-                padding: "12px 16px",
-                marginBottom: 18,
-              }}
-            >
-              <p style={{ color: "var(--lime)", fontWeight: 800, fontSize: "0.85rem", margin: 0 }}>
-                Minimum of 48 athletes required to host a clinic.
-              </p>
-            </div>
-            <a className="card-link" href="#details">
-              See clinic formats →
-            </a>
+          </div>
+          <div className="step">
+            <div className="step-num">2</div>
+            <h3>Facility/Field & Equipment Requirements</h3>
+            <p>Host provides location, bucket of softballs or baseballs and nets/screens if needed.</p>
+          </div>
+          <div className="step">
+            <div className="step-num">3</div>
+            <h3>We Handle the Rest</h3>
+            <p>
+              Once we confirm a clinic date, methods of registration/payment, we handle the rest! Newsletter, Email
+              & Social Media Marketing.
+            </p>
+            <p style={{ marginTop: 14 }}>*We book our own travel at no extra cost to you.</p>
           </div>
         </div>
       </section>
@@ -162,68 +186,7 @@ export default function Clinics() {
         </div>
       </section>
 
-      <section id="videos">
-        <div className="section-head">
-          <div className="section-tag">See It In Action</div>
-          <h2>Watch a Clinic Up Close</h2>
-          <p>A look at what a High Level Throwing clinic looks like on-site.</p>
-        </div>
-        <div className="video-grid">
-          <VideoEmbed vimeoId="375431966" title="High Level Throwing® Clinic: Training Video" autoEmbed />
-          <VideoEmbed
-            vimeoId="1061105417"
-            title="High Level Throwing® Clinic Highlights"
-            poster="https://highlevelthrowing.com/cdn/shop/files/Screen_Shot_2025-05-15_at_10.28.06_PM.png?v=1747362497&width=1500"
-          />
-        </div>
-      </section>
-
-      <section id="schedule">
-        <div className="section-head">
-          <div className="section-tag">Clinic Schedule</div>
-          <h2>Upcoming Clinics</h2>
-          <p>See where High Level Throwing is headed next and find a clinic near you.</p>
-        </div>
-        <div className="tockify-wrap">
-          <div data-tockify-component="calendar" data-tockify-calendar="travelclinics" />
-        </div>
-        <Script src="https://public.tockify.com/browser/embed.js" strategy="lazyOnload" data-cfasync="false" />
-      </section>
-
-      <section id="model">
-        <div className="section-head">
-          <div className="section-tag">How It Works</div>
-          <h2>Simple to Add During the Year</h2>
-          <p>
-            Programs that bring in HLT clinics see stronger, faster and more efficient throws, with arm care
-            techniques that last!
-          </p>
-        </div>
-        <div className="steps">
-          <div className="step">
-            <div className="step-num">1</div>
-            <h3>Pick your Clinic Type</h3>
-            <p>
-              Confirm a clinic date and choose Foundational, Advanced, or both — based on what your athletes and
-              coaches need this season.
-            </p>
-          </div>
-          <div className="step">
-            <div className="step-num">2</div>
-            <h3>Facility/Field & Equipment Requirements</h3>
-            <p>Host provides location, bucket of softballs or baseballs and nets/screens if needed.</p>
-          </div>
-          <div className="step">
-            <div className="step-num">3</div>
-            <h3>We Handle the Rest</h3>
-            <p>
-              Once we confirm a clinic date, methods of registration/payment, we handle the rest! Newsletter, Email
-              & Social Media Marketing.
-            </p>
-            <p style={{ marginTop: 14 }}>*We book our own travel at no extra cost to you.</p>
-          </div>
-        </div>
-      </section>
+      <TrustedByLogos />
 
       <section className="cta-final" style={{ borderBottom: "1px solid var(--border)" }}>
         <h2>Ready to Bring HLT On-Site?</h2>

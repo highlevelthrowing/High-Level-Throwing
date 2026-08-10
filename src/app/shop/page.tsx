@@ -22,7 +22,7 @@ export default async function ShopPage() {
       <div className="section-head">
         <div className="section-tag">Gear &amp; Training Tools</div>
         <h2>Shop High Level Throwing</h2>
-        <p>Lightning Ball Plyo Sets, bundles, bands, and more — synced live from our Shopify store.</p>
+        <p>Lightning Ball Plyo Sets, bundles, bands, and more.</p>
       </div>
 
       {products.length === 0 ? (

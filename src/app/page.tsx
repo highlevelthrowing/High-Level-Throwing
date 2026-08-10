@@ -12,7 +12,6 @@ const FEATURED_BUNDLE_HANDLES = [
   "lightning-ball-plyo-set-team-bundle-12-sets",
   "hlt-softball-bundle",
   "highlevel-throwing-bundle",
-  "high-level-pitching-bundle",
 ];
 
 export const metadata: Metadata = {
@@ -23,7 +22,7 @@ const SERVICES = [
   {
     tag: "VIDEO ASSESSMENTS",
     title: "Get Your HLT Score",
-    body: "Submit a throwing video and get a High Level Throwing® Score, a Throwing Report, and a full mechanics breakdown.",
+    body: "Submit a throwing video and get a High Level Throwing® Score, a Throwing Report, and a full mechanics breakdown. Build it into your program so coaches and athletes can monitor and track programming, gains, and arm health.",
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
