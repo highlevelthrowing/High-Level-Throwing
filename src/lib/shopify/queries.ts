@@ -55,8 +55,8 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
 
 export const GET_PRODUCTS_QUERY = /* GraphQL */ `
   ${PRODUCT_FRAGMENT}
-  query GetProducts($first: Int = 24) {
-    products(first: $first, sortKey: BEST_SELLING) {
+  query GetProducts($first: Int = 24, $query: String) {
+    products(first: $first, sortKey: BEST_SELLING, query: $query) {
       nodes {
         ...ProductFragment
       }

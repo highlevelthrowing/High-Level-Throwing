@@ -56,11 +56,6 @@ export default function AboutPage() {
               <li>Division 1 Baseball — University of New Orleans &amp; University of Connecticut</li>
               <li>Two seasons of professional baseball, including a 2007 championship with the Nashua Pride</li>
             </ul>
-            <p style={{ color: "var(--muted)", fontSize: "0.95rem" }}>
-              Consults for programs including Alabama, Arizona State, Florida State, FAU, IMG Academy, Minnesota,
-              Duke, South Carolina, LSU, Ole Miss, Memphis, Washington, UNCW, Coastal Carolina, Villanova, Texas
-              Lutheran, Iowa and Iowa State.
-            </p>
           </div>
         </div>
       </section>

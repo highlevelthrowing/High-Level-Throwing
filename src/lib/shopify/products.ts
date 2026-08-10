@@ -15,14 +15,20 @@ function normalizeProduct(raw: RawProduct): Product {
   };
 }
 
-export async function getProducts(first = 24): Promise<Product[]> {
+export async function getProducts(first = 24, query?: string): Promise<Product[]> {
   const data = await shopifyFetch<{ products: { nodes: RawProduct[] } }>({
     query: GET_PRODUCTS_QUERY,
-    variables: { first },
+    variables: { first, query },
     revalidate: 60,
   });
   return data.products.nodes.map(normalizeProduct);
 }
+
+// Real, publicly-purchasable physical equipment — excludes digital books/ebooks,
+// training programs, coaching sessions, and one-off custom purchase links for
+// specific teams/orgs (which share the "Equipment" product type but aren't
+// meant for general shop browsing).
+export const SHOP_EQUIPMENT_QUERY = "product_type:Equipment AND tag:'SHOP EQUIPMENT'";
 
 export async function getProductByHandle(handle: string): Promise<Product | null> {
   const data = await shopifyFetch<{ product: RawProduct | null }>({

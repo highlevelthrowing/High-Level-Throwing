@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { isShopifyConfigured } from "@/lib/shopify/client";
-import { getProducts } from "@/lib/shopify/products";
+import { getProducts, SHOP_EQUIPMENT_QUERY } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 
@@ -15,14 +15,14 @@ export default async function ShopPage() {
     return <ShopifySetupNotice />;
   }
 
-  const products = await getProducts();
+  const products = await getProducts(24, SHOP_EQUIPMENT_QUERY);
 
   return (
     <section>
       <div className="section-head">
         <div className="section-tag">Gear &amp; Training Tools</div>
         <h2>Shop High Level Throwing</h2>
-        <p>Lightning Ball Plyo Sets, digital training guides, and more — synced live from our Shopify store.</p>
+        <p>Lightning Ball Plyo Sets, bundles, bands, and more — synced live from our Shopify store.</p>
       </div>
 
       {products.length === 0 ? (

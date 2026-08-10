@@ -29,6 +29,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pag
   let html = await res.text();
   html = html.replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n<base href="${targetUrl}">`);
 
+  // Strip the theme's own announcement bar / header and footer sections so the
+  // embed only shows the page's actual content — the storefront already renders
+  // its own header/footer around the iframe, and stacking both broke scrolling.
+  html = html.replace(/<div[^>]*id="shopify-section-[^"]*announcement-bar"[\s\S]*?(?=<main[^>]*id="MainContent")/i, "");
+  html = html.replace(/<div[^>]*id="shopify-section-[^"]*__footer"[\s\S]*?(?=<\/body>)/i, "");
+
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
   });

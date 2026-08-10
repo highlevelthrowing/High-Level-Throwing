@@ -3,8 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import TrustedByLogos from "@/components/TrustedByLogos";
 import { isShopifyConfigured } from "@/lib/shopify/client";
-import { getProducts } from "@/lib/shopify/products";
+import { getProductByHandle } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
+import type { Product } from "@/lib/shopify/types";
+
+const FEATURED_BUNDLE_HANDLES = [
+  "lightning-ball-plyo-set-team-bundle-6-sets",
+  "lightning-ball-plyo-set-team-bundle-12-sets",
+  "hlt-softball-bundle",
+  "highlevel-throwing-bundle",
+  "high-level-pitching-bundle",
+];
 
 export const metadata: Metadata = {
   title: "High Level Throwing®",
@@ -39,7 +48,11 @@ const SERVICES = [
 
 export default async function Home() {
   const shopifyReady = isShopifyConfigured();
-  const bundles = shopifyReady ? await getProducts(5).catch(() => []) : [];
+  const bundles = shopifyReady
+    ? (
+        await Promise.all(FEATURED_BUNDLE_HANDLES.map((handle) => getProductByHandle(handle).catch(() => null)))
+      ).filter((product): product is Product => product !== null)
+    : [];
 
   return (
     <>
@@ -164,7 +177,7 @@ export default async function Home() {
         <h2>Want Full Integration of High Level Throwing®?</h2>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href="/video-assessment">
-            Athlete & Coach Training
+            Schedule A Call
           </Link>
         </div>
       </section>
