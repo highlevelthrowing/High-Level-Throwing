@@ -37,6 +37,10 @@ const TESTIMONIALS: Testimonial[] = [
     src: "/images/testimonials/heather-tarr.png",
     alt: "Heather Tarr, University of Washington Head Coach, on High Level Throwing",
   },
+  {
+    src: "/images/testimonials/amanda-scarborough.webp",
+    alt: "Amanda Scarborough, ESPN Analyst / Pitching Angel Owner, on High Level Throwing",
+  },
 ];
 
 const AUTO_ADVANCE_MS = 6000;
