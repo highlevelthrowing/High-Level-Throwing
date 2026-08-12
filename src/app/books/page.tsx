@@ -5,6 +5,7 @@ import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getCollectionProducts } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
+import QuickAddButton from "@/components/QuickAddButton";
 
 export const metadata: Metadata = {
   title: "Books",
@@ -22,7 +23,7 @@ export default async function BooksPage() {
       <div className="section-head">
         <div className="section-tag">Training Books</div>
         <h2>Learn the System</h2>
-        <p>The High Level Throwing method, written down.</p>
+        <p>The High Level Throwing method, written down with video drills & tutorials.</p>
       </div>
 
       {books.length === 0 ? (
@@ -47,6 +48,12 @@ export default async function BooksPage() {
                 <div className="price">
                   {formatPrice(book.priceRange.minVariantPrice.amount, book.priceRange.minVariantPrice.currencyCode)}
                 </div>
+                {book.variants[0] && (
+                  <QuickAddButton
+                    variantId={book.variants[0].id}
+                    availableForSale={book.variants[0].availableForSale}
+                  />
+                )}
               </div>
             </Link>
           ))}

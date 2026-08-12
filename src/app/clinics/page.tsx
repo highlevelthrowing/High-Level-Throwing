@@ -23,9 +23,9 @@ export default function Clinics() {
           Training Facility.
         </p>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Schedule a Clinic!
-          </a>
+          </Link>
           <a className="btn btn-outline" href="#details">
             See How It Fits Your Budget
           </a>
@@ -134,9 +134,9 @@ export default function Clinics() {
               </li>
               <li>Athletes also receive the digital training guide via email to continue their development!</li>
             </ul>
-            <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+            <Link className="btn btn-primary" href="/contact">
               Book a Clinic for Your Program
-            </a>
+            </Link>
           </div>
           <div className="col-media">
             <TestimonialSlider />
@@ -144,11 +144,35 @@ export default function Clinics() {
             <p style={{ color: "var(--muted)", fontSize: "0.9rem", marginBottom: 18 }}>
               We can price by Team Rate or Individual Registrations.
             </p>
+            <div
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 800,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                color: "var(--muted)",
+                marginBottom: 6,
+              }}
+            >
+              Individual
+            </div>
             <div className="big-price">
               <span className="price-blur">$160</span> <span style={{ fontSize: "1.4rem" }}>per player</span>
               <small>max 16 athletes per session</small>
             </div>
             <div className="divider" />
+            <div
+              style={{
+                fontSize: "0.75rem",
+                fontWeight: 800,
+                letterSpacing: "0.5px",
+                textTransform: "uppercase",
+                color: "var(--muted)",
+                marginBottom: 6,
+              }}
+            >
+              Team
+            </div>
             <div className="big-price" style={{ fontSize: "1.6rem" }}>
               <span className="price-blur">$2,000 / team</span>
               <small>up to 18 players + 3 coaches</small>
@@ -159,9 +183,6 @@ export default function Clinics() {
               <small>revenue share kickback to the host</small>
             </div>
             <div className="divider" />
-            <p style={{ color: "var(--muted)", fontSize: "0.85rem" }}>
-              *Selecting the Team Rate is not eligible to receive the revenue share kickback.
-            </p>
             <div
               style={{
                 background: "rgba(198,255,46,0.1)",
@@ -179,19 +200,19 @@ export default function Clinics() {
         </div>
       </section>
 
-      <TrustedByLogos />
-
       <section className="cta-final" style={{ borderBottom: "1px solid var(--border)" }}>
         <h2>Ready to Bring HLT On-Site?</h2>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Schedule a Call
-          </a>
+          </Link>
           <a className="btn btn-outline" href="https://www.highlevelthrowing.com" target="_blank" rel="noopener">
             Visit HighLevelThrowing.com
           </a>
         </div>
       </section>
+
+      <TrustedByLogos />
     </>
   );
 }

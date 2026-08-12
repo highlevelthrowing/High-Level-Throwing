@@ -5,6 +5,7 @@ import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProducts, SHOP_EQUIPMENT_QUERY } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
+import QuickAddButton from "@/components/QuickAddButton";
 
 export const metadata: Metadata = {
   title: "Shop",
@@ -47,6 +48,12 @@ export default async function ShopPage() {
                 <div className="price">
                   {formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}
                 </div>
+                {product.variants[0] && (
+                  <QuickAddButton
+                    variantId={product.variants[0].id}
+                    availableForSale={product.variants[0].availableForSale}
+                  />
+                )}
               </div>
             </Link>
           ))}

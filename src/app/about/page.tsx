@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 import TrustedByLogos from "@/components/TrustedByLogos";
 import TeamGrid from "@/components/TeamGrid";
 
@@ -84,16 +85,16 @@ export default function AboutPage() {
         />
       </section>
 
-      <TrustedByLogos />
-
       <section className="cta-final" style={{ borderBottom: "1px solid var(--border)" }}>
         <h2>Ready to Work With Us?</h2>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Schedule a Call
-          </a>
+          </Link>
         </div>
       </section>
+
+      <TrustedByLogos />
     </>
   );
 }

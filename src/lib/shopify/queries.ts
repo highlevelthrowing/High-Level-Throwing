@@ -19,6 +19,31 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
         height
       }
     }
+    media(first: 8) {
+      nodes {
+        mediaContentType
+        previewImage {
+          url
+          altText
+          width
+          height
+        }
+        ... on MediaImage {
+          image {
+            url
+            altText
+            width
+            height
+          }
+        }
+        ... on Video {
+          sources {
+            url
+            mimeType
+          }
+        }
+      }
+    }
     priceRange {
       minVariantPrice {
         amount

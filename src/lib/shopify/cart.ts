@@ -10,7 +10,16 @@ import {
   CART_LINES_UPDATE_MUTATION,
   GET_CART_QUERY,
 } from "./queries";
-import type { Cart } from "./types";
+import type { Cart, CartLine } from "./types";
+
+type RawCart = Omit<Cart, "lines"> & { lines: { nodes: CartLine[] } };
+
+function normalizeCart(raw: RawCart): Cart {
+  return {
+    ...raw,
+    lines: raw.lines.nodes,
+  };
+}
 
 const CART_COOKIE = "hlt_cart_id";
 
@@ -34,12 +43,12 @@ export async function getCart(): Promise<Cart | null> {
   const cartId = await getCartId();
   if (!cartId) return null;
 
-  const data = await shopifyFetch<{ cart: Cart | null }>({
+  const data = await shopifyFetch<{ cart: RawCart | null }>({
     query: GET_CART_QUERY,
     variables: { cartId },
     cache: "no-store",
   });
-  return data.cart ?? null;
+  return data.cart ? normalizeCart(data.cart) : null;
 }
 
 export async function addToCart(variantId: string, quantity = 1) {
@@ -47,7 +56,7 @@ export async function addToCart(variantId: string, quantity = 1) {
 
   if (!cartId) {
     const data = await shopifyFetch<{
-      cartCreate: { cart: Cart; userErrors: { message: string }[] };
+      cartCreate: { cart: RawCart; userErrors: { message: string }[] };
     }>({
       query: CART_CREATE_MUTATION,
       variables: { lines: [{ merchandiseId: variantId, quantity }] },
@@ -59,7 +68,7 @@ export async function addToCart(variantId: string, quantity = 1) {
     await setCartId(data.cartCreate.cart.id);
   } else {
     const data = await shopifyFetch<{
-      cartLinesAdd: { cart: Cart; userErrors: { message: string }[] };
+      cartLinesAdd: { cart: RawCart; userErrors: { message: string }[] };
     }>({
       query: CART_LINES_ADD_MUTATION,
       variables: { cartId, lines: [{ merchandiseId: variantId, quantity }] },

@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const SERVICES = [
   {
-    tag: "VIDEO ASSESSMENTS",
+    tag: "AI POWERED ATHLETE & COACHING PLATFORM",
     title: "Get Your HLT Score",
     body: "Submit a throwing video and get a High Level Throwing® Score, a Throwing Report, and a full mechanics breakdown. Build it into your program so coaches and athletes can monitor and track programming, gains, and arm health.",
     cta: "Start Video Assessment",
@@ -56,17 +56,17 @@ export default async function Home() {
   return (
     <>
       <section className="hero">
-        <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams and Organizations</div>
+        <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
         </h1>
         <p>
-          Clinics &amp; Workshops · Video Assessments · Coach Education Course · College Consulting · Training
+          Clinics &amp; Workshops · AI Powered Throwing Platform · Coach Education Course · College Consulting · Training
           Equipment — everything you need to build the complete Baseball &amp; Softball Defensive player.
         </p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href="/video-assessment">
-            Athlete & Coach Training
+            AI Powered Throwing Platform
           </Link>
         </div>
       </section>
@@ -170,16 +170,16 @@ export default async function Home() {
         )}
       </section>
 
-      <TrustedByLogos />
-
       <section className="cta-final" style={{ borderBottom: "1px solid var(--border)" }}>
         <h2>Want Full Integration of High Level Throwing®?</h2>
         <div className="hero-ctas">
-          <Link className="btn btn-primary" href="/video-assessment">
+          <Link className="btn btn-primary" href="/contact">
             Schedule A Call
           </Link>
         </div>
       </section>
+
+      <TrustedByLogos />
     </>
   );
 }

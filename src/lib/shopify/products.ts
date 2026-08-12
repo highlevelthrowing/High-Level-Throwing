@@ -1,17 +1,38 @@
 import { shopifyFetch } from "./client";
 import { GET_COLLECTION_PRODUCTS_QUERY, GET_PRODUCT_BY_HANDLE_QUERY, GET_PRODUCTS_QUERY } from "./queries";
-import type { Product } from "./types";
+import type { Product, ProductMedia, ShopifyImage } from "./types";
 
-type RawProduct = Omit<Product, "images" | "variants"> & {
+type RawMediaNode = {
+  mediaContentType: string;
+  previewImage: ShopifyImage | null;
+  image?: ShopifyImage;
+  sources?: { url: string; mimeType: string }[];
+};
+
+type RawProduct = Omit<Product, "images" | "variants" | "media"> & {
   images: { nodes: Product["images"] };
   variants: { nodes: Product["variants"] };
+  media: { nodes: RawMediaNode[] };
 };
+
+function normalizeMedia(nodes: RawMediaNode[]): ProductMedia[] {
+  return nodes.flatMap((node): ProductMedia[] => {
+    if (node.mediaContentType === "IMAGE" && node.image) {
+      return [{ type: "IMAGE", image: node.image }];
+    }
+    if (node.mediaContentType === "VIDEO" && node.sources?.length) {
+      return [{ type: "VIDEO", previewImage: node.previewImage, sources: node.sources }];
+    }
+    return [];
+  });
+}
 
 function normalizeProduct(raw: RawProduct): Product {
   return {
     ...raw,
     images: raw.images.nodes,
     variants: raw.variants.nodes,
+    media: normalizeMedia(raw.media.nodes),
   };
 }
 
@@ -26,9 +47,10 @@ export async function getProducts(first = 24, query?: string): Promise<Product[]
 
 // Real, publicly-purchasable physical equipment — excludes digital books/ebooks,
 // training programs, coaching sessions, and one-off custom purchase links for
-// specific teams/orgs (which share the "Equipment" product type but aren't
-// meant for general shop browsing).
-export const SHOP_EQUIPMENT_QUERY = "product_type:Equipment AND tag:'SHOP EQUIPMENT'";
+// specific teams/orgs. Filtered by tag alone: some legitimate equipment
+// (e.g. the Slime Green/Hot Pink lightning bands) has a blank product_type in
+// Shopify, so requiring product_type:Equipment incorrectly excluded them.
+export const SHOP_EQUIPMENT_QUERY = "tag:'SHOP EQUIPMENT'";
 
 export async function getProductByHandle(handle: string): Promise<Product | null> {
   const data = await shopifyFetch<{ product: RawProduct | null }>({

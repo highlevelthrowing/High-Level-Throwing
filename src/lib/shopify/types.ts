@@ -19,6 +19,19 @@ export type ProductVariant = {
   selectedOptions: { name: string; value: string }[];
 };
 
+export type ProductMediaImage = {
+  type: "IMAGE";
+  image: ShopifyImage;
+};
+
+export type ProductMediaVideo = {
+  type: "VIDEO";
+  previewImage: ShopifyImage | null;
+  sources: { url: string; mimeType: string }[];
+};
+
+export type ProductMedia = ProductMediaImage | ProductMediaVideo;
+
 export type Product = {
   id: string;
   handle: string;
@@ -27,6 +40,7 @@ export type Product = {
   descriptionHtml: string;
   featuredImage: ShopifyImage | null;
   images: ShopifyImage[];
+  media: ProductMedia[];
   priceRange: {
     minVariantPrice: Money;
     maxVariantPrice: Money;
