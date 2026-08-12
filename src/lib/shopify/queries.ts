@@ -11,7 +11,7 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
       width
       height
     }
-    images(first: 8) {
+    images(first: 20) {
       nodes {
         url
         altText
@@ -19,7 +19,7 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
         height
       }
     }
-    media(first: 8) {
+    media(first: 20) {
       nodes {
         mediaContentType
         previewImage {

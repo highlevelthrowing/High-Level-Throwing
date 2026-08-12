@@ -52,10 +52,23 @@ export async function getProducts(first = 24, query?: string): Promise<Product[]
 // Shopify, so requiring product_type:Equipment incorrectly excluded them.
 export const SHOP_EQUIPMENT_QUERY = "tag:'SHOP EQUIPMENT'";
 
+// Next.js sometimes hands this a still-percent-encoded handle (e.g. a
+// product handle containing "®" arrives as the literal text
+// "...%C2%AE..." instead of the decoded character), which then fails to
+// match anything in Shopify. Decode defensively; fall back to the raw
+// value if it isn't actually URI-encoded (e.g. a handle with a literal "%").
+function decodeHandle(handle: string): string {
+  try {
+    return decodeURIComponent(handle);
+  } catch {
+    return handle;
+  }
+}
+
 export async function getProductByHandle(handle: string): Promise<Product | null> {
   const data = await shopifyFetch<{ product: RawProduct | null }>({
     query: GET_PRODUCT_BY_HANDLE_QUERY,
-    variables: { handle },
+    variables: { handle: decodeHandle(handle) },
     revalidate: 60,
   });
   return data.product ? normalizeProduct(data.product) : null;

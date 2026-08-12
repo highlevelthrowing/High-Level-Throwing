@@ -120,7 +120,7 @@ export default async function Home() {
         <div className="section-head">
           <div className="section-tag">Featured Bundles</div>
           <h2>Shop Training Equipment</h2>
-          <p>Baseball and softball bundles, synced live from our Shopify store.</p>
+          <p>Baseball &amp; Softball Bundles with video drills and tutorials.</p>
         </div>
 
         {!shopifyReady && (
