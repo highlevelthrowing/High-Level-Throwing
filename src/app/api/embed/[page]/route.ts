@@ -9,9 +9,19 @@ const EMBED_TARGETS: Record<string, string> = {
   "refund-policy": "https://high-level-throwing.myshopify.com/pages/refund-policy",
 };
 
+const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
+
+// Anything not in EMBED_TARGETS is treated as a Shopify page handle, so clinic
+// pages (and any page added later) embed without needing to be listed here.
+function resolveTarget(page: string): string | null {
+  if (EMBED_TARGETS[page]) return EMBED_TARGETS[page];
+  if (/^[a-z0-9®–—_-]+$/i.test(page)) return `${SHOPIFY_STORE}/pages/${page}`;
+  return null;
+}
+
 export async function GET(_request: Request, { params }: { params: Promise<{ page: string }> }) {
   const { page } = await params;
-  const targetUrl = EMBED_TARGETS[page];
+  const targetUrl = resolveTarget(decodeURIComponent(page));
 
   if (!targetUrl) {
     return new Response("Unknown embed target.", { status: 404 });

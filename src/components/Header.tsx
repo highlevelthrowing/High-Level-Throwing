@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { getCart } from "@/lib/shopify/cart";
 import { isShopifyConfigured } from "@/lib/shopify/client";
+import MobileNav from "@/components/MobileNav";
 
 type NavLeaf = { label: string; href: string; external?: boolean };
 type NavItem = NavLeaf | { label: string; children: NavLeaf[] };
@@ -87,6 +88,7 @@ export default async function Header() {
           <Link className="nav-cta" href="/contact">
             Talk to Us
           </Link>
+          <MobileNav links={NAV.flatMap((item) => (isDropdown(item) ? item.children : [item]))} />
         </div>
       </nav>
     </header>

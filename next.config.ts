@@ -25,7 +25,9 @@ const nextConfig: NextConfig = {
   async redirects() {
     const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
     return [
-      { source: "/pages/:path*", destination: `${SHOPIFY_STORE}/pages/:path*`, permanent: false },
+      // /pages/:handle is handled in-app by app/pages/[handle] so Shopify-authored
+      // pages (clinics especially) render inside this site rather than sending
+      // visitors off to the Shopify store.
       { source: "/blogs/:path*", destination: `${SHOPIFY_STORE}/blogs/:path*`, permanent: false },
       { source: "/collections/:path*", destination: `${SHOPIFY_STORE}/collections/:path*`, permanent: false },
     ];
