@@ -44,7 +44,89 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pag
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*announcement-bar"[\s\S]*?(?=<main[^>]*id="MainContent")/i, "");
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*__footer"[\s\S]*?(?=<\/body>)/i, "");
 
+  html = html.replace(/<\/body>/i, `${EMBED_RUNTIME}</body>`);
+
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
   });
 }
+
+// Injected into every proxied page. The <base href> above points at the Shopify
+// store so the theme's own CSS, JS and images still resolve, but that also makes
+// every relative link in the page resolve back to the store — which would send
+// visitors off this site mid-journey. This rewrites those links to their
+// equivalent path here, drops target="_blank" so nothing opens a new window, and
+// reports the document height so the iframe can size itself to its content
+// instead of scrolling inside a fixed-height box.
+const EMBED_RUNTIME = /* html */ `
+<script>
+(function () {
+  // The store's own domain, this site's domain, and whatever host is framing
+  // us (so local and preview deployments behave the same as production).
+  var OWN_HOSTS = ["high-level-throwing.myshopify.com", "highlevelthrowing.com"];
+  var IN_SITE = /^\\/(products|pages|collections|blogs|cart|search)(\\/|$|\\?)/;
+
+  function bare(host) { return String(host || "").replace(/^www\\./, ""); }
+
+  function fixLinks() {
+    var links = document.getElementsByTagName("a");
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i];
+      if (a.target === "_blank") a.removeAttribute("target");
+      var href = a.getAttribute("href");
+      if (!href || href.charAt(0) === "#") continue;
+      var url;
+      try { url = new URL(a.href); } catch (e) { continue; }
+      var host = bare(url.hostname);
+      var isOurs = OWN_HOSTS.indexOf(host) !== -1 || host === parentHost;
+      if (isOurs && IN_SITE.test(url.pathname)) {
+        // Break out of the iframe so the storefront renders it with its own
+        // header, footer and cart rather than nesting a page inside a page.
+        a.setAttribute("href", url.pathname + url.search);
+        a.setAttribute("target", "_top");
+      }
+    }
+  }
+
+  var parentHost = "";
+  try { parentHost = bare(new URL(document.referrer).hostname); } catch (e) {}
+
+  var lastHeight = 0;
+  function reportHeight() {
+    var h = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight,
+      document.body.offsetHeight,
+      document.documentElement.offsetHeight
+    );
+    if (Math.abs(h - lastHeight) < 24) return;
+    lastHeight = h;
+    parent.postMessage({ hltEmbedHeight: h }, "*");
+  }
+
+  function tick() { fixLinks(); reportHeight(); }
+
+  // The page can finish loading before the storefront attaches its listener, so
+  // the first height would be announced to nobody. The parent pings until it
+  // has an answer; each ping clears the de-dupe and re-reports.
+  window.addEventListener("message", function (event) {
+    if (event.data && event.data.hltEmbedPing) {
+      lastHeight = 0;
+      reportHeight();
+    }
+  });
+
+  document.documentElement.style.overflowX = "hidden";
+  tick();
+  if (document.readyState !== "complete") window.addEventListener("load", tick);
+  window.addEventListener("resize", reportHeight);
+  if (window.ResizeObserver) new ResizeObserver(tick).observe(document.body);
+  if (window.MutationObserver) {
+    new MutationObserver(tick).observe(document.body, { childList: true, subtree: true });
+  }
+  // Images and theme sections settle after load; re-measure for a few seconds.
+  var n = 0;
+  var timer = setInterval(function () { tick(); if (++n > 20) clearInterval(timer); }, 400);
+})();
+</script>
+`;

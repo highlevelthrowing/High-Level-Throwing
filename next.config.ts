@@ -16,6 +16,11 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "*.myshopify.com",
       },
+      {
+        // Clinic artwork from the Tockify calendar feed.
+        protocol: "https",
+        hostname: "d3flpus5evl89n.cloudfront.net",
+      },
     ],
   },
   // This domain used to serve the Shopify storefront, so links out in the wild

@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import Script from "next/script";
 import TrustedByLogos from "@/components/TrustedByLogos";
+import ClinicSchedule from "@/components/ClinicSchedule";
 import VideoEmbed from "@/components/VideoEmbed";
 import TestimonialSlider from "@/components/TestimonialSlider";
 
@@ -58,10 +58,7 @@ export default function Clinics() {
           <h2>Upcoming Clinics</h2>
           <p>See where High Level Throwing is headed next and find a clinic near you.</p>
         </div>
-        <div className="tockify-wrap">
-          <div data-tockify-component="calendar" data-tockify-calendar="travelclinics" />
-        </div>
-        <Script src="https://public.tockify.com/browser/embed.js" strategy="lazyOnload" data-cfasync="false" />
+        <ClinicSchedule />
       </section>
 
       <section id="model">
