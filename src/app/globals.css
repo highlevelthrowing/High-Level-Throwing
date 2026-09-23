@@ -490,31 +490,43 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 @media (max-width:520px){ .nav-cta{display:none;} }
 
 /* CLINIC SCHEDULE (rendered from the Tockify feed) */
-.clinic-list{max-width:1180px;margin:0 auto;display:grid;gap:14px;}
-.clinic-row{
-  display:grid;grid-template-columns:96px 1fr auto;gap:22px;align-items:center;
+.clinic-grid{
+  max-width:1180px;margin:0 auto;display:grid;gap:22px;
+  grid-template-columns:repeat(3,1fr);
+}
+@media (max-width:1000px){ .clinic-grid{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:640px){ .clinic-grid{grid-template-columns:1fr;} }
+
+.clinic-card{
+  display:flex;flex-direction:column;overflow:hidden;
   background:var(--card);border:1px solid var(--border);border-radius:18px;
-  padding:18px 22px;transition:border-color .2s, transform .2s;
+  transition:border-color .2s, transform .2s;
 }
-.clinic-row:hover{border-color:rgba(198,255,46,0.4);transform:translateY(-2px);}
-.clinic-row-img{
-  width:96px;height:96px;object-fit:cover;border-radius:14px;
-  border:1px solid var(--border);background:#000;
+.clinic-card:hover{border-color:rgba(198,255,46,0.4);transform:translateY(-4px);}
+
+.clinic-card-media{position:relative;background:#000;}
+.clinic-card-media img{
+  display:block;width:100%;height:100%;aspect-ratio:4/3;object-fit:cover;
 }
-.clinic-row-img--empty{background:var(--navy-3);}
-.clinic-row-date{
-  color:var(--lime);font-weight:800;font-size:0.72rem;letter-spacing:1px;
-  text-transform:uppercase;margin-bottom:6px;
+.clinic-card-media--empty{
+  width:100%;aspect-ratio:4/3;
+  background:linear-gradient(135deg,var(--navy-3),var(--card));
 }
-.clinic-row-title{font-size:1.12rem;font-weight:900;margin:0;}
-.clinic-row-blurb{color:var(--muted);font-size:0.88rem;margin:6px 0 0;}
-.clinic-row-action{white-space:nowrap;}
-.clinic-row-soon{color:var(--muted);font-size:0.82rem;font-weight:700;}
-@media (max-width:760px){
-  .clinic-row{grid-template-columns:64px 1fr;gap:16px;padding:16px;}
-  .clinic-row-img{width:64px;height:64px;}
-  .clinic-row-action{grid-column:1 / -1;}
-  .clinic-row-action .btn{width:100%;text-align:center;}
+.clinic-card-date{
+  position:absolute;left:12px;bottom:12px;
+  background:var(--lime);color:var(--navy);
+  font-weight:900;font-size:0.7rem;letter-spacing:0.5px;text-transform:uppercase;
+  padding:6px 12px;border-radius:999px;
+}
+
+.clinic-card-body{display:flex;flex-direction:column;gap:8px;padding:20px;flex:1;}
+.clinic-card-title{font-size:1.08rem;font-weight:900;margin:0;line-height:1.3;}
+.clinic-card-blurb{color:var(--muted);font-size:0.88rem;margin:0;}
+.clinic-card-action{margin-top:auto;padding-top:14px;}
+.clinic-card-action .btn{width:100%;text-align:center;}
+.clinic-card-soon{
+  display:block;color:var(--muted);font-size:0.8rem;font-weight:700;
+  text-align:center;padding:12px 0;
 }
 
 /* DIGITAL DELIVERY NOTE ON PRODUCT PAGES */

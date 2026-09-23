@@ -9,6 +9,8 @@ export type Clinic = {
   id: string;
   title: string;
   start: string; // ISO date (no time) or ISO datetime
+  /** Last day of the clinic, inclusive. Same as start for single-day clinics. */
+  end: string;
   allDay: boolean;
   blurb: string;
   image: string | null;
@@ -41,8 +43,8 @@ function field(block: string, name: string): { params: string; value: string } |
   return { params: match[1] ?? "", value: match[2] ?? "" };
 }
 
-function parseStart(block: string): { start: string; allDay: boolean } | null {
-  const raw = field(block, "DTSTART");
+function parseDate(block: string, name: "DTSTART" | "DTEND"): { start: string; allDay: boolean } | null {
+  const raw = field(block, name);
   if (!raw) return null;
   const value = raw.value.trim();
   const dateOnly = value.match(/^(\d{4})(\d{2})(\d{2})$/);
@@ -95,9 +97,22 @@ export async function getClinics(): Promise<Clinic[]> {
   const clinics: Clinic[] = [];
 
   for (const block of blocks) {
-    const when = parseStart(block);
+    const when = parseDate(block, "DTSTART");
     const summary = field(block, "SUMMARY");
     if (!when || !summary) continue;
+
+    // ICS end dates are exclusive for all-day events, so step back a day to get
+    // the last day the clinic actually runs.
+    const rawEnd = parseDate(block, "DTEND");
+    let end = when.start;
+    if (rawEnd) {
+      const endDay = new Date(`${rawEnd.start.slice(0, 10)}T00:00:00`);
+      if (when.allDay) endDay.setDate(endDay.getDate() - 1);
+      const iso = `${endDay.getFullYear()}-${String(endDay.getMonth() + 1).padStart(2, "0")}-${String(
+        endDay.getDate()
+      ).padStart(2, "0")}`;
+      if (iso > when.start.slice(0, 10)) end = iso;
+    }
 
     const image = field(block, "X-TKF-FEATURED-IMAGE")?.value.trim() || null;
     const blurb = unescapeText(
@@ -108,6 +123,7 @@ export async function getClinics(): Promise<Clinic[]> {
       id: field(block, "UID")?.value.trim() || `${when.start}-${summary.value}`,
       title: unescapeText(summary.value).replace(/^High Level Throwing\s*[-–]\s*/i, ""),
       start: when.start,
+      end,
       allDay: when.allDay,
       blurb,
       image,
@@ -123,14 +139,31 @@ export async function getClinics(): Promise<Clinic[]> {
     .sort((a, b) => a.start.localeCompare(b.start));
 }
 
+// All-day feed dates carry no timezone, so parse them as plain calendar dates
+// to avoid the day shifting backwards for viewers behind UTC.
+function asLocalDate(iso: string): Date {
+  const [y, m, d] = iso.slice(0, 10).split("-").map(Number);
+  return new Date(y, m - 1, d);
+}
+
 export function formatClinicDate(clinic: Clinic): string {
-  // All-day feed dates carry no timezone, so parse them as plain calendar dates
-  // to avoid the day shifting backwards for viewers behind UTC.
-  const [y, m, d] = clinic.start.slice(0, 10).split("-").map(Number);
-  return new Date(y, m - 1, d).toLocaleDateString("en-US", {
+  const start = asLocalDate(clinic.start);
+  const opts: Intl.DateTimeFormatOptions = {
     weekday: "short",
     month: "short",
     day: "numeric",
-    year: "numeric",
-  });
+  };
+
+  if (clinic.end === clinic.start.slice(0, 10) || clinic.end === clinic.start) {
+    return start.toLocaleDateString("en-US", { ...opts, year: "numeric" });
+  }
+
+  // Multi-day clinics read as a range, the way the calendar shows them:
+  // "Fri, Nov 6 – Sun, Nov 8, 2026", dropping the repeated month within one.
+  const end = asLocalDate(clinic.end);
+  const sameMonth = start.getMonth() === end.getMonth() && start.getFullYear() === end.getFullYear();
+  const endLabel = sameMonth
+    ? `${end.toLocaleDateString("en-US", { weekday: "short" })} ${end.getDate()}`
+    : end.toLocaleDateString("en-US", opts);
+  return `${start.toLocaleDateString("en-US", opts)} – ${endLabel}, ${end.getFullYear()}`;
 }

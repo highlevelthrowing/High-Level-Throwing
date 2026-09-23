@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 const SERVICES = [
   {
-    tag: "AI POWERED ATHLETE & COACHING PLATFORM",
+    tag: "ATHLETE VIDEO ASSESSMENTS",
     title: "Get Your HLT Score",
     body: "Submit a throwing video and get a High Level Throwing® Score, a Throwing Report, and a full mechanics breakdown. Build it into your program so coaches and athletes can monitor and track programming, gains, and arm health.",
     cta: "Start Video Assessment",

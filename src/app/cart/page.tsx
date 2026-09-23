@@ -10,6 +10,20 @@ export const metadata: Metadata = {
   title: "Cart",
 };
 
+// The store has Shop Pay's universal redirect switched on, so a plain checkout
+// link bounces the buyer to shop.app instead of the store's own checkout. This
+// flag keeps them on Shopify's current checkout; Shop Pay is still offered
+// there as a payment option.
+function storeCheckoutUrl(checkoutUrl: string): string {
+  try {
+    const url = new URL(checkoutUrl);
+    url.searchParams.set("skip_shop_pay", "true");
+    return url.toString();
+  } catch {
+    return checkoutUrl;
+  }
+}
+
 export default async function CartPage() {
   if (!isShopifyConfigured()) {
     return <ShopifySetupNotice />;
@@ -86,7 +100,7 @@ export default async function CartPage() {
             <span>Total</span>
             <span>{formatPrice(cart.cost.totalAmount.amount, cart.cost.totalAmount.currencyCode)}</span>
           </div>
-          <a className="btn btn-primary" href={cart.checkoutUrl} style={{ display: "block", textAlign: "center", marginTop: 16 }}>
+          <a className="btn btn-primary" href={storeCheckoutUrl(cart.checkoutUrl)} style={{ display: "block", textAlign: "center", marginTop: 16 }}>
             Checkout
           </a>
         </div>
