@@ -48,6 +48,68 @@ const SERVICES = [
   },
 ];
 
+// The three offerings a program can plug in, laid out as tiers so a coach can
+// compare them side by side. Clinic pricing is quoted per program, so it stays
+// off the card the way it does on the clinics page.
+const INTEGRATION = [
+  {
+    name: "Video Assessments",
+    price: "From $150",
+    priceNote: "$75 for each additional assessment",
+    cta: "Start an Assessment",
+    href: "/video-assessment",
+    forLabel: "Built for",
+    forWho: "Individual athletes ages 7+, teams and full rosters",
+    accent: "lime" as const,
+    features: [
+      "Individual HLT Report on every athlete",
+      "High Level Throwing® Score",
+      "Full mechanics breakdown in 24–48 hours",
+      "12-Week Digital Throwing Program",
+      "Throwing drills & progressions",
+      "Weekly arm care & patterning work",
+      "Team pricing available",
+    ],
+  },
+  {
+    name: "Clinics",
+    price: "Individual & Team Rates",
+    priceNote: "20% revenue share back to the host",
+    cta: "Book a Clinic",
+    href: "/clinics",
+    forLabel: "Built for",
+    forWho: "Rec leagues, travel organizations, facilities and colleges",
+    accent: "pink" as const,
+    features: [
+      "Foundational sessions — arm care & fundamentals",
+      "Advanced sessions — mechanics & position work",
+      "Delivered on-site at your facility",
+      "Baseball and softball, all ages",
+      "Athletes 13+ eligible for the HLT Leaderboard",
+      "NTangible Clutch Factor Assessment included",
+      "Digital training guide emailed to every athlete",
+    ],
+  },
+  {
+    name: "Lightning Ball Plyos",
+    price: "From $75",
+    priceNote: "Sets, bands and full bundles",
+    cta: "Shop Equipment",
+    href: "/shop",
+    forLabel: "Built for",
+    forWho: "Athletes and coaches training year-round",
+    accent: "sky" as const,
+    features: [
+      "Lightning Ball Plyo Set, baseball or softball",
+      "Digital training guide with every set",
+      "HLT Lightning Bands in four colors",
+      "Player/Coach bundles that pair balls and bands",
+      "Drills and progressions mapped to the books",
+      "Ships anywhere in the US",
+    ],
+  },
+];
+
 export default async function Home() {
   const shopifyReady = isShopifyConfigured();
   const bundles = shopifyReady
@@ -172,10 +234,40 @@ export default async function Home() {
         )}
       </section>
 
-      <section className="cta-final" style={{ borderBottom: "1px solid var(--border)" }}>
-        <h2>Want Full Integration of High Level Throwing®?</h2>
-        <div className="hero-ctas">
-          <Link className="btn btn-primary" href="/contact">
+      <section id="integration" style={{ borderBottom: "1px solid var(--border)" }}>
+        <div className="section-head">
+          <div className="section-tag">Full Integration</div>
+          <h2>Want Full Integration of High Level Throwing®?</h2>
+          <p>Three pieces you can add to your program — run one, or build all three into your season.</p>
+        </div>
+
+        <div className="tier-grid">
+          {INTEGRATION.map((box) => (
+            <div className={`tier-card tier-card--${box.accent}`} key={box.name}>
+              <h3 className="tier-name">{box.name}</h3>
+              <div className="tier-price">{box.price}</div>
+              <div className="tier-price-note">{box.priceNote}</div>
+
+              <Link className="btn btn-primary tier-cta" href={box.href}>
+                {box.cta}
+              </Link>
+
+              <div className="tier-meta">
+                <span className="tier-meta-label">{box.forLabel}</span>
+                <strong>{box.forWho}</strong>
+              </div>
+
+              <ul className="tier-features">
+                {box.features.map((feature) => (
+                  <li key={feature}>{feature}</li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: 40 }}>
+          <Link className="btn btn-outline" href="/contact">
             Schedule A Call
           </Link>
         </div>
