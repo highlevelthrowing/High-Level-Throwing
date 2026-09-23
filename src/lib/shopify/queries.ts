@@ -222,3 +222,12 @@ export const CART_LINES_REMOVE_MUTATION = /* GraphQL */ `
     }
   }
 `;
+
+export const GET_PAGE_QUERY = /* GraphQL */ `
+  query GetPage($handle: String!) {
+    page(handle: $handle) {
+      title
+      body
+    }
+  }
+`;

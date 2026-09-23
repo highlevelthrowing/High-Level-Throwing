@@ -193,7 +193,7 @@ export default function Clinics() {
               }}
             >
               <p style={{ color: "var(--lime)", fontWeight: 800, fontSize: "0.9rem", margin: 0 }}>
-                Minimum of 48 athletes required to host a clinic.
+                Minimum of <span className="price-blur">48</span> athletes required to host a clinic.
               </p>
             </div>
           </div>

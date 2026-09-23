@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import SimpleEmbed from "@/components/SimpleEmbed";
+import ShopifyPageContent from "@/components/ShopifyPageContent";
 
 export const metadata: Metadata = {
-  title: "Terms Of Service",
+  title: "Terms of Service",
 };
 
 export default function TermsOfServicePage() {
-  return <SimpleEmbed embedKey="terms-of-service" iframeTitle="Terms Of Service" />;
+  return <ShopifyPageContent handle="terms-of-service" heading="Terms of Service" tag="Policies" />;
 }

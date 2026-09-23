@@ -26,6 +26,7 @@ const SERVICES = [
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
+    accent: "lime" as const,
   },
   {
     tag: "CLINICS & WORKSHOPS",
@@ -34,6 +35,7 @@ const SERVICES = [
     cta: "Schedule a Clinic",
     href: "/clinics",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
+    accent: "pink" as const,
   },
   {
     tag: "EQUIPMENT",
@@ -42,6 +44,7 @@ const SERVICES = [
     cta: "Shop Equipment",
     href: "/shop",
     icon: "trending-up" as const,
+    accent: "sky" as const,
   },
 ];
 
@@ -79,7 +82,7 @@ export default async function Home() {
         </div>
         <div className="grid grid-3">
           {SERVICES.map((service) => (
-            <div className="pillar-card" key={service.title}>
+            <div className={`pillar-card pillar-card--${service.accent}`} key={service.title}>
               {service.icon === "trending-up" ? (
                 <svg
                   width="40"
@@ -89,7 +92,7 @@ export default async function Home() {
                   stroke="currentColor"
                   strokeWidth="2"
                   className="pillar-icon"
-                  style={{ color: "var(--lime)" }}
+                  style={{ color: "var(--sky)" }}
                 >
                   <polyline points="3 17 9 11 13 15 21 7" />
                   <polyline points="14 7 21 7 21 14" />
@@ -99,7 +102,9 @@ export default async function Home() {
                   <Image src={service.icon} alt="" width={40} height={40} className="pillar-icon" unoptimized />
                 )
               )}
-              <div className="pillar-num">{service.tag}</div>
+              <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>
+                {service.tag}
+              </div>
               <h3>{service.title}</h3>
               <p>{service.body}</p>
               {service.href.startsWith("/") ? (

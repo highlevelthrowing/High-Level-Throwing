@@ -438,3 +438,28 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 /* VELOCITY TRACKER NAV LINK */
 .velocity-tracker-link{display:flex;align-items:center;color:var(--text);flex:0 0 auto;}
 .velocity-tracker-link:hover{color:var(--lime);}
+
+/* Shopify-authored policy page content */
+.policy-body{max-width:820px;margin:0 auto;color:var(--text);line-height:1.7;}
+.policy-body h1,.policy-body h2,.policy-body h3,.policy-body h4{color:var(--lime);margin:32px 0 12px;line-height:1.3;}
+.policy-body h1{font-size:1.6rem;}
+.policy-body h2{font-size:1.3rem;}
+.policy-body h3,.policy-body h4{font-size:1.05rem;}
+.policy-body p{margin-bottom:16px;}
+.policy-body ul,.policy-body ol{margin:0 0 16px;padding-left:24px;}
+.policy-body li{margin-bottom:8px;}
+.policy-body a{color:var(--lime);text-decoration:underline;overflow-wrap:anywhere;}
+.policy-body strong{color:var(--text);}
+.policy-body table{width:100%;border-collapse:collapse;margin-bottom:16px;display:block;overflow-x:auto;}
+.policy-body td,.policy-body th{border:1px solid var(--border);padding:8px 12px;text-align:left;}
+.policy-body img{max-width:100%;height:auto;}
+
+/* Per-service card accents — each block gets its own tint so the three are
+   distinguishable at a glance rather than three identical dark boxes. */
+.pillar-card--lime{background:linear-gradient(160deg,rgba(198,255,46,0.10),rgba(198,255,46,0.03) 55%,var(--card));border-color:rgba(198,255,46,0.32);}
+.pillar-card--lime:hover{border-color:rgba(198,255,46,0.65);}
+.pillar-card--pink{background:linear-gradient(160deg,rgba(255,46,203,0.10),rgba(255,46,203,0.03) 55%,var(--card));border-color:rgba(255,46,203,0.32);}
+.pillar-card--pink:hover{border-color:rgba(255,46,203,0.65);}
+.pillar-card--sky{background:linear-gradient(160deg,rgba(56,189,248,0.10),rgba(56,189,248,0.03) 55%,var(--card));border-color:rgba(56,189,248,0.32);}
+.pillar-card--sky:hover{border-color:rgba(56,189,248,0.65);}
+.pillar-num.num-pink{background:var(--pink);color:#fff;}

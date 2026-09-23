@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import SimpleEmbed from "@/components/SimpleEmbed";
+import ShopifyPageContent from "@/components/ShopifyPageContent";
 
 export const metadata: Metadata = {
   title: "Privacy Policy",
 };
 
 export default function PrivacyPolicyPage() {
-  return <SimpleEmbed embedKey="privacy-policy" iframeTitle="Privacy Policy" />;
+  return <ShopifyPageContent handle="privacy-policy" heading="Privacy Policy" tag="Policies" />;
 }
