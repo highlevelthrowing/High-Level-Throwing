@@ -82,14 +82,25 @@ const EMBED_RUNTIME = /* html */ `
       if (isOurs && IN_SITE.test(url.pathname)) {
         // Break out of the iframe so the storefront renders it with its own
         // header, footer and cart rather than nesting a page inside a page.
-        a.setAttribute("href", url.pathname + url.search);
+        a.setAttribute("href", inSiteUrl(url));
         a.setAttribute("target", "_top");
       }
     }
   }
 
-  var parentHost = "";
-  try { parentHost = bare(new URL(document.referrer).hostname); } catch (e) {}
+  // The <base href> above points at the Shopify store so the theme's assets
+  // resolve, which also means a relative URL — in an href, or assigned to
+  // location — resolves against the STORE, not this site. Every in-site link
+  // therefore has to be written as an absolute URL on the parent's origin.
+  var parentOrigin = "";
+  try { parentOrigin = top.location.origin; } catch (e) {}
+  if (!parentOrigin) {
+    try { parentOrigin = new URL(document.referrer).origin; } catch (e) {}
+  }
+
+  var parentHost = bare(parentOrigin ? parentOrigin.replace(/^https?:\\/\\//, "") : "");
+
+  function inSiteUrl(url) { return parentOrigin + url.pathname + url.search; }
 
   var lastHeight = 0;
   function reportHeight() {
@@ -105,6 +116,29 @@ const EMBED_RUNTIME = /* html */ `
   }
 
   function tick() { fixLinks(); reportHeight(); }
+
+  // fixLinks only runs on load and on DOM changes, so a click that lands before
+  // it has swept (or on markup it has not seen) could still escape to the
+  // Shopify store's own theme. Catch it at click time instead — this is the
+  // guarantee that a clinic's buy button always ends up on this site's product
+  // page, and therefore in this site's cart and checkout.
+  document.addEventListener("click", function (event) {
+    if (event.defaultPrevented || event.button !== 0) return;
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+
+    var a = event.target && event.target.closest ? event.target.closest("a") : null;
+    if (!a || !a.href) return;
+
+    var url;
+    try { url = new URL(a.href); } catch (e) { return; }
+
+    var host = bare(url.hostname);
+    var isOurs = OWN_HOSTS.indexOf(host) !== -1 || host === parentHost;
+    if (!isOurs || !IN_SITE.test(url.pathname)) return;
+
+    event.preventDefault();
+    top.location.href = inSiteUrl(url);
+  }, true);
 
   // The page can finish loading before the storefront attaches its listener, so
   // the first height would be announced to nobody. The parent pings until it
