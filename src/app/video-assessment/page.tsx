@@ -173,7 +173,7 @@ export default function VideoAssessmentPage() {
       </section>
 
       <section className="cta-final">
-        <h2>Ready to See Your Throw Broken Down?</h2>
+        <h2>Ready to See Your Score?</h2>
         <p>
           Send us your video and get your HLT Report plus a 12-week throwing program back within 24&ndash;48 hours.
         </p>
