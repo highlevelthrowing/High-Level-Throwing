@@ -47,7 +47,7 @@ export default function Clinics() {
           <VideoEmbed
             vimeoId="1061105417"
             title="High Level Throwing® Clinic Highlights"
-            poster="https://highlevelthrowing.com/cdn/shop/files/Screen_Shot_2025-05-15_at_10.28.06_PM.png?v=1747362497&width=1500"
+            poster="https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2025-05-15_at_10.28.06_PM.png?v=1747362497&width=1500"
           />
         </div>
       </section>

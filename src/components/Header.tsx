@@ -40,7 +40,7 @@ export default async function Header() {
       <nav>
         <Link href="/" className="logo">
           <Image
-            src="https://highlevelthrowing.com/cdn/shop/files/HLT-logo.png?v=1692283784&width=200"
+            src="https://cdn.shopify.com/s/files/1/0771/2948/2547/files/HLT-logo.png?v=1692283784&width=200"
             alt="High Level Throwing"
             width={140}
             height={40}

@@ -184,7 +184,7 @@ export default function CollegeConsulting() {
               role: "Lead Instructor",
               bio: "Eight seasons of collegiate coaching experience, leading staff sessions and assessments alongside Austin.",
               image:
-                "https://highlevelthrowing.com/cdn/shop/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
+                "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
             },
           ]}
         />
