@@ -73,13 +73,13 @@ export default function AboutPage() {
               name: "Sarah O'Brien",
               role: "Lead HLT Instructor",
               bio: "More than eight seasons at the collegiate level — Texas Lutheran (223-39, five NCAA D3 tournament berths), Houston, and Montana. Based in Salt Lake City, UT, she manages the throwing module for remote online softball athletes.",
-              image: "https://highlevelthrowing.com/cdn/shop/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
+              image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
             },
             {
               name: "Haylie McCleney",
               role: "Professional Softball Player / Olympian",
               bio: "Tokyo Olympics silver medalist for Team USA. Four-time All-American at Alabama, seven years on the U.S. National Team, and a CSCS with a Master's in Exercise Physiology from FAU. Works with softball strength and outfield remote athletes.",
-              image: "https://highlevelthrowing.com/cdn/shop/files/McCleneyHaylie-McCleney.jpg?v=1699924802&width=200",
+              image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/McCleneyHaylie-McCleney.jpg?v=1699924802&width=200",
             },
           ]}
         />

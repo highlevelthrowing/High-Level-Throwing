@@ -12,7 +12,7 @@ const ARTICLES = [
     excerpt:
       "Big things coming... High Level Throwing® will be presenting in Toronto, ON @ Northeastern University at the SuperCollider with my data and analytics teams, Polar Labs & PRAKTIKAI, on our...",
     image:
-      "https://highlevelthrowing.com/cdn/shop/articles/732116897_1380540203897571_8968972756082961469_n_58b93603-66f9-4bb1-992c-fb98c5517a36.jpg?v=1783039693&width=900",
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/732116897_1380540203897571_8968972756082961469_n_58b93603-66f9-4bb1-992c-fb98c5517a36.jpg?v=1783039693&width=900",
     href: "https://highlevelthrowing.com/blogs/news/high-level-throwing%C2%AE-x-supercollider-how-data-ai-are-shaping-sport",
   },
   {
@@ -21,7 +21,7 @@ const ARTICLES = [
     excerpt:
       "OKLAHOMA CITY — The USA Softball High Performance Program (HPP) Top Performers Camp is underway as athletes from across the country arrive in Oklahoma City for four days of elite training...",
     image:
-      "https://highlevelthrowing.com/cdn/shop/articles/730608683_1348366604153006_233357622436173440_n_fe663d50-80ff-4de4-8dda-08deb911d507.jpg?v=1782522267&width=900",
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/730608683_1348366604153006_233357622436173440_n_fe663d50-80ff-4de4-8dda-08deb911d507.jpg?v=1782522267&width=900",
     href: "https://highlevelthrowing.com/blogs/news/hlt-x-usa-softball-top-athletes-gather-in-okc-for-2026-hpp-top-performer-s-camp",
   },
   {
@@ -30,7 +30,7 @@ const ARTICLES = [
     excerpt:
       "When it comes to human performance, clutch is still a polarizing topic. Is it even real? The analytical stat heads say no, but anyone who's seen a game-winning shot or...",
     image:
-      "https://highlevelthrowing.com/cdn/shop/articles/Screen_Shot_2026-06-26_at_8.51.04_PM_5cca37a1-a7e7-450d-9e11-4c468156597f.png?v=1782522906&width=900",
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/Screen_Shot_2026-06-26_at_8.51.04_PM_5cca37a1-a7e7-450d-9e11-4c468156597f.png?v=1782522906&width=900",
     href: "https://highlevelthrowing.com/blogs/news/ntangibles-pursuit-to-make-clutch-a-measurable-attribute",
   },
   {
@@ -38,7 +38,7 @@ const ARTICLES = [
     date: "May 26, 2026",
     excerpt: "We have a new athlete on the leaderboard. Topping out at 72mph overhand! This 2030 athlete is a rising star in her class!",
     image:
-      "https://highlevelthrowing.com/cdn/shop/articles/Screen_Shot_2026-05-26_at_10.19.28_AM_09665dff-cfdc-4402-911e-582bba0a3abc.png?v=1779805238&width=900",
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/Screen_Shot_2026-05-26_at_10.19.28_AM_09665dff-cfdc-4402-911e-582bba0a3abc.png?v=1779805238&width=900",
     href: "https://highlevelthrowing.com/blogs/news/softball-velocity-new-leader",
   },
   {
@@ -46,7 +46,7 @@ const ARTICLES = [
     date: "May 24, 2026",
     excerpt:
       "Join the HLT Leaderboard and compete against athletes around the world! Earn your VELOCITY BADGE and showcase them in your recruiting profiles! Do you have the strongest arm on the...",
-    image: "https://highlevelthrowing.com/cdn/shop/articles/70mph_club_wste.png?v=1779631255&width=900",
+    image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/70mph_club_wste.png?v=1779631255&width=900",
     href: "https://highlevelthrowing.com/blogs/news/high-level-throwing-velocity-leaderboard",
   },
   {
@@ -54,7 +54,7 @@ const ARTICLES = [
     date: "May 11, 2026",
     excerpt:
       "NTangible, the cognitive performance analytics company behind the Clutch Factor, is expanding its existing partnership with Alliance Fastpitch, the largest youth softball organization in America. Under the expanded agreement, close...",
-    image: "https://highlevelthrowing.com/cdn/shop/articles/ntangible-alliance-linkedin-1200x627.png?v=1778508302&width=900",
+    image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/ntangible-alliance-linkedin-1200x627.png?v=1778508302&width=900",
     href: "https://highlevelthrowing.com/blogs/news/ntangible-and-alliance-fastpitch-embark-on-the-largest-mental-performance-data-initiative-in-youth-sports-history",
   },
 ];

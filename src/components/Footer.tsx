@@ -42,7 +42,7 @@ export default function Footer() {
       <div className="footer-glow-row">
         <span className="footer-glow-line" />
         <Image
-          src="https://highlevelthrowing.com/cdn/shop/files/HLT-logo.png?v=1692283784&width=200"
+          src="https://cdn.shopify.com/s/files/1/0771/2948/2547/files/HLT-logo.png?v=1692283784&width=200"
           alt="High Level Throwing"
           width={88}
           height={88}

@@ -217,14 +217,14 @@ export default function Showcase() {
           <div className="col-media">
             <div className="product-shot-row">
               <Image
-                src="https://highlevelthrowing.com/cdn/shop/files/ScreenShot2026-06-05at4.26.40PM.png?v=1780691225&width=600"
+                src="https://cdn.shopify.com/s/files/1/0771/2948/2547/files/ScreenShot2026-06-05at4.26.40PM.png?v=1780691225&width=600"
                 alt="Lightning Ball Plyo Set"
                 width={280}
                 height={280}
                 unoptimized
               />
               <Image
-                src="https://highlevelthrowing.com/cdn/shop/files/BlueBestSellerLaptopInstagramPostcopy2_a8eacfea-8c5f-4693-92c2-693b46bae15d.png?v=1780578653&width=600"
+                src="https://cdn.shopify.com/s/files/1/0771/2948/2547/files/BlueBestSellerLaptopInstagramPostcopy2_a8eacfea-8c5f-4693-92c2-693b46bae15d.png?v=1780578653&width=600"
                 alt="Digital Training Guide"
                 width={280}
                 height={280}
@@ -306,13 +306,13 @@ export default function Showcase() {
               role: "Lead Instructor",
               bio: "Eight seasons of collegiate coaching experience, leading clinics and assessments alongside Austin.",
               image:
-                "https://highlevelthrowing.com/cdn/shop/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
+                "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
             },
             {
               name: "Haylie McCleney",
               role: "Strength Coach",
               bio: "Olympic silver medalist and University of Alabama standout, now training athletes within the HLT system.",
-              image: "https://highlevelthrowing.com/cdn/shop/files/McCleneyHaylie-McCleney.jpg?v=1699924802&width=200",
+              image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/McCleneyHaylie-McCleney.jpg?v=1699924802&width=200",
             },
           ]}
         />
