@@ -7,6 +7,15 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "NTangible: Twenty-Eight Went Pro. Here Is What Their Scores Looked Like.",
+    date: "August 12, 2026",
+    excerpt:
+      "Every organization in baseball evaluates makeup. None of them could measure it. Velocity has a number. Exit speed has a number. How a player competes with the season on the...",
+    image:
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/articles/Screen_Shot_2026-08-12_at_8.40.52_AM.png?v=1786538561&width=900",
+    href: "https://highlevelthrowing.com/blogs/news/ntangible-twenty-eight-went-pro-here-is-what-their-scores-looked-like",
+  },
+  {
     title: "High Level Throwing® x SuperCollider - How Data & AI Are Shaping Sport",
     date: "July 2, 2026",
     excerpt:
