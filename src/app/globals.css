@@ -516,3 +516,11 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   .clinic-row-action{grid-column:1 / -1;}
   .clinic-row-action .btn{width:100%;text-align:center;}
 }
+
+/* DIGITAL DELIVERY NOTE ON PRODUCT PAGES */
+.pdp-digital{
+  display:grid;gap:4px;margin:0 0 22px;padding:14px 18px;border-radius:12px;
+  background:rgba(198,255,46,0.1);border:1px solid rgba(198,255,46,0.4);
+}
+.pdp-digital strong{color:var(--lime);font-size:0.85rem;font-weight:800;letter-spacing:0.3px;}
+.pdp-digital span{color:var(--muted);font-size:0.85rem;line-height:1.5;}

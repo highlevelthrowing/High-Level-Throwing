@@ -24,6 +24,9 @@ export default async function BooksPage() {
         <div className="section-tag">Training Books</div>
         <h2>Learn the System</h2>
         <p>The High Level Throwing method, written down with video drills & tutorials.</p>
+        <p style={{ color: "var(--lime)", fontWeight: 700, fontSize: "0.9rem" }}>
+          Every book is an instant digital download — your link is emailed as soon as you check out.
+        </p>
       </div>
 
       {books.length === 0 ? (

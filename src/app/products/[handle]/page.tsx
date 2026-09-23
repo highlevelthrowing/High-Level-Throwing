@@ -41,6 +41,14 @@ export default async function ProductPage({
           .filter((image): image is NonNullable<typeof image> => image !== null)
           .map((image) => ({ type: "IMAGE" as const, image }));
 
+  // Books and programs are delivered as files by Shopify's digital downloads
+  // app the moment an order is paid, so say so before checkout rather than
+  // leaving buyers wondering what ships.
+  const isDigital =
+    product.productType === "Books" ||
+    product.productType === "Programs" ||
+    product.tags.includes("Training Books");
+
   return (
     <section>
       <div className="pdp">
@@ -50,6 +58,15 @@ export default async function ProductPage({
           <div className="pdp-price">
             {formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}
           </div>
+          {isDigital && (
+            <div className="pdp-digital">
+              <strong>Instant digital download</strong>
+              <span>
+                Your download link is emailed the moment your order goes through — nothing ships. Check your spam
+                folder if it hasn&apos;t arrived in a few minutes.
+              </span>
+            </div>
+          )}
           {product.descriptionHtml && (
             <div className="pdp-desc" dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
           )}
