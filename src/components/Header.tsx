@@ -49,6 +49,7 @@ export default async function Header() {
             priority
           />
         </Link>
+        <MobileNav links={NAV.flatMap((item) => (isDropdown(item) ? item.children : [item]))} />
         <div className="navlinks">
           {NAV.map((item) =>
             isDropdown(item) ? (
@@ -88,7 +89,6 @@ export default async function Header() {
           <Link className="nav-cta" href="/contact">
             Talk to Us
           </Link>
-          <MobileNav links={NAV.flatMap((item) => (isDropdown(item) ? item.children : [item]))} />
         </div>
       </nav>
     </header>

@@ -466,7 +466,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 
 /* Mobile navigation — the desktop nav links are hidden below 820px, so this
    hamburger exposes them instead of leaving the header with no navigation. */
-.mobile-nav{display:none;position:relative;}
+.mobile-nav{display:none;position:relative;margin-right:auto;}
 .mobile-nav-toggle{
   background:none;border:none;cursor:pointer;padding:8px;display:flex;align-items:center;
   justify-content:center;color:var(--text);
@@ -477,7 +477,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .mobile-nav-bars.is-open span:nth-child(2){opacity:0;}
 .mobile-nav-bars.is-open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 .mobile-nav-panel{
-  position:absolute;top:calc(100% + 14px);right:0;z-index:60;min-width:240px;
+  position:absolute;top:calc(100% + 14px);left:0;z-index:60;min-width:240px;
   background:var(--card);border:1px solid var(--border);border-radius:14px;padding:10px;
   box-shadow:0 16px 40px rgba(0,0,0,0.6);display:flex;flex-direction:column;
 }
