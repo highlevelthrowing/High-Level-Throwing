@@ -51,7 +51,12 @@ export async function getCart(): Promise<Cart | null> {
   return data.cart ? normalizeCart(data.cart) : null;
 }
 
-export async function addToCart(variantId: string, quantity = 1) {
+export async function addToCart(
+  variantId: string,
+  quantity = 1,
+  attributes?: { key: string; value: string }[]
+) {
+  const lineAttributes = (attributes ?? []).filter((a) => a.value.trim() !== "");
   const cartId = await getCartId();
 
   if (!cartId) {
@@ -59,7 +64,7 @@ export async function addToCart(variantId: string, quantity = 1) {
       cartCreate: { cart: RawCart; userErrors: { message: string }[] };
     }>({
       query: CART_CREATE_MUTATION,
-      variables: { lines: [{ merchandiseId: variantId, quantity }] },
+      variables: { lines: [{ merchandiseId: variantId, quantity, attributes: lineAttributes }] },
       cache: "no-store",
     });
     if (data.cartCreate.userErrors.length) {
@@ -71,7 +76,7 @@ export async function addToCart(variantId: string, quantity = 1) {
       cartLinesAdd: { cart: RawCart; userErrors: { message: string }[] };
     }>({
       query: CART_LINES_ADD_MUTATION,
-      variables: { cartId, lines: [{ merchandiseId: variantId, quantity }] },
+      variables: { cartId, lines: [{ merchandiseId: variantId, quantity, attributes: lineAttributes }] },
       cache: "no-store",
     });
     if (data.cartLinesAdd.userErrors.length) {

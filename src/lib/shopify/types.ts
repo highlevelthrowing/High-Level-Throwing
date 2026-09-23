@@ -36,6 +36,8 @@ export type Product = {
   id: string;
   handle: string;
   title: string;
+  productType: string;
+  tags: string[];
   description: string;
   descriptionHtml: string;
   featuredImage: ShopifyImage | null;

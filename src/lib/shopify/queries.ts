@@ -3,6 +3,8 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
     id
     handle
     title
+    productType
+    tags
     description
     descriptionHtml
     featuredImage {

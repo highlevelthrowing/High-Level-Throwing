@@ -53,7 +53,12 @@ export default async function ProductPage({
           {product.descriptionHtml && (
             <div className="pdp-desc" dangerouslySetInnerHTML={{ __html: product.descriptionHtml }} />
           )}
-          <AddToCart variants={product.variants} />
+          <AddToCart
+            variants={product.variants}
+            collectsAthleteDetails={
+              product.productType === "Session" || product.tags.includes("Sessions")
+            }
+          />
         </div>
       </div>
     </section>
