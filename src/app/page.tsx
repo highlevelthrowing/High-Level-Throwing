@@ -25,7 +25,7 @@ const SERVICES = [
     body: "Submit a throwing video and get a High Level Throwing® Score, a Throwing Report, and a full mechanics breakdown. Build it into your program so coaches and athletes can monitor and track programming, gains, and arm health.",
     cta: "Start Video Assessment",
     href: "/video-assessment",
-    icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
+    icon: "trending-up" as const,
     accent: "lime" as const,
   },
   {
@@ -43,7 +43,7 @@ const SERVICES = [
     body: "A Lightning Ball Plyo Set paired with a digital training guide, so every athlete has the tool and the instructions to train correctly, year-round.",
     cta: "Shop Equipment",
     href: "/shop",
-    icon: "trending-up" as const,
+    icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
     accent: "sky" as const,
   },
 ];
@@ -63,10 +63,7 @@ export default async function Home() {
         <h1 className="hero-title-oneline">
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
         </h1>
-        <p>
-          Clinics &amp; Workshops · AI Powered Throwing Platform · Coach Education Course · College Consulting · Training
-          Equipment — everything you need to build the complete Baseball &amp; Softball Defensive player.
-        </p>
+        <p>Everything you need to build the complete Baseball &amp; Softball Defensive player.</p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href="/video-assessment">
             AI Powered Throwing Platform
@@ -92,7 +89,7 @@ export default async function Home() {
                   stroke="currentColor"
                   strokeWidth="2"
                   className="pillar-icon"
-                  style={{ color: "var(--sky)" }}
+                  style={{ color: `var(--${service.accent})` }}
                 >
                   <polyline points="3 17 9 11 13 15 21 7" />
                   <polyline points="14 7 21 7 21 14" />

@@ -454,12 +454,12 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .policy-body td,.policy-body th{border:1px solid var(--border);padding:8px 12px;text-align:left;}
 .policy-body img{max-width:100%;height:auto;}
 
-/* Per-service card accents — each block gets its own tint so the three are
-   distinguishable at a glance rather than three identical dark boxes. */
-.pillar-card--lime{background:linear-gradient(160deg,rgba(198,255,46,0.10),rgba(198,255,46,0.03) 55%,var(--card));border-color:rgba(198,255,46,0.32);}
-.pillar-card--lime:hover{border-color:rgba(198,255,46,0.65);}
-.pillar-card--pink{background:linear-gradient(160deg,rgba(255,46,203,0.10),rgba(255,46,203,0.03) 55%,var(--card));border-color:rgba(255,46,203,0.32);}
-.pillar-card--pink:hover{border-color:rgba(255,46,203,0.65);}
-.pillar-card--sky{background:linear-gradient(160deg,rgba(56,189,248,0.10),rgba(56,189,248,0.03) 55%,var(--card));border-color:rgba(56,189,248,0.32);}
-.pillar-card--sky:hover{border-color:rgba(56,189,248,0.65);}
+/* Per-service card accents — each block gets its own solid tinted fill so the
+   three are distinguishable at a glance rather than three identical dark boxes. */
+.pillar-card--lime{background:#1d2708;border-color:rgba(198,255,46,0.45);}
+.pillar-card--lime:hover{border-color:rgba(198,255,46,0.8);}
+.pillar-card--pink{background:#2a0a23;border-color:rgba(255,46,203,0.45);}
+.pillar-card--pink:hover{border-color:rgba(255,46,203,0.8);}
+.pillar-card--sky{background:#06202e;border-color:rgba(56,189,248,0.45);}
+.pillar-card--sky:hover{border-color:rgba(56,189,248,0.8);}
 .pillar-num.num-pink{background:var(--pink);color:#fff;}

@@ -1,12 +1,12 @@
 const EMBED_TARGETS: Record<string, string> = {
-  leaderboard: "https://highlevelthrowing.com/pages/leaderboard",
-  "velocity-tracker": "https://highlevelthrowing.com/pages/velocity-tracker",
-  "video-assessment": "https://highlevelthrowing.com/pages/high-level-throwing-video-breakdown-12-week-throwing-program",
-  search: "https://highlevelthrowing.com/search",
-  "terms-of-service": "https://highlevelthrowing.com/pages/terms-of-service",
-  shipping: "https://highlevelthrowing.com/pages/shipping",
-  "privacy-policy": "https://highlevelthrowing.com/pages/privacy-policy",
-  "refund-policy": "https://highlevelthrowing.com/pages/refund-policy",
+  leaderboard: "https://high-level-throwing.myshopify.com/pages/leaderboard",
+  "velocity-tracker": "https://high-level-throwing.myshopify.com/pages/velocity-tracker",
+  "video-assessment": "https://high-level-throwing.myshopify.com/pages/high-level-throwing-video-breakdown-12-week-throwing-program",
+  search: "https://high-level-throwing.myshopify.com/search",
+  "terms-of-service": "https://high-level-throwing.myshopify.com/pages/terms-of-service",
+  shipping: "https://high-level-throwing.myshopify.com/pages/shipping",
+  "privacy-policy": "https://high-level-throwing.myshopify.com/pages/privacy-policy",
+  "refund-policy": "https://high-level-throwing.myshopify.com/pages/refund-policy",
 };
 
 export async function GET(_request: Request, { params }: { params: Promise<{ page: string }> }) {
