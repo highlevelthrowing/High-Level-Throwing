@@ -63,7 +63,7 @@ export default async function Home() {
         <h1 className="hero-title-oneline">
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
         </h1>
-        <p>Everything you need to build the complete Baseball &amp; Softball Defensive player.</p>
+        <p>Everything you need to build the complete Baseball &amp; Softball Throwing Athlete.</p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href="/video-assessment">
             Athlete Video Assessments
