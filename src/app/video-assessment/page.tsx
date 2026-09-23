@@ -49,7 +49,7 @@ export default function VideoAssessmentPage() {
         </h1>
         <p>
           The HLT Team assesses your throw and sends back a detailed report on your mechanics within 24&ndash;48
-          hours, along with a 12-week digital throwing program built around what we find.
+          hours, along with a 12-week digital throwing program!
         </p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href={PRODUCT_HREF}>
