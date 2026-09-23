@@ -26,7 +26,7 @@ const SERVICES = [
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "trending-up" as const,
-    accent: "lime" as const,
+    accent: "pink" as const,
   },
   {
     tag: "CLINICS & WORKSHOPS",
@@ -35,7 +35,7 @@ const SERVICES = [
     cta: "Schedule a Clinic",
     href: "/clinics",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
-    accent: "pink" as const,
+    accent: "lime" as const,
   },
   {
     tag: "EQUIPMENT",
@@ -54,13 +54,13 @@ const SERVICES = [
 const INTEGRATION = [
   {
     name: "Video Assessments",
-    price: "From $150",
-    priceNote: "$75 for each additional assessment",
+    price: <>From <span className="price-blur">$150</span></>,
+    priceNote: <><span className="price-blur">$75</span> for each additional assessment</>,
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
     forWho: "Individual athletes ages 7+, teams and full rosters",
-    accent: "lime" as const,
+    accent: "pink" as const,
     features: [
       "Individual HLT Report on every athlete",
       "High Level Throwing® Score",
@@ -73,13 +73,13 @@ const INTEGRATION = [
   },
   {
     name: "Clinics",
-    price: "Individual & Team Rates",
-    priceNote: "20% revenue share back to the host",
+    price: <>Individual &amp; Team Rates</>,
+    priceNote: <><span className="price-blur">20%</span> revenue share back to the host</>,
     cta: "Book a Clinic",
     href: "/clinics",
     forLabel: "Built for",
     forWho: "Rec leagues, travel organizations, facilities and colleges",
-    accent: "pink" as const,
+    accent: "lime" as const,
     features: [
       "Foundational sessions — arm care & fundamentals",
       "Advanced sessions — mechanics & position work",
@@ -92,8 +92,8 @@ const INTEGRATION = [
   },
   {
     name: "Lightning Ball Plyos",
-    price: "From $75",
-    priceNote: "Sets, bands and full bundles",
+    price: <>From <span className="price-blur">$75</span></>,
+    priceNote: <>Sets, bands and full bundles</>,
     cta: "Shop Equipment",
     href: "/shop",
     forLabel: "Built for",
@@ -119,7 +119,10 @@ export default async function Home() {
     : [];
 
   return (
-    <>
+    <div className="home">
+      <div className="home-bg" aria-hidden="true" />
+      <div className="home-bg-veil" aria-hidden="true" />
+
       <section className="hero">
         <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">
@@ -238,7 +241,7 @@ export default async function Home() {
         <div className="section-head">
           <div className="section-tag">Full Integration</div>
           <h2>Want Full Integration of High Level Throwing®?</h2>
-          <p>Three pieces you can add to your program — run one, or build all three into your season.</p>
+          <p>Three pieces you can add to your program — choose one, or build all three into your annual fees.</p>
         </div>
 
         <div className="tier-grid">
@@ -274,6 +277,6 @@ export default async function Home() {
       </section>
 
       <TrustedByLogos />
-    </>
+    </div>
   );
 }
