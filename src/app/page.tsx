@@ -129,11 +129,6 @@ export default async function Home() {
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
         </h1>
         <p>Everything you need to build the complete Baseball &amp; Softball Throwing Athlete.</p>
-        <div className="hero-ctas">
-          <Link className="btn btn-primary" href="/video-assessment">
-            Athlete Video Assessments
-          </Link>
-        </div>
       </section>
 
       <section id="services">
