@@ -129,6 +129,11 @@ const EMBED_RUNTIME = /* html */ `
     var a = event.target && event.target.closest ? event.target.closest("a") : null;
     if (!a || !a.href) return;
 
+    // In-page anchors ("Skip to content") resolve to the store through <base>,
+    // but they belong to this document — leave them to the browser.
+    var raw = a.getAttribute("href");
+    if (!raw || raw.charAt(0) === "#") return;
+
     var url;
     try { url = new URL(a.href); } catch (e) { return; }
 
