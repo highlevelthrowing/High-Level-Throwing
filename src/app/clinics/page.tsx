@@ -206,9 +206,6 @@ export default function Clinics() {
           <Link className="btn btn-primary" href="/contact">
             Schedule a Call
           </Link>
-          <a className="btn btn-outline" href="https://www.highlevelthrowing.com" target="_blank" rel="noopener">
-            Visit HighLevelThrowing.com
-          </a>
         </div>
       </section>
 

@@ -23,9 +23,9 @@ export default function Showcase() {
           it without an extra ask.
         </p>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Request a Program Quote
-          </a>
+          </Link>
           <a className="btn btn-outline" href="#model">
             See How It Fits Your Budget
           </a>
@@ -114,9 +114,9 @@ export default function Showcase() {
               If you don&apos;t want to build into your fees, we can still do a clinic with the same revenue share
               opportunities.
             </p>
-            <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+            <Link className="btn btn-primary" href="/contact">
               Book a Clinic for Your Program
-            </a>
+            </Link>
           </div>
           <div className="col-media">
             <div className="badge">Foundational + Advanced Sessions</div>
@@ -326,12 +326,9 @@ export default function Showcase() {
           budget.
         </p>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Request a Program Quote
-          </a>
-          <a className="btn btn-outline" href="https://www.highlevelthrowing.com" target="_blank" rel="noopener">
-            Visit HighLevelThrowing.com
-          </a>
+          </Link>
         </div>
       </section>
     </>

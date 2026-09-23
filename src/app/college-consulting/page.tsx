@@ -17,9 +17,9 @@ export default function CollegeConsulting() {
         </h1>
         <p>Elite instruction delivered directly to your coaching staff and full roster — with 2 ways to work HLT into your program.</p>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Schedule a Consult!
-          </a>
+          </Link>
           <a className="btn btn-outline" href="#options">
             See Your Options
           </a>
@@ -86,9 +86,9 @@ export default function CollegeConsulting() {
                 </Link>
               </li>
             </ul>
-            <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+            <Link className="btn btn-primary" href="/contact">
               Talk to Us About Your Program
-            </a>
+            </Link>
           </div>
           <div className="col-media">
             <div className="badge">Option 1 · Flat Rate</div>
@@ -193,12 +193,9 @@ export default function CollegeConsulting() {
       <section className="cta-final" style={{ borderBottom: "1px solid var(--border)" }}>
         <h2>Ready to Bring HLT to Your College Program?</h2>
         <div className="hero-ctas">
-          <a className="btn btn-primary" href="https://www.highlevelthrowing.com/pages/contact" target="_blank" rel="noopener">
+          <Link className="btn btn-primary" href="/contact">
             Schedule a Call
-          </a>
-          <a className="btn btn-outline" href="https://www.highlevelthrowing.com" target="_blank" rel="noopener">
-            Visit HighLevelThrowing.com
-          </a>
+          </Link>
         </div>
       </section>
     </div>
