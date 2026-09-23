@@ -1,7 +1,6 @@
 const EMBED_TARGETS: Record<string, string> = {
   leaderboard: "https://high-level-throwing.myshopify.com/pages/leaderboard",
   "velocity-tracker": "https://high-level-throwing.myshopify.com/pages/velocity-tracker",
-  "video-assessment": "https://high-level-throwing.myshopify.com/pages/high-level-throwing-video-breakdown-12-week-throwing-program",
   search: "https://high-level-throwing.myshopify.com/search",
   "terms-of-service": "https://high-level-throwing.myshopify.com/pages/terms-of-service",
   shipping: "https://high-level-throwing.myshopify.com/pages/shipping",

@@ -66,7 +66,7 @@ export default async function Home() {
         <p>Everything you need to build the complete Baseball &amp; Softball Defensive player.</p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href="/video-assessment">
-            AI Powered Throwing Platform
+            Athlete Video Assessments
           </Link>
         </div>
       </section>

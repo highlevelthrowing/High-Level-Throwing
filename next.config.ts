@@ -28,6 +28,13 @@ const nextConfig: NextConfig = {
       // /pages/:handle is handled in-app by app/pages/[handle] so Shopify-authored
       // pages (clinics especially) render inside this site rather than sending
       // visitors off to the Shopify store.
+      // The video assessment page is now rendered natively, so the old
+      // Shopify page handle points at it instead of embedding the store.
+      {
+        source: "/pages/high-level-throwing-video-breakdown-12-week-throwing-program",
+        destination: "/video-assessment",
+        permanent: false,
+      },
       { source: "/blogs/:path*", destination: `${SHOPIFY_STORE}/blogs/:path*`, permanent: false },
       { source: "/collections/:path*", destination: `${SHOPIFY_STORE}/collections/:path*`, permanent: false },
     ];
