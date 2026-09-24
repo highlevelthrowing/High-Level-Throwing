@@ -83,7 +83,7 @@ h1,h2,h3{color:var(--neon-green);}
 /* HERO */
 .hero{
   position:relative;
-  padding:90px 24px 70px;
+  padding:120px 24px 100px;
   text-align:center;
   background:
     radial-gradient(circle at 20% 20%, rgba(198,255,46,0.12), transparent 40%),
@@ -615,6 +615,9 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   filter:grayscale(0.15) contrast(1.05);
 }
 .section-photo--banner::after{
+  /* The hero is shorter than the banner, so centring it cropped both athletes'
+     heads. Anchor near the top to keep faces in frame. */
+  background-position:center 12%;
   background-image:
     linear-gradient(to bottom, rgba(0,0,0,0.70), rgba(0,0,0,0.52) 45%, rgba(0,0,0,0.84)),
     url('/images/hero-banner.jpg');
