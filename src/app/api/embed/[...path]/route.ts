@@ -31,7 +31,9 @@ function resolveTarget(segments: string[]): string | null {
 
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
-  const targetUrl = resolveTarget((path ?? []).map((s) => decodeURIComponent(s)));
+  const segments = (path ?? []).map((s) => decodeURIComponent(s));
+  const page = segments.join("/");
+  const targetUrl = resolveTarget(segments);
 
   if (!targetUrl) {
     return new Response("Unknown embed target.", { status: 404 });
@@ -58,7 +60,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   // The theme goes in last, after the section <style> blocks Shopify emits in
   // the body — those are more specific and carry !important, so a stylesheet in
   // <head> loses to them.
-  html = html.replace(/<\/body>/i, `${EMBED_THEME}${EMBED_RUNTIME}</body>`);
+  const extras = page === "leaderboard" ? LEADERBOARD_TRIM : "";
+  html = html.replace(/<\/body>/i, `${EMBED_THEME}${EMBED_RUNTIME}${extras}</body>`);
 
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
@@ -313,4 +316,31 @@ const EMBED_THEME = /* html */ `
     border-color:var(--hlt-border) !important;
   }
 </style>
+`;
+
+// The storefront's own /leaderboard page already renders the title and intro,
+// so the theme's matching section is a duplicate inside the frame. It is matched
+// on its copy rather than its section id, which carries a random suffix that
+// changes whenever the theme is edited.
+const LEADERBOARD_TRIM = /* html */ `
+<script>
+(function () {
+  function trim() {
+    var sections = document.querySelectorAll(".shopify-section");
+    for (var i = 0; i < sections.length; i++) {
+      var text = sections[i].innerText || "";
+      if (text.indexOf("Join the HLT Leaderboard and compete") !== -1 &&
+          text.indexOf("TOTAL ATHLETES") === -1) {
+        sections[i].remove();
+        return true;
+      }
+    }
+    return false;
+  }
+  if (!trim()) {
+    var tries = 0;
+    var t = setInterval(function () { if (trim() || ++tries > 20) clearInterval(t); }, 300);
+  }
+})();
+</script>
 `;
