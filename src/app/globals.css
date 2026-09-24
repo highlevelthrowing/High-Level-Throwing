@@ -638,3 +638,10 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 }
 .home .trusted-by{position:relative;}
 .home section.cta-final{border-bottom:none;}
+
+/* The homepage hero eyebrow reads in the light blue rather than the pink
+   accent the other pages use. */
+.home .hero .eyebrow{
+  color:var(--sky);
+  border-color:color-mix(in srgb, var(--sky) 45%, transparent);
+}
