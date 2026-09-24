@@ -132,7 +132,6 @@ export default async function Home() {
         <div className="section-head">
           <div className="section-tag">What We Offer</div>
           <h2>Baseball & Softball Development</h2>
-          <p>Pick a starting point — every offering is built to plug into your team, roster, or training routine.</p>
         </div>
         <div className="grid grid-3">
           {SERVICES.map((service) => (
