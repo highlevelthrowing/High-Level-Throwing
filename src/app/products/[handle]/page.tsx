@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProductByHandle } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
+import { SITE_URL, metaDescription } from "@/lib/site";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
@@ -16,7 +17,30 @@ export async function generateMetadata({
   if (!isShopifyConfigured()) return { title: "Shop" };
   const { handle } = await params;
   const product = await getProductByHandle(handle);
-  return { title: product?.title ?? "Product" };
+  if (!product) return { title: "Product" };
+
+  const description = metaDescription(product.description || product.descriptionHtml);
+  const image = product.featuredImage?.url;
+  const url = `${SITE_URL}/products/${encodeURIComponent(product.handle)}`;
+
+  return {
+    title: product.title,
+    description,
+    alternates: { canonical: url },
+    openGraph: {
+      type: "website",
+      url,
+      title: product.title,
+      description,
+      images: image ? [{ url: image, alt: product.featuredImage?.altText ?? product.title }] : undefined,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: product.title,
+      description,
+      images: image ? [image] : undefined,
+    },
+  };
 }
 
 export default async function ProductPage({
