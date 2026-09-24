@@ -47,8 +47,8 @@ function usePageViews() {
 /**
  * Klaviyo's signup form shows as soon as its script loads, and the form's own
  * timing lives in the Klaviyo account rather than here. Holding the script back
- * until someone has actually engaged — scrolled, clicked, or stayed a while —
- * keeps the popup from greeting people on arrival.
+ * until someone has engaged — scrolled, clicked — or 15 seconds have passed
+ * keeps the popup from greeting people on arrival while still always firing.
  *
  * Nothing is lost by waiting: _learnq is a queue, so any event pushed before
  * the script arrives (an Added to Cart, an identify) is flushed once it loads.
@@ -72,7 +72,7 @@ function useDeferredKlaviyo() {
     };
 
     const onScroll = () => {
-      if (window.scrollY > 600) load();
+      if (window.scrollY > 300) load();
     };
 
     function cleanup() {
@@ -81,7 +81,7 @@ function useDeferredKlaviyo() {
       clearTimeout(timer);
     }
 
-    const timer = setTimeout(load, 20000);
+    const timer = setTimeout(load, 15000);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pointerdown", load, { once: true });
 
