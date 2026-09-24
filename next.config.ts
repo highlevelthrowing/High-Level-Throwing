@@ -40,7 +40,6 @@ const nextConfig: NextConfig = {
         destination: "/video-assessment",
         permanent: false,
       },
-      { source: "/blogs/:path*", destination: `${SHOPIFY_STORE}/blogs/:path*`, permanent: false },
       // Collections used to render on the Shopify theme. Sending people there
       // now drops them onto the old storefront, so keep them in the shop here.
       { source: "/collections/:path*", destination: "/shop", permanent: false },

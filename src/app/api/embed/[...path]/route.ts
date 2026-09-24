@@ -10,17 +10,28 @@ const EMBED_TARGETS: Record<string, string> = {
 
 const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
 
-// Anything not in EMBED_TARGETS is treated as a Shopify page handle, so clinic
-// pages (and any page added later) embed without needing to be listed here.
-function resolveTarget(page: string): string | null {
-  if (EMBED_TARGETS[page]) return EMBED_TARGETS[page];
-  if (/^[a-z0-9®–—_-]+$/i.test(page)) return `${SHOPIFY_STORE}/pages/${page}`;
-  return null;
+const SEGMENT = /^[a-z0-9®–—_.-]+$/i;
+
+// A single segment not in EMBED_TARGETS is a Shopify page handle, so clinic
+// pages (and any page added later) embed without being listed here. Multiple
+// segments are a path on the store — blog articles arrive as blogs/news/<slug>.
+function resolveTarget(segments: string[]): string | null {
+  if (segments.length === 0) return null;
+
+  if (segments.length === 1) {
+    const page = segments[0];
+    if (EMBED_TARGETS[page]) return EMBED_TARGETS[page];
+    if (SEGMENT.test(page)) return `${SHOPIFY_STORE}/pages/${page}`;
+    return null;
+  }
+
+  if (segments[0] !== "blogs" || !segments.every((s) => SEGMENT.test(s))) return null;
+  return `${SHOPIFY_STORE}/${segments.map(encodeURIComponent).join("/")}`;
 }
 
-export async function GET(_request: Request, { params }: { params: Promise<{ page: string }> }) {
-  const { page } = await params;
-  const targetUrl = resolveTarget(decodeURIComponent(page));
+export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
+  const { path } = await params;
+  const targetUrl = resolveTarget((path ?? []).map((s) => decodeURIComponent(s)));
 
   if (!targetUrl) {
     return new Response("Unknown embed target.", { status: 404 });
