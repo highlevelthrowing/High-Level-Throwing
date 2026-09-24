@@ -120,10 +120,7 @@ export default async function Home() {
 
   return (
     <div className="home">
-      <div className="home-bg" aria-hidden="true" />
-      <div className="home-bg-veil" aria-hidden="true" />
-
-      <section className="hero">
+      <section className="hero section-photo section-photo--baseball">
         <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
@@ -232,7 +229,7 @@ export default async function Home() {
         )}
       </section>
 
-      <section id="integration" style={{ borderBottom: "1px solid var(--border)" }}>
+      <section id="integration" className="section-photo section-photo--softball" style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="section-head">
           <div className="section-tag">Full Integration</div>
           <h2>Want Full Integration of High Level Throwing®?</h2>
