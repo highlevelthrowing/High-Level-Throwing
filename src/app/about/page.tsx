@@ -65,7 +65,6 @@ export default function AboutPage() {
         <div className="section-head">
           <div className="section-tag">Staff</div>
           <h2>Coached by people who&apos;ve done it</h2>
-          <p>Collegiate coaching experience and Olympic-level credentials behind every athlete we train.</p>
         </div>
         <TeamGrid
           members={[
