@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { formatClinicDate, getClinics } from "@/lib/clinics";
+import { getClinics } from "@/lib/clinics";
 
 export default async function ClinicSchedule() {
   const clinics = await getClinics();
@@ -30,7 +30,6 @@ export default async function ClinicSchedule() {
             ) : (
               <div className="clinic-card-media--empty" aria-hidden="true" />
             )}
-            <span className="clinic-card-date">{formatClinicDate(clinic)}</span>
           </div>
 
           <div className="clinic-card-body">
