@@ -232,7 +232,7 @@ export default async function Home() {
       <section id="integration" style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="section-head">
           <div className="section-tag">Full Integration</div>
-          <h2>Want Full Organization, Team or Facility Integration of High Level Throwing®?</h2>
+          <h2>Want Full Team, Organization or Facility Integration of High Level Throwing®?</h2>
           <p>Three pieces you can add to your program — choose one, or build all three into your annual fees.</p>
         </div>
 

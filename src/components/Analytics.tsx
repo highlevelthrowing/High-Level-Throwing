@@ -44,8 +44,54 @@ function usePageViews() {
   }, [pathname, searchParams]);
 }
 
+/**
+ * Klaviyo's signup form shows as soon as its script loads, and the form's own
+ * timing lives in the Klaviyo account rather than here. Holding the script back
+ * until someone has actually engaged — scrolled, clicked, or stayed a while —
+ * keeps the popup from greeting people on arrival.
+ *
+ * Nothing is lost by waiting: _learnq is a queue, so any event pushed before
+ * the script arrives (an Added to Cart, an identify) is flushed once it loads.
+ */
+function useDeferredKlaviyo() {
+  useEffect(() => {
+    if (document.getElementById("klaviyo-onsite")) return;
+
+    let done = false;
+
+    const load = () => {
+      if (done) return;
+      done = true;
+      cleanup();
+
+      const script = document.createElement("script");
+      script.id = "klaviyo-onsite";
+      script.async = true;
+      script.src = `https://static.klaviyo.com/onsite/js/${KLAVIYO_COMPANY_ID}/klaviyo.js?company_id=${KLAVIYO_COMPANY_ID}`;
+      document.head.appendChild(script);
+    };
+
+    const onScroll = () => {
+      if (window.scrollY > 600) load();
+    };
+
+    function cleanup() {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("pointerdown", load);
+      clearTimeout(timer);
+    }
+
+    const timer = setTimeout(load, 20000);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("pointerdown", load, { once: true });
+
+    return cleanup;
+  }, []);
+}
+
 export default function Analytics() {
   usePageViews();
+  useDeferredKlaviyo();
 
   return (
     <>
@@ -81,13 +127,8 @@ export default function Analytics() {
         `}
       </Script>
 
-      {/* Klaviyo onsite tracking — powers Active on Site, browse abandonment
-          and any onsite signup forms. */}
-      <Script
-        id="klaviyo"
-        strategy="afterInteractive"
-        src={`https://static.klaviyo.com/onsite/js/${KLAVIYO_COMPANY_ID}/klaviyo.js?company_id=${KLAVIYO_COMPANY_ID}`}
-      />
+      {/* Klaviyo is loaded by useDeferredKlaviyo below rather than here, so the
+          signup popup does not fire the instant a page opens. */}
     </>
   );
 }
