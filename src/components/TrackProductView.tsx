@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { trackViewedProduct } from "@/lib/klaviyo";
+import { trackViewItem } from "@/lib/tracking";
 
 /**
  * Reports a product view to Klaviyo so browse-abandonment flows have something
@@ -27,6 +28,7 @@ export default function TrackProductView({
     if (reported.current === handle) return;
     reported.current = handle;
     trackViewedProduct({ title, handle, price, currency, image });
+    trackViewItem({ id: handle, name: title, price, currency });
   }, [title, handle, price, currency, image]);
 
   return null;

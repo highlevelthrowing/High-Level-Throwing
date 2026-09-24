@@ -4,6 +4,7 @@ import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/lib/shopify/cart";
 import { trackAddedToCart } from "@/lib/klaviyo";
+import { trackAddToCart } from "@/lib/tracking";
 import type { ProductVariant } from "@/lib/shopify/types";
 
 // Clinic sessions and video assessments are sold with the athlete's details
@@ -55,6 +56,13 @@ export default function AddToCart({
           : undefined
       );
       if (product) {
+        trackAddToCart({
+          id: product.handle,
+          name: product.title,
+          price: Number(selectedVariant.price.amount),
+          currency: selectedVariant.price.currencyCode,
+          quantity,
+        });
         trackAddedToCart(
           {
             title: product.title,

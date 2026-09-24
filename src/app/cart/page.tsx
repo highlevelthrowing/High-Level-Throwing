@@ -5,6 +5,7 @@ import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getCart, removeCartLine, updateCartLine } from "@/lib/shopify/cart";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
+import CheckoutButton from "@/components/CheckoutButton";
 
 export const metadata: Metadata = {
   title: "Cart",
@@ -100,9 +101,18 @@ export default async function CartPage() {
             <span>Total</span>
             <span>{formatPrice(cart.cost.totalAmount.amount, cart.cost.totalAmount.currencyCode)}</span>
           </div>
-          <a className="btn btn-primary" href={storeCheckoutUrl(cart.checkoutUrl)} style={{ display: "block", textAlign: "center", marginTop: 16 }}>
-            Checkout
-          </a>
+          <CheckoutButton
+            href={storeCheckoutUrl(cart.checkoutUrl)}
+            currency={cart.cost.totalAmount.currencyCode}
+            total={Number(cart.cost.totalAmount.amount)}
+            items={cart.lines.map((line) => ({
+              id: line.merchandise.product.handle,
+              name: line.merchandise.product.title,
+              price: Number(line.cost.totalAmount.amount) / Math.max(line.quantity, 1),
+              currency: line.cost.totalAmount.currencyCode,
+              quantity: line.quantity,
+            }))}
+          />
         </div>
       </div>
     </section>
