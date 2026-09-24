@@ -291,6 +291,22 @@ const EMBED_THEME = /* html */ `
     border:1px solid var(--hlt-border) !important;
   }
 
+  /* The theme packs copy edge to edge at a 1.25 line-height, which reads
+     cramped next to the rest of this site. Loosen it without touching the
+     theme's own layout structure. */
+  :root:root body { padding-left:28px !important; padding-right:28px !important; }
+  :root:root p, :root:root li, :root:root dd { line-height:1.65 !important; }
+  :root:root p { margin-bottom:18px !important; }
+  :root:root li { margin-bottom:8px !important; }
+  :root:root h1, :root:root h2, :root:root h3, :root:root h4 {
+    line-height:1.25 !important;
+    margin-top:32px !important;
+    margin-bottom:16px !important;
+  }
+  @media (max-width:640px){
+    :root:root body { padding-left:18px !important; padding-right:18px !important; }
+  }
+
   :root:root input, :root:root textarea, :root:root select {
     background:var(--hlt-surface) !important;
     color:var(--hlt-text) !important;
