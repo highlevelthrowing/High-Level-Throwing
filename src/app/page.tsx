@@ -54,7 +54,6 @@ const SERVICES = [
 const INTEGRATION = [
   {
     name: "Video Assessments",
-    price: <>$150</>,
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
@@ -72,7 +71,6 @@ const INTEGRATION = [
   },
   {
     name: "Clinics",
-    price: null,
     cta: "Book a Clinic",
     href: "/clinics",
     forLabel: "Built for",
@@ -90,7 +88,6 @@ const INTEGRATION = [
   },
   {
     name: "Lightning Ball Plyos",
-    price: <>$75</>,
     cta: "Shop Equipment",
     href: "/shop",
     forLabel: "Built for",
@@ -236,7 +233,6 @@ export default async function Home() {
           {INTEGRATION.map((box) => (
             <div className={`tier-card tier-card--${box.accent}`} key={box.name}>
               <h3 className="tier-name">{box.name}</h3>
-              <div className="tier-price">{box.price}</div>
 
               <Link className="btn btn-primary tier-cta" href={box.href}>
                 {box.cta}

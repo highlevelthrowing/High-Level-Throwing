@@ -569,17 +569,8 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 
 .tier-name{
   font-size:0.95rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;
-  margin:0 0 18px;color:var(--text);
+  margin:0 0 24px;color:var(--text);
 }
-/* One card shows words where the others show a price, so the block is given a
-   fixed two-line height — that keeps the buttons on a line across all three. */
-.tier-price{
-  font-size:1.75rem;font-weight:900;line-height:1.15;margin-bottom:22px;
-  min-height:2.3em;display:flex;align-items:center;justify-content:center;
-}
-.tier-card--lime .tier-price{color:var(--lime);}
-.tier-card--pink .tier-price{color:var(--pink);}
-.tier-card--sky .tier-price{color:var(--sky);}
 
 .tier-cta{width:100%;text-align:center;margin-bottom:22px;}
 .tier-card--pink .tier-cta{background:var(--pink);color:#fff;}
