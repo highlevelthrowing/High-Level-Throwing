@@ -10,6 +10,10 @@ const EMBED_TARGETS: Record<string, string> = {
 
 const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
 
+// Pages that are designed rather than inherited — they carry their own colours
+// and are left exactly as the theme renders them.
+const STYLED_BY_THEME = new Set(["leaderboard"]);
+
 const SEGMENT = /^[a-z0-9®–—_.-]+$/i;
 
 // A single segment not in EMBED_TARGETS is a Shopify page handle, so clinic
@@ -32,6 +36,7 @@ function resolveTarget(segments: string[]): string | null {
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const segments = (path ?? []).map((s) => decodeURIComponent(s));
+  const page = segments.join("/");
   const targetUrl = resolveTarget(segments);
 
   if (!targetUrl) {
@@ -59,7 +64,16 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   // The theme goes in last, after the section <style> blocks Shopify emits in
   // the body — those are more specific and carry !important, so a stylesheet in
   // <head> loses to them.
-  html = html.replace(/<\/body>/i, `${EMBED_THEME}${EMBED_RUNTIME}</body>`);
+  // The leaderboard is a custom-built page with its own palette — badges, stat
+  // cards, club colours. Repainting it flattened all of that, so it keeps the
+  // theme's own styling and only gets the functional runtime.
+  const keepsOwnStyling = STYLED_BY_THEME.has(page);
+  const theme = keepsOwnStyling ? "" : EMBED_THEME;
+  const guardOff = keepsOwnStyling
+    ? '<script>window.__hltSkipContrast = true;</script>'
+    : "";
+
+  html = html.replace(/<\/body>/i, `${guardOff}${theme}${EMBED_RUNTIME}</body>`);
 
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
@@ -155,6 +169,7 @@ const EMBED_RUNTIME = /* html */ `
   }
 
   function fixContrast() {
+    if (window.__hltSkipContrast) return;
     var all = document.body.getElementsByTagName("*");
     for (var i = 0; i < all.length; i++) {
       var el = all[i];
