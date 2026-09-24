@@ -614,6 +614,11 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   background-size:cover;
   filter:grayscale(0.15) contrast(1.05);
 }
+.section-photo--banner::after{
+  background-image:
+    linear-gradient(to bottom, rgba(0,0,0,0.70), rgba(0,0,0,0.52) 45%, rgba(0,0,0,0.84)),
+    url('/images/hero-banner.jpg');
+}
 .section-photo--baseball::after{
   background-image:
     linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.86)),

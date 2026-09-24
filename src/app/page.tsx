@@ -120,7 +120,7 @@ export default async function Home() {
 
   return (
     <div className="home">
-      <section className="hero">
+      <section className="hero section-photo section-photo--banner">
         <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
