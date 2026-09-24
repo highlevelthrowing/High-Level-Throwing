@@ -24,7 +24,7 @@ export default async function ClinicSchedule() {
                 src={clinic.image}
                 alt={clinic.title}
                 width={640}
-                height={480}
+                height={640}
                 sizes="(max-width: 640px) 100vw, (max-width: 1000px) 50vw, 33vw"
               />
             ) : (
