@@ -43,7 +43,7 @@ export default function VideoAssessmentPage() {
   return (
     <>
       <section className="hero">
-        <div className="eyebrow">For Baseball &amp; Softball Athletes Ages 7+</div>
+        <div className="eyebrow">For Baseball &amp; Softball Athletes Ages 9+</div>
         <h1>
           Athlete <em style={{ color: "var(--lime)" }}>Video Assessments</em> + 12-Week Throwing Program
         </h1>
