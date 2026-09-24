@@ -66,6 +66,7 @@ const INTEGRATION = [
       "12-Week Digital Throwing Program",
       "Throwing drills & progressions",
       "Weekly arm care & patterning work",
+      "NTangible Clutch Factor Assessment included",
       "Team pricing available",
     ],
   },
