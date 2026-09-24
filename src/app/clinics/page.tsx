@@ -26,8 +26,8 @@ export default function Clinics() {
           <Link className="btn btn-primary" href="/contact">
             Schedule a Clinic!
           </Link>
-          <a className="btn btn-outline" href="#details">
-            See How It Fits Your Budget
+          <a className="btn btn-outline" href="#model">
+            See How It Works
           </a>
         </div>
       </section>
