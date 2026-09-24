@@ -54,8 +54,7 @@ const SERVICES = [
 const INTEGRATION = [
   {
     name: "Video Assessments",
-    price: <>From <span className="price-blur">$150</span></>,
-    priceNote: <><span className="price-blur">$75</span> for each additional assessment</>,
+    price: <span className="price-blur">$150</span>,
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
@@ -74,7 +73,6 @@ const INTEGRATION = [
   {
     name: "Clinics",
     price: <>Individual &amp; Team Rates</>,
-    priceNote: <><span className="price-blur">20%</span> revenue share back to the host</>,
     cta: "Book a Clinic",
     href: "/clinics",
     forLabel: "Built for",
@@ -92,8 +90,7 @@ const INTEGRATION = [
   },
   {
     name: "Lightning Ball Plyos",
-    price: <>From <span className="price-blur">$75</span></>,
-    priceNote: <>Sets, bands and full bundles</>,
+    price: <span className="price-blur">$75</span>,
     cta: "Shop Equipment",
     href: "/shop",
     forLabel: "Built for",
@@ -240,7 +237,6 @@ export default async function Home() {
             <div className={`tier-card tier-card--${box.accent}`} key={box.name}>
               <h3 className="tier-name">{box.name}</h3>
               <div className="tier-price">{box.price}</div>
-              <div className="tier-price-note">{box.priceNote}</div>
 
               <Link className="btn btn-primary tier-cta" href={box.href}>
                 {box.cta}
