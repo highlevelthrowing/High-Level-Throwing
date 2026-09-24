@@ -6,6 +6,7 @@ import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
+import TrackProductView from "@/components/TrackProductView";
 
 export async function generateMetadata({
   params,
@@ -51,6 +52,13 @@ export default async function ProductPage({
 
   return (
     <section>
+      <TrackProductView
+        title={product.title}
+        handle={product.handle}
+        price={Number(product.priceRange.minVariantPrice.amount)}
+        currency={product.priceRange.minVariantPrice.currencyCode}
+        image={product.featuredImage?.url ?? null}
+      />
       <div className="pdp">
         <ProductGallery media={galleryMedia} title={product.title} />
         <div>
