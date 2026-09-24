@@ -53,7 +53,7 @@ export default function SimpleEmbed({
             width: "100%",
             height: measured ?? height,
             border: "none",
-            background: "#fff",
+            background: "var(--navy)",
             display: "block",
             overflow: "hidden",
           }}

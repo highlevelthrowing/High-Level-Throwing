@@ -72,6 +72,11 @@ export default async function ProductPage({
           )}
           <AddToCart
             variants={product.variants}
+            product={{
+              title: product.title,
+              handle: product.handle,
+              image: product.featuredImage?.url ?? null,
+            }}
             collectsAthleteDetails={
               product.productType === "Session" || product.tags.includes("Sessions")
             }

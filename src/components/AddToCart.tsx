@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/lib/shopify/cart";
+import { trackAddedToCart } from "@/lib/klaviyo";
 import type { ProductVariant } from "@/lib/shopify/types";
 
 // Clinic sessions and video assessments are sold with the athlete's details
@@ -14,9 +15,12 @@ const GPO_OPTION_SET = "747605";
 export default function AddToCart({
   variants,
   collectsAthleteDetails = false,
+  product,
 }: {
   variants: ProductVariant[];
   collectsAthleteDetails?: boolean;
+  /** Passed through to Klaviyo so cart-abandonment flows have something to say. */
+  product?: { title: string; handle: string; image?: string | null };
 }) {
   const [selectedVariantId, setSelectedVariantId] = useState(variants[0]?.id);
   const [quantity, setQuantity] = useState(1);
@@ -50,6 +54,20 @@ export default function AddToCart({
             ]
           : undefined
       );
+      if (product) {
+        trackAddedToCart(
+          {
+            title: product.title,
+            handle: product.handle,
+            price: Number(selectedVariant.price.amount),
+            currency: selectedVariant.price.currencyCode,
+            quantity,
+            image: product.image,
+            variantTitle: selectedVariant.title,
+          },
+          collectsAthleteDetails ? email.trim() || undefined : undefined
+        );
+      }
       setAdded(true);
       router.refresh();
     });

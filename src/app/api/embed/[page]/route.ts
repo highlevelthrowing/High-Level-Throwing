@@ -44,6 +44,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pag
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*announcement-bar"[\s\S]*?(?=<main[^>]*id="MainContent")/i, "");
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*__footer"[\s\S]*?(?=<\/body>)/i, "");
 
+  html = html.replace(/<\/head>/i, `${EMBED_THEME}</head>`);
   html = html.replace(/<\/body>/i, `${EMBED_RUNTIME}</body>`);
 
   return new Response(html, {
@@ -168,4 +169,79 @@ const EMBED_RUNTIME = /* html */ `
   var timer = setInterval(function () { tick(); if (++n > 20) clearInterval(timer); }, 400);
 })();
 </script>
+`;
+
+// Injected last in <head> so it wins over the Shopify theme's own stylesheet.
+// The theme is a light Dawn build; these pages sit inside a dark site, so the
+// surfaces are repainted and the type recoloured to match. Only colours are
+// touched — the theme keeps its own layout, so any page picks this up without
+// needing to be listed anywhere.
+const EMBED_THEME = /* html */ `
+<style id="hlt-embed-theme">
+  :root{
+    --hlt-bg:#000000;
+    --hlt-surface:#111111;
+    --hlt-border:#2a2a2a;
+    --hlt-text:#ffffff;
+    --hlt-muted:rgba(255,255,255,0.72);
+    --hlt-lime:#c6ff2e;
+    --hlt-navy:#000000;
+  }
+
+  html, body { background:var(--hlt-bg) !important; color:var(--hlt-text) !important; }
+
+  /* Dawn paints most surfaces through these custom properties. */
+  body, .color-background-1, .color-background-2,
+  .color-inverse, .color-accent-1, .color-accent-2, .color-scheme-1,
+  .shopify-section, .page-width, main, .rte, .section {
+    --color-background:0,0,0;
+    --color-foreground:255,255,255;
+    --color-base-background-1:0,0,0;
+    --color-base-background-2:17,17,17;
+    --color-base-text:255,255,255;
+    --color-base-solid-button-labels:0,0,0;
+    --color-base-accent-1:198,255,46;
+    --color-base-accent-2:198,255,46;
+    background-color:transparent !important;
+    color:var(--hlt-text) !important;
+  }
+
+  h1,h2,h3,h4,h5,h6 { color:var(--hlt-text) !important; }
+  p, li, span, td, th, dd, dt, label, .rte, .rte * { color:var(--hlt-muted) !important; }
+  strong, b { color:var(--hlt-text) !important; }
+  a { color:var(--hlt-lime) !important; }
+
+  /* Cards, wells and anything the theme gave a light panel to. */
+  .card, .card__content, .card__inner, .card-wrapper, .collapsible-content,
+  .quick-add, .price, .grid__item > .card, .media, .content-container,
+  .accordion, .accordion__content, blockquote, table, tr, td, th {
+    background-color:transparent !important;
+    color:var(--hlt-text) !important;
+    border-color:var(--hlt-border) !important;
+  }
+
+  hr, .hr, table, td, th { border-color:var(--hlt-border) !important; }
+
+  /* Buttons keep the site's lime call-to-action. */
+  .button, button.button, a.button, .shopify-payment-button__button,
+  input[type="submit"] {
+    background:var(--hlt-lime) !important;
+    color:var(--hlt-navy) !important;
+    border-color:var(--hlt-lime) !important;
+  }
+  .button--secondary, .button--tertiary {
+    background:transparent !important;
+    color:var(--hlt-text) !important;
+    border:1px solid var(--hlt-border) !important;
+  }
+
+  input, textarea, select {
+    background:var(--hlt-surface) !important;
+    color:var(--hlt-text) !important;
+    border-color:var(--hlt-border) !important;
+  }
+
+  /* Photos and artwork are left alone — only flat white boxes get repainted. */
+  img, video, svg, iframe, .media img { background-color:transparent !important; }
+</style>
 `;
