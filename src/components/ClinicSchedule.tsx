@@ -36,19 +36,19 @@ export default async function ClinicSchedule() {
             <h3 className="clinic-card-title">{clinic.title}</h3>
             {clinic.blurb && <p className="clinic-card-blurb">{clinic.blurb}</p>}
 
-            <div className="clinic-card-action">
-              {clinic.registerHref === null ? (
-                <span className="clinic-card-soon">Registration opening soon</span>
-              ) : clinic.external ? (
-                <a className="btn btn-primary" href={clinic.registerHref} target="_blank" rel="noopener">
-                  {clinic.registerLabel}
-                </a>
-              ) : (
-                <Link className="btn btn-primary" href={clinic.registerHref}>
-                  {clinic.registerLabel}
-                </Link>
-              )}
-            </div>
+            {clinic.registerHref !== null && (
+              <div className="clinic-card-action">
+                {clinic.external ? (
+                  <a className="btn btn-primary" href={clinic.registerHref} target="_blank" rel="noopener">
+                    {clinic.registerLabel}
+                  </a>
+                ) : (
+                  <Link className="btn btn-primary" href={clinic.registerHref}>
+                    {clinic.registerLabel}
+                  </Link>
+                )}
+              </div>
+            )}
           </div>
         </article>
       ))}

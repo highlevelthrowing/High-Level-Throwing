@@ -526,10 +526,6 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .clinic-card-blurb{color:var(--muted);font-size:0.88rem;margin:0;}
 .clinic-card-action{margin-top:auto;padding-top:14px;}
 .clinic-card-action .btn{width:100%;text-align:center;}
-.clinic-card-soon{
-  display:block;color:var(--muted);font-size:0.8rem;font-weight:700;
-  text-align:center;padding:12px 0;
-}
 
 /* DIGITAL DELIVERY NOTE ON PRODUCT PAGES */
 .pdp-digital{
