@@ -615,11 +615,11 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   filter:grayscale(0.15) contrast(1.05);
 }
 .section-photo--banner::after{
-  /* The hero is shorter than the banner, so centring it cropped both athletes'
-     heads. Anchor near the top to keep faces in frame. */
-  background-position:center 12%;
+  /* Pulled left and up so both athletes sit clear of the headline, and a
+     lighter wash so the photo itself reads rather than the black over it. */
+  background-position:28% 4%;
   background-image:
-    linear-gradient(to bottom, rgba(0,0,0,0.70), rgba(0,0,0,0.52) 45%, rgba(0,0,0,0.84)),
+    linear-gradient(to bottom, rgba(0,0,0,0.52), rgba(0,0,0,0.30) 45%, rgba(0,0,0,0.70)),
     url('/images/hero-banner.jpg');
 }
 .section-photo--baseball::after{
@@ -656,4 +656,14 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .home .hero .eyebrow{
   color:var(--sky);
   border-color:color-mix(in srgb, var(--sky) 45%, transparent);
+  /* The pill sits over the photo now, so give it its own ground. */
+  background:rgba(0,0,0,0.55);
+  backdrop-filter:blur(2px);
 }
+
+/* Hero copy spacing — a little more air between the pill, the headline and
+   the line under it, and a narrower measure so it does not run wide. */
+.home .hero .eyebrow{margin-bottom:26px;}
+.home .hero h1,
+.home .hero .hero-title-oneline{margin-bottom:26px;}
+.home .hero p{max-width:640px;margin-left:auto;margin-right:auto;}
