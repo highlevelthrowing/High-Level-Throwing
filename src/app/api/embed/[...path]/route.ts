@@ -73,7 +73,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
     ? '<script>window.__hltSkipContrast = true;</script>'
     : "";
 
-  html = html.replace(/<\/body>/i, `${guardOff}${theme}${EMBED_RUNTIME}</body>`);
+  const extras = page === "leaderboard" ? LEADERBOARD_TRIM : "";
+  html = html.replace(/<\/body>/i, `${guardOff}${theme}${EMBED_RUNTIME}${extras}</body>`);
 
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
@@ -329,4 +330,31 @@ const EMBED_THEME = /* html */ `
     border-color:var(--hlt-border) !important;
   }
 </style>
+`;
+
+// The storefront's own /leaderboard page renders this title and intro above the
+// frame, so the theme's matching section is a duplicate. Matched on its copy
+// rather than its section id — that id carries a random suffix Shopify
+// regenerates whenever the theme is edited.
+const LEADERBOARD_TRIM = /* html */ `
+<script>
+(function () {
+  function trim() {
+    var sections = document.querySelectorAll(".shopify-section");
+    for (var i = 0; i < sections.length; i++) {
+      var text = sections[i].innerText || "";
+      if (text.indexOf("Join the HLT Leaderboard and compete") !== -1 &&
+          text.indexOf("TOTAL ATHLETES") === -1) {
+        sections[i].remove();
+        return true;
+      }
+    }
+    return false;
+  }
+  if (!trim()) {
+    var tries = 0;
+    var t = setInterval(function () { if (trim() || ++tries > 20) clearInterval(t); }, 300);
+  }
+})();
+</script>
 `;

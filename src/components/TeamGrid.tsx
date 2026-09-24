@@ -9,7 +9,11 @@ export type TeamMember = {
 
 export default function TeamGrid({ members }: { members: TeamMember[] }) {
   return (
-    <div className={`team-grid${members.length >= 3 ? " team-grid-3" : ""}`}>
+    <div
+      className={`team-grid${members.length >= 3 ? " team-grid-3" : ""}${
+        members.length === 1 ? " team-grid-1" : ""
+      }`}
+    >
       {members.map((m) => (
         <div className="team-card" key={m.name}>
           <div className="team-avatar">
