@@ -308,12 +308,6 @@ export default function Showcase() {
               image:
                 "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2023-11-20_at_8.32.05_PM.png?v=1700530336&width=200",
             },
-            {
-              name: "Haylie McCleney",
-              role: "Strength Coach",
-              bio: "Olympic silver medalist and University of Alabama standout, now training athletes within the HLT system.",
-              image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/McCleneyHaylie-McCleney.jpg?v=1699924802&width=200",
-            },
           ]}
         />
       </section>
