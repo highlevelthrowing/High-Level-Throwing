@@ -11,12 +11,26 @@ export const metadata: Metadata = {
   title: "Shop",
 };
 
+// Shopify returns these by best-seller, which buried the baseball plyo set at
+// the bottom of the grid. These handles lead, in this order; everything else
+// keeps Shopify's ordering behind them.
+const PINNED_HANDLES = ["lightning-ball-plyo-set", "lightning-ball-plyo-set-baseball"];
+
 export default async function ShopPage() {
   if (!isShopifyConfigured()) {
     return <ShopifySetupNotice />;
   }
 
-  const products = await getProducts(24, SHOP_EQUIPMENT_QUERY);
+  const fetched = await getProducts(24, SHOP_EQUIPMENT_QUERY);
+
+  const pinned = PINNED_HANDLES.map((handle) =>
+    fetched.find((product) => product.handle === handle)
+  ).filter((product): product is NonNullable<typeof product> => Boolean(product));
+
+  const products = [
+    ...pinned,
+    ...fetched.filter((product) => !PINNED_HANDLES.includes(product.handle)),
+  ];
 
   return (
     <section>

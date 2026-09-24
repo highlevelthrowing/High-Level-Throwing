@@ -125,7 +125,7 @@ export default async function Home() {
         <h1 className="hero-title-oneline">
           Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
         </h1>
-        <p>Everything you need to build the complete Baseball &amp; Softball Throwing Athlete.</p>
+        <p>Everything you need to build the complete Throwing Athlete.</p>
       </section>
 
       <section id="services">
