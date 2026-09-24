@@ -36,7 +36,7 @@ export default function Clinics() {
         <div className="section-head">
           <div className="section-tag">See It In Action</div>
           <h2>Watch a Clinic Up Close</h2>
-          <p>A look at what a High Level Throwing clinic looks like on-site.</p>
+          <p>A look at what a High Level Throwing® clinic looks like on-site.</p>
         </div>
         <div className="video-grid">
           <VideoEmbed
@@ -56,7 +56,7 @@ export default function Clinics() {
         <div className="section-head">
           <div className="section-tag">Clinic Schedule</div>
           <h2>Upcoming Clinics</h2>
-          <p>See where High Level Throwing is headed next and find a clinic near you.</p>
+          <p>See where High Level Throwing® is headed next and find a clinic near you.</p>
         </div>
         <ClinicSchedule />
       </section>
