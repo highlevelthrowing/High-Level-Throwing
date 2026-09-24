@@ -54,7 +54,7 @@ const SERVICES = [
 const INTEGRATION = [
   {
     name: "Video Assessments",
-    price: <span className="price-blur">$150</span>,
+    price: <>$150</>,
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
@@ -72,7 +72,7 @@ const INTEGRATION = [
   },
   {
     name: "Clinics",
-    price: <>Individual &amp; Team Rates</>,
+    price: null,
     cta: "Book a Clinic",
     href: "/clinics",
     forLabel: "Built for",
@@ -90,7 +90,7 @@ const INTEGRATION = [
   },
   {
     name: "Lightning Ball Plyos",
-    price: <span className="price-blur">$75</span>,
+    price: <>$75</>,
     cta: "Shop Equipment",
     href: "/shop",
     forLabel: "Built for",
