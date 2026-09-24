@@ -57,7 +57,7 @@ const INTEGRATION = [
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
-    forWho: "Individual athletes ages 7+, teams and full rosters",
+    forWho: "Individual athletes ages 9+, teams and full rosters",
     accent: "pink" as const,
     features: [
       "Individual HLT Report on every athlete",
