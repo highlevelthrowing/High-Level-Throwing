@@ -355,8 +355,16 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 /* SHOP / PRODUCTS / CART */
 .product-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1180px;margin:0 auto;}
 @media (max-width:1024px){ .product-grid{grid-template-columns:repeat(3,1fr);} }
-@media (max-width:760px){ .product-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:480px){ .product-grid{grid-template-columns:1fr;} }
+/* Stay two-up on phones. A single column made each card fill the screen, so
+   browsing the catalogue meant one product per scroll. */
+@media (max-width:760px){ .product-grid{grid-template-columns:repeat(2,1fr);gap:14px;} }
+@media (max-width:480px){
+  .product-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .product-card .body{padding:12px 12px 14px;}
+  .product-card h3{font-size:0.85rem;line-height:1.25;margin-bottom:4px;}
+  .product-card .price{font-size:0.95rem;}
+  .quick-add-btn{margin-top:10px;padding:9px 10px;font-size:0.78rem;}
+}
 .product-card{background:var(--card);border:1px solid var(--border);border-radius:18px;overflow:hidden;transition:border-color .2s, transform .2s;display:block;}
 .product-card:hover{border-color:rgba(198,255,46,0.4);transform:translateY(-4px);}
 .product-card .thumb{aspect-ratio:1/1;background:#000;position:relative;overflow:hidden;}
@@ -376,14 +384,16 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
    product with 11 thumbs was pushing the gallery to 892px while one with 5
    sat at 560px, which is why product pages did not match each other. */
 .pdp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:60px;max-width:1180px;margin:0 auto;align-items:start;}
-@media (max-width:900px){ .pdp{grid-template-columns:1fr;} }
-.pdp-gallery{background:#fff;border-radius:24px;border:1px solid var(--border);overflow:hidden;aspect-ratio:1/1;position:relative;}
+@media (max-width:900px){ .pdp{grid-template-columns:1fr;gap:28px;} }
+/* Black to match the shop grid's thumbnails — a white frame here meant the
+   same image looked different once you clicked into the product. */
+.pdp-gallery{background:#000;border-radius:24px;border:1px solid var(--border);overflow:hidden;aspect-ratio:1/1;position:relative;}
 .pdp-gallery img{width:100%;height:100%;object-fit:contain;}
 .pdp-thumbs{display:flex;gap:10px;margin-top:14px;overflow-x:auto;padding-bottom:6px;
   scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
 .pdp-thumb{
   flex:0 0 72px;width:72px;height:72px;border-radius:12px;overflow:hidden;
-  background:#fff;border:2px solid var(--border);cursor:pointer;padding:0;position:relative;
+  background:#000;border:2px solid var(--border);cursor:pointer;padding:0;position:relative;
 }
 .pdp-thumb img{width:100%;height:100%;object-fit:contain;}
 .pdp-thumb.active{border-color:var(--lime);}
