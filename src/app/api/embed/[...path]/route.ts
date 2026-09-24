@@ -55,8 +55,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*announcement-bar"[\s\S]*?(?=<main[^>]*id="MainContent")/i, "");
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*__footer"[\s\S]*?(?=<\/body>)/i, "");
 
-  html = html.replace(/<\/head>/i, `${EMBED_THEME}</head>`);
-  html = html.replace(/<\/body>/i, `${EMBED_RUNTIME}</body>`);
+  // The theme goes in last, after the section <style> blocks Shopify emits in
+  // the body — those are more specific and carry !important, so a stylesheet in
+  // <head> loses to them.
+  html = html.replace(/<\/body>/i, `${EMBED_THEME}${EMBED_RUNTIME}</body>`);
 
   return new Response(html, {
     headers: { "Content-Type": "text/html; charset=utf-8" },
@@ -127,7 +129,54 @@ const EMBED_RUNTIME = /* html */ `
     parent.postMessage({ hltEmbedHeight: h }, "*");
   }
 
-  function tick() { fixLinks(); reportHeight(); }
+  // Last-resort contrast guard. Section styles can carry !important with higher
+  // specificity than anything a stylesheet here declares, which is how a clinic
+  // page ended up with its dates in near-black on black. Anything still too dark
+  // to read against a dark ground gets an inline colour, which nothing outranks.
+  function effectiveBg(el) {
+    var node = el;
+    while (node && node.nodeType === 1) {
+      var bg = getComputedStyle(node).backgroundColor;
+      var m = String(bg).match(/[\d.]+/g);
+      if (m && (m.length < 4 || Number(m[3]) > 0.5)) {
+        return 0.2126 * Number(m[0]) + 0.7152 * Number(m[1]) + 0.0722 * Number(m[2]);
+      }
+      node = node.parentElement;
+    }
+    return 0; // nothing opaque found — the page ground is black
+  }
+
+  function luminance(color) {
+    var m = String(color).match(/[\d.]+/g);
+    if (!m) return null;
+    if (m.length > 3 && Number(m[3]) === 0) return null;
+    return 0.2126 * Number(m[0]) + 0.7152 * Number(m[1]) + 0.0722 * Number(m[2]);
+  }
+
+  function fixContrast() {
+    var all = document.body.getElementsByTagName("*");
+    for (var i = 0; i < all.length; i++) {
+      var el = all[i];
+      if (el.dataset && el.dataset.hltContrast) continue;
+
+      var hasText = false;
+      for (var c = 0; c < el.childNodes.length; c++) {
+        var n = el.childNodes[c];
+        if (n.nodeType === 3 && n.textContent.trim().length > 1) { hasText = true; break; }
+      }
+      if (!hasText) continue;
+
+      var L = luminance(getComputedStyle(el).color);
+      if (L === null || L >= 90) continue;
+      // Dark text on a light panel is correct — only fix it over a dark ground.
+      if (effectiveBg(el) > 110) continue;
+
+      el.style.setProperty("color", "#ffffff", "important");
+      if (el.dataset) el.dataset.hltContrast = "1";
+    }
+  }
+
+  function tick() { fixLinks(); fixContrast(); reportHeight(); }
 
   // fixLinks only runs on load and on DOM changes, so a click that lands before
   // it has swept (or on markup it has not seen) could still escape to the
@@ -182,7 +231,7 @@ const EMBED_RUNTIME = /* html */ `
 </script>
 `;
 
-// Injected last in <head> so it wins over the Shopify theme's own stylesheet.
+// Injected last in <body>, after the section styles Shopify emits there.
 // The theme is a light Dawn build; these pages sit inside a dark site, so the
 // surfaces are repainted and the type recoloured to match. Only colours are
 // touched — the theme keeps its own layout, so any page picks this up without
@@ -194,65 +243,58 @@ const EMBED_THEME = /* html */ `
     --hlt-surface:#111111;
     --hlt-border:#2a2a2a;
     --hlt-text:#ffffff;
-    --hlt-muted:rgba(255,255,255,0.72);
+    --hlt-muted:rgba(255,255,255,0.78);
     --hlt-lime:#c6ff2e;
     --hlt-navy:#000000;
   }
 
-  html, body { background:var(--hlt-bg) !important; color:var(--hlt-text) !important; }
+  /* Section styles in the body use selectors like .titlex2 p with !important,
+     which out-rank plain element selectors. Repeating :root costs nothing
+     visually and puts these ahead of them. */
+  :root:root html, :root:root body { background:var(--hlt-bg) !important; color:var(--hlt-text) !important; }
 
-  /* Dawn paints most surfaces through these custom properties. */
-  body, .color-background-1, .color-background-2,
-  .color-inverse, .color-accent-1, .color-accent-2, .color-scheme-1,
-  .shopify-section, .page-width, main, .rte, .section {
-    --color-background:0,0,0;
-    --color-foreground:255,255,255;
-    --color-base-background-1:0,0,0;
-    --color-base-background-2:17,17,17;
-    --color-base-text:255,255,255;
-    --color-base-solid-button-labels:0,0,0;
-    --color-base-accent-1:198,255,46;
-    --color-base-accent-2:198,255,46;
+  /* The theme paints white panels behind the copy. Strip every background so
+     the page reads on this site's black, leaving real media and buttons alone. */
+  :root:root body *:not(img):not(video):not(svg):not(canvas):not(iframe):not(.button):not(button):not(input):not(select):not(textarea) {
     background-color:transparent !important;
-    color:var(--hlt-text) !important;
+    background-image:none !important;
   }
 
-  h1,h2,h3,h4,h5,h6 { color:var(--hlt-text) !important; }
-  p, li, span, td, th, dd, dt, label, .rte, .rte * { color:var(--hlt-muted) !important; }
-  strong, b { color:var(--hlt-text) !important; }
-  a { color:var(--hlt-lime) !important; }
+  :root:root h1, :root:root h2, :root:root h3,
+  :root:root h4, :root:root h5, :root:root h6,
+  :root:root strong, :root:root b { color:var(--hlt-text) !important; }
 
-  /* Cards, wells and anything the theme gave a light panel to. */
-  .card, .card__content, .card__inner, .card-wrapper, .collapsible-content,
-  .quick-add, .price, .grid__item > .card, .media, .content-container,
-  .accordion, .accordion__content, blockquote, table, tr, td, th {
-    background-color:transparent !important;
-    color:var(--hlt-text) !important;
+  :root:root p, :root:root li, :root:root span, :root:root div,
+  :root:root td, :root:root th, :root:root dd, :root:root dt, :root:root label,
+  :root:root em, :root:root i, :root:root small, :root:root figcaption,
+  :root:root blockquote, :root:root .rte, :root:root .rte * {
+    color:var(--hlt-muted) !important;
+  }
+
+  :root:root a, :root:root a * { color:var(--hlt-lime) !important; }
+
+  :root:root hr, :root:root table, :root:root td, :root:root th {
     border-color:var(--hlt-border) !important;
   }
 
-  hr, .hr, table, td, th { border-color:var(--hlt-border) !important; }
-
-  /* Buttons keep the site's lime call-to-action. */
-  .button, button.button, a.button, .shopify-payment-button__button,
-  input[type="submit"] {
+  /* Calls to action keep the site's lime. */
+  :root:root .button, :root:root button.button, :root:root a.button,
+  :root:root .shopify-payment-button__button, :root:root input[type="submit"] {
     background:var(--hlt-lime) !important;
     color:var(--hlt-navy) !important;
     border-color:var(--hlt-lime) !important;
   }
-  .button--secondary, .button--tertiary {
+  :root:root .button *, :root:root a.button * { color:var(--hlt-navy) !important; }
+  :root:root .button--secondary, :root:root .button--tertiary {
     background:transparent !important;
     color:var(--hlt-text) !important;
     border:1px solid var(--hlt-border) !important;
   }
 
-  input, textarea, select {
+  :root:root input, :root:root textarea, :root:root select {
     background:var(--hlt-surface) !important;
     color:var(--hlt-text) !important;
     border-color:var(--hlt-border) !important;
   }
-
-  /* Photos and artwork are left alone — only flat white boxes get repainted. */
-  img, video, svg, iframe, .media img { background-color:transparent !important; }
 </style>
 `;
