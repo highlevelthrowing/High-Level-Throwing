@@ -58,7 +58,13 @@ function usePageViews() {
 // registration pages are mid-purchase — a discount pop-up over a registration
 // form costs more than it earns.
 function isPopupFreePath(pathname: string): boolean {
-  return pathname === "/clinics" || pathname.startsWith("/clinics/") || pathname.startsWith("/pages/");
+  if (pathname === "/clinics" || pathname.startsWith("/clinics/")) return true;
+  // Embedded clinic and registration pages.
+  if (pathname.startsWith("/pages/")) return true;
+  // The session products themselves — this is where someone actually
+  // registers, so it is the last place to interrupt them.
+  if (/^\/products\/hlt-clinic/i.test(decodeURIComponent(pathname))) return true;
+  return false;
 }
 
 function useDeferredKlaviyo() {
