@@ -1,6 +1,5 @@
 "use server";
 
-const TO_EMAIL = "austin@highlevelthrowing.com";
 const KLAVIYO_COMPANY_ID = "QP3GE9";
 
 export type ContactState = {

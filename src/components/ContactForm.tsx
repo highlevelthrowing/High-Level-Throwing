@@ -16,7 +16,6 @@ function SubmitButton() {
 }
 
 const FORMSUBMIT_TO = "austin@highlevelthrowing.com";
-const FORMSUBMIT_CC = "highlevelthrowinghlt@gmail.com";
 
 /**
  * FormSubmit only accepts requests that carry a real browser Origin, so this
@@ -40,7 +39,6 @@ async function emailViaFormSubmit(formData: FormData): Promise<boolean> {
         phone: String(formData.get("phone") ?? "") || "—",
         message: String(formData.get("comment") ?? "") || "(no message)",
         _subject: `Website enquiry from ${name}`,
-        _cc: FORMSUBMIT_CC,
         _replyto: String(formData.get("email") ?? ""),
         _template: "table",
         _captcha: "false",
