@@ -308,6 +308,33 @@ const EMBED_THEME = /* html */ `
     border:1px solid var(--hlt-border) !important;
   }
 
+  /* The clinic session buttons come out of the page builder as anchors with an
+     inline green-on-white style, which the background-stripping rule above
+     flattens into plain underlined text. Repaint them as this site's lime pill.
+     Three :root repetitions are needed: the stripper carries two plus a class
+     from its :not(.button), so matching it takes one more. */
+  :root:root:root .maintxt_1 a,
+  :root:root:root a[style*="2cbc13"] {
+    display:inline-block !important;
+    background:var(--hlt-lime) !important;
+    color:#000000 !important;
+    border:none !important;
+    border-radius:999px !important;
+    padding:13px 30px !important;
+    margin:6px 0 16px !important;
+    font-weight:800 !important;
+    font-size:0.95rem !important;
+    letter-spacing:0.5px !important;
+    line-height:1.2 !important;
+    text-decoration:none !important;
+    white-space:nowrap !important;
+  }
+  :root:root:root .maintxt_1 a *,
+  :root:root:root a[style*="2cbc13"] * { color:#000000 !important; }
+
+  /* The builder also leaves one button with no destination. */
+  :root:root:root a[style*="2cbc13"][href=""] { display:none !important; }
+
   /* The theme packs copy edge to edge at a 1.25 line-height, which reads
      cramped next to the rest of this site. Loosen it without touching the
      theme's own layout structure. */
