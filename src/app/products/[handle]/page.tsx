@@ -133,6 +133,9 @@ export default async function ProductPage({
           )}
           <AddToCart
             variants={product.variants}
+            // Spot counts and the 18-per-session cap are clinic language; they
+            // make no sense on a book or a set of plyo balls.
+            isClinicSession={/^hlt-clinic/i.test(product.handle)}
             product={{
               title: product.title,
               handle: product.handle,

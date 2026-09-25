@@ -19,10 +19,13 @@ const MAX_PER_ORDER = 18;
 export default function AddToCart({
   variants,
   collectsAthleteDetails = false,
+  isClinicSession = false,
   product,
 }: {
   variants: ProductVariant[];
   collectsAthleteDetails?: boolean;
+  /** Only clinic sessions have a spot count and a per-session cap. */
+  isClinicSession?: boolean;
   /** Passed through to Klaviyo so cart-abandonment flows have something to say. */
   product?: { title: string; handle: string; image?: string | null };
 }) {
@@ -42,10 +45,12 @@ export default function AddToCart({
   // this is undefined and only the per-order ceiling applies; Shopify still
   // refuses to oversell at checkout because every session is DENY on stockout.
   const remaining = selectedVariant?.quantityAvailable;
-  const knowsRemaining = typeof remaining === "number" && remaining > 0;
-  const maxQuantity = knowsRemaining
-    ? Math.max(1, Math.min(MAX_PER_ORDER, remaining))
-    : MAX_PER_ORDER;
+  const knowsRemaining = isClinicSession && typeof remaining === "number" && remaining > 0;
+  const maxQuantity = !isClinicSession
+    ? Number.MAX_SAFE_INTEGER
+    : knowsRemaining
+      ? Math.max(1, Math.min(MAX_PER_ORDER, remaining as number))
+      : MAX_PER_ORDER;
   const atMax = quantity >= maxQuantity;
 
   // Switching to a variant with fewer spots left must pull the chosen quantity
