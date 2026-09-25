@@ -147,7 +147,14 @@ export default async function Home() {
                 </svg>
               ) : (
                 service.icon && (
-                  <Image src={service.icon} alt="" width={40} height={40} className="pillar-icon" unoptimized />
+                  <Image
+                    src={service.icon}
+                    alt={`${service.title} icon`}
+                    width={40}
+                    height={40}
+                    className="pillar-icon"
+                    unoptimized
+                  />
                 )
               )}
               <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>

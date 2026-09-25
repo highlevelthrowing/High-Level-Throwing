@@ -1,11 +1,17 @@
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import "./globals.css";
+import { SITE_URL } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
 
 export const metadata: Metadata = {
+  // metadataBase makes every relative canonical and OG url resolve to the live
+  // site, so UTM-tagged ad links and the apex/www split all point at one
+  // canonical address rather than splitting Google's index.
+  metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "./" },
   title: {
     default: "High Level Throwing®",
     template: "High Level Throwing® | %s",

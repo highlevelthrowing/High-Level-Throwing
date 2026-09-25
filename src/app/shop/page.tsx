@@ -36,7 +36,7 @@ export default async function ShopPage() {
     <section>
       <div className="section-head">
         <div className="section-tag">Gear &amp; Training Tools</div>
-        <h2>Shop High Level Throwing</h2>
+        <h1>Shop High Level Throwing</h1>
         <p>Lightning Ball Plyo Sets, bundles, bands, and more.</p>
       </div>
 
