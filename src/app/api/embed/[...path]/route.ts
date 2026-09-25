@@ -103,6 +103,15 @@ const EMBED_RUNTIME = /* html */ `
     for (var i = 0; i < links.length; i++) {
       var a = links[i];
       if (a.target === "_blank") a.removeAttribute("target");
+
+      // The page builder leaves a labelless copy of the session button behind.
+      // It was invisible until these anchors gained a background, so tag it and
+      // let the stylesheet hide it rather than show an empty lime pill.
+      var inline = a.getAttribute("style") || "";
+      if (inline.indexOf("2cbc13") !== -1 && !a.textContent.replace(/\s+/g, "")) {
+        a.className = a.className ? a.className + " hlt-blank" : "hlt-blank";
+      }
+
       var href = a.getAttribute("href");
       if (!href || href.charAt(0) === "#") continue;
       var url;
@@ -332,8 +341,14 @@ const EMBED_THEME = /* html */ `
   :root:root:root .maintxt_1 a *,
   :root:root:root a[style*="2cbc13"] * { color:#000000 !important; }
 
-  /* The builder also leaves one button with no destination. */
-  :root:root:root a[style*="2cbc13"][href=""] { display:none !important; }
+  /* The builder leaves a labelless anchor on most of these pages - sometimes
+     with no destination, sometimes pointing at a long-retired product. It was
+     invisible while these anchors had no background, so giving them one would
+     turn it into a blank lime blob. Hide it both ways: :empty covers the
+     markup, and the runtime sweep below covers whitespace-only variants. */
+  :root:root:root a[style*="2cbc13"][href=""],
+  :root:root:root a[style*="2cbc13"]:empty,
+  :root:root:root a[style*="2cbc13"].hlt-blank { display:none !important; }
 
   /* The theme packs copy edge to edge at a 1.25 line-height, which reads
      cramped next to the rest of this site. Loosen it without touching the
