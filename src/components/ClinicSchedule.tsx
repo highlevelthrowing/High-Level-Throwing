@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getClinics } from "@/lib/clinics";
+import JsonLd from "@/components/JsonLd";
+import { SITE_URL } from "@/lib/site";
 
 export default async function ClinicSchedule() {
   const clinics = await getClinics();
@@ -15,7 +17,41 @@ export default async function ClinicSchedule() {
   }
 
   return (
-    <div className="clinic-grid">
+    <>
+      {/* Each upcoming clinic as an Event, so dates and locations can surface
+          directly in search for people looking for a clinic near them. */}
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: clinics.map((clinic, index) => ({
+            "@type": "ListItem",
+            position: index + 1,
+            item: {
+              "@type": "Event",
+              name: `High Level Throwing® Clinic — ${clinic.title}`,
+              startDate: clinic.start,
+              endDate: clinic.end,
+              eventStatus: "https://schema.org/EventScheduled",
+              eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+              location: { "@type": "Place", name: clinic.title, address: clinic.title },
+              image: clinic.image ?? undefined,
+              description: clinic.blurb || "High Level Throwing® on-site clinic.",
+              url: clinic.registerHref
+                ? clinic.external
+                  ? clinic.registerHref
+                  : `${SITE_URL}${clinic.registerHref}`
+                : `${SITE_URL}/clinics`,
+              organizer: {
+                "@type": "Organization",
+                name: "High Level Throwing®",
+                url: SITE_URL,
+              },
+            },
+          })),
+        }}
+      />
+      <div className="clinic-grid">
       {clinics.map((clinic) => (
         <article className="clinic-card" key={clinic.id}>
           <div className="clinic-card-media">
@@ -52,6 +88,7 @@ export default async function ClinicSchedule() {
           </div>
         </article>
       ))}
-    </div>
+      </div>
+    </>
   );
 }

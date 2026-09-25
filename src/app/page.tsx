@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import TrustedByLogos from "@/components/TrustedByLogos";
+import JsonLd from "@/components/JsonLd";
+import { SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProductByHandle } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
@@ -115,6 +117,30 @@ export default async function Home() {
 
   return (
     <div className="home">
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: "High Level Throwing®",
+          url: SITE_URL,
+          logo: `${SITE_URL}/icon.png`,
+          description: SITE_DESCRIPTION,
+          email: "austin@highlevelthrowing.com",
+          sameAs: [
+            "https://www.facebook.com/HighLevelThrowing",
+            "https://www.instagram.com/highlevelthrowinghlt",
+            "https://twitter.com/Wass_Strength",
+          ],
+        }}
+      />
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          name: "High Level Throwing®",
+          url: SITE_URL,
+        }}
+      />
       <section className="hero section-photo section-photo--banner">
         <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">

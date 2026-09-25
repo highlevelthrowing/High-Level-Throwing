@@ -8,6 +8,7 @@ import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import TrackProductView from "@/components/TrackProductView";
+import JsonLd from "@/components/JsonLd";
 
 export async function generateMetadata({
   params,
@@ -74,8 +75,36 @@ export default async function ProductPage({
     product.productType === "Programs" ||
     product.tags.includes("Training Books");
 
+  const inStock = product.variants.some((v) => v.availableForSale);
+  const productUrl = `${SITE_URL}/products/${encodeURIComponent(product.handle)}`;
+
   return (
     <section>
+      <JsonLd
+        data={{
+          "@context": "https://schema.org",
+          "@type": "Product",
+          name: product.title,
+          description: metaDescription(product.description || product.descriptionHtml),
+          image: (product.images.length > 0
+            ? product.images
+            : [product.featuredImage].filter(Boolean)
+          ).map((img) => img!.url),
+          brand: { "@type": "Brand", name: "High Level Throwing®" },
+          url: productUrl,
+          offers: {
+            "@type": "Offer",
+            url: productUrl,
+            price: product.priceRange.minVariantPrice.amount,
+            priceCurrency: product.priceRange.minVariantPrice.currencyCode,
+            availability: inStock
+              ? "https://schema.org/InStock"
+              : "https://schema.org/OutOfStock",
+            itemCondition: "https://schema.org/NewCondition",
+            seller: { "@type": "Organization", name: "High Level Throwing®" },
+          },
+        }}
+      />
       <TrackProductView
         title={product.title}
         handle={product.handle}
