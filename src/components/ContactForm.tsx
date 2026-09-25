@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useState } from "react";
 import { useFormStatus } from "react-dom";
 import { submitContact, type ContactState } from "@/app/contact/actions";
 
@@ -17,9 +17,30 @@ function SubmitButton() {
 
 export default function ContactForm() {
   const [state, formAction] = useActionState(submitContact, INITIAL);
+  const [toast, setToast] = useState(false);
+
+  // A confirmation that is hard to miss, on top of the panel that replaces the
+  // form. It clears itself so it does not sit over the page.
+  useEffect(() => {
+    if (state.status !== "sent") return;
+    setToast(true);
+    const timer = setTimeout(() => setToast(false), 5000);
+    return () => clearTimeout(timer);
+  }, [state.status]);
+
+  const sentToast = toast ? (
+    <div className="contact-toast" role="status" aria-live="polite">
+      <span className="contact-toast-check" aria-hidden="true">
+        ✓
+      </span>
+      Sent!
+    </div>
+  ) : null;
 
   if (state.status === "sent") {
     return (
+      <>
+        {sentToast}
       <div className="contact-sent" role="status">
         <h3>Message sent</h3>
         <p>{state.message ?? "Thanks for reaching out — we'll get back to you shortly."}</p>
@@ -27,6 +48,7 @@ export default function ContactForm() {
           Need us sooner? Email <a href="mailto:austin@highlevelthrowing.com">austin@highlevelthrowing.com</a>.
         </p>
       </div>
+      </>
     );
   }
 
