@@ -53,8 +53,19 @@ function usePageViews() {
  * Nothing is lost by waiting: _learnq is a queue, so any event pushed before
  * the script arrives (an Added to Cart, an identify) is flushed once it loads.
  */
+// Klaviyo's signup form is configured in the Klaviyo account, not here, so the
+// only way to keep it off a page is to not load Klaviyo there. Clinic and
+// registration pages are mid-purchase — a discount pop-up over a registration
+// form costs more than it earns.
+function isPopupFreePath(pathname: string): boolean {
+  return pathname === "/clinics" || pathname.startsWith("/clinics/") || pathname.startsWith("/pages/");
+}
+
 function useDeferredKlaviyo() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (isPopupFreePath(pathname)) return;
     if (document.getElementById("klaviyo-onsite")) return;
 
     let done = false;
@@ -86,7 +97,7 @@ function useDeferredKlaviyo() {
     window.addEventListener("pointerdown", load, { once: true });
 
     return cleanup;
-  }, []);
+  }, [pathname]);
 }
 
 export default function Analytics() {
