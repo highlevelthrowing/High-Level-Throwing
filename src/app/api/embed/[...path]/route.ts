@@ -193,7 +193,29 @@ const EMBED_RUNTIME = /* html */ `
     }
   }
 
-  function tick() { fixLinks(); fixContrast(); reportHeight(); }
+  // Some clinic pages embed the logo as artwork with a white background baked
+  // into the pixels, which reads as a white box on this site's black. No CSS
+  // fixes that, so swap it for the version drawn on a dark ground.
+  var WHITE_BOX_LOGOS = /Sponsorship_Logo|HLTLogoWhite|HLT_Logo_White/i;
+
+  function fixLogos() {
+    if (!parentOrigin) return;
+    var dark = parentOrigin + "/images/hlt-logo-dark.png";
+    var imgs = document.getElementsByTagName("img");
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.dataset && img.dataset.hltLogo) continue;
+      var src = img.getAttribute("src") || "";
+      var srcset = img.getAttribute("srcset") || "";
+      if (!WHITE_BOX_LOGOS.test(src) && !WHITE_BOX_LOGOS.test(srcset)) continue;
+      img.removeAttribute("srcset");
+      img.removeAttribute("sizes");
+      img.setAttribute("src", dark);
+      if (img.dataset) img.dataset.hltLogo = "1";
+    }
+  }
+
+  function tick() { fixLinks(); fixLogos(); fixContrast(); reportHeight(); }
 
   // fixLinks only runs on load and on DOM changes, so a click that lands before
   // it has swept (or on markup it has not seen) could still escape to the

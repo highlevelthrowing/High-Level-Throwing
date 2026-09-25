@@ -60,6 +60,20 @@ async function recordInKlaviyo(fields: {
   }
 }
 
+const SITE_URL = "https://www.highlevelthrowing.com/contact";
+
+/**
+ * Emails the enquiry via FormSubmit (https://formsubmit.co) — the same
+ * service already used successfully on hlt-utah-clinics. No API key or
+ * account setup required, but two things a plain HTML form gets for free
+ * don't apply to a server action, so this fills them in by hand:
+ *
+ * - FormSubmit requires a browser-like Referer/Origin to accept the
+ *   request at all; a server-to-server fetch sends neither on its own.
+ * - It reports errors with HTTP 200 + `{success:"false", message:...}`
+ *   (e.g. "needs activation" the first time a new site emails a given
+ *   address), so `res.ok` alone can't tell success from failure.
+ */
 async function sendEmail(fields: {
   email: string;
   firstName: string;
@@ -67,33 +81,35 @@ async function sendEmail(fields: {
   phone: string;
   comment: string;
 }): Promise<boolean> {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return false;
-
-  const from = process.env.CONTACT_FROM_EMAIL || "High Level Throwing <onboarding@resend.dev>";
   const name = [fields.firstName, fields.lastName].filter(Boolean).join(" ") || "Website visitor";
 
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${apiKey}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from,
-      to: [TO_EMAIL, CLINIC_EMAIL],
-      reply_to: fields.email,
-      subject: `Website enquiry from ${name}`,
-      text: [
-        `Name:  ${name}`,
-        `Email: ${fields.email}`,
-        `Phone: ${fields.phone || "—"}`,
-        "",
-        fields.comment || "(no message)",
-        "",
-        "— sent from the contact form on highlevelthrowing.com",
-      ].join("\n"),
-    }),
-  });
-
-  return res.ok;
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${TO_EMAIL}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Referer: SITE_URL,
+        Origin: "https://www.highlevelthrowing.com",
+      },
+      body: JSON.stringify({
+        name,
+        email: fields.email,
+        phone: fields.phone || "—",
+        message: fields.comment || "(no message)",
+        _subject: `Website enquiry from ${name}`,
+        _cc: CLINIC_EMAIL,
+        _replyto: fields.email,
+        _template: "table",
+        _captcha: "false",
+      }),
+    });
+    if (!res.ok) return false;
+    const data = (await res.json()) as { success?: string | boolean };
+    return data.success === true || data.success === "true";
+  } catch {
+    return false;
+  }
 }
 
 export async function submitContact(
@@ -117,26 +133,13 @@ export async function submitContact(
 
   await recordInKlaviyo(fields);
 
-  try {
-    const emailed = await sendEmail(fields);
-    if (!emailed && !process.env.RESEND_API_KEY) {
-      // Nothing was lost — the enquiry is on the Klaviyo profile — but be
-      // honest rather than claiming an email went out.
-      return {
-        status: "sent",
-        message: "Thanks — we've got your details and will be in touch shortly.",
-      };
-    }
-    if (!emailed) {
-      return {
-        status: "error",
-        message: `Something went wrong sending that. Please email us directly at ${TO_EMAIL}.`,
-      };
-    }
-  } catch {
+  const emailed = await sendEmail(fields);
+  if (!emailed) {
+    // Nothing was lost — the enquiry is on the Klaviyo profile either way —
+    // but be honest rather than claiming an email went out.
     return {
-      status: "error",
-      message: `Something went wrong sending that. Please email us directly at ${TO_EMAIL}.`,
+      status: "sent",
+      message: "Thanks — we've got your details and will be in touch shortly.",
     };
   }
 
