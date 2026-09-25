@@ -3,6 +3,7 @@
 const TO_EMAIL = "austin@highlevelthrowing.com";
 const CLINIC_EMAIL = "highlevelthrowinghlt@gmail.com";
 const KLAVIYO_COMPANY_ID = "QP3GE9";
+const SITE_URL = "https://www.highlevelthrowing.com/contact";
 
 export type ContactState = {
   status: "idle" | "sent" | "error";
@@ -59,8 +60,6 @@ async function recordInKlaviyo(fields: {
     // Capture is best-effort; a Klaviyo outage must not lose the enquiry.
   }
 }
-
-const SITE_URL = "https://www.highlevelthrowing.com/contact";
 
 /**
  * Emails the enquiry via FormSubmit (https://formsubmit.co) — the same
