@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -15,43 +16,7 @@ export default function ContactPage() {
 
       <div className="split">
         <div className="col-text">
-          <form
-            className="contact-form"
-            method="post"
-            action="https://highlevelthrowing.com/contact#ContactForm"
-            acceptCharset="UTF-8"
-            target="_blank"
-          >
-            <input type="hidden" name="form_type" value="contact" />
-            <input type="hidden" name="utf8" value="✓" />
-            <div className="contact-form-row">
-              <div className="contact-field">
-                <label htmlFor="first-name">First Name</label>
-                <input type="text" id="first-name" name="contact[First Name]" autoComplete="given-name" />
-              </div>
-              <div className="contact-field">
-                <label htmlFor="last-name">Last Name</label>
-                <input type="text" id="last-name" name="contact[Last Name]" autoComplete="family-name" />
-              </div>
-            </div>
-            <div className="contact-form-row">
-              <div className="contact-field">
-                <label htmlFor="phone">Phone Number</label>
-                <input type="tel" id="phone" name="contact[Phone number]" autoComplete="tel" />
-              </div>
-              <div className="contact-field">
-                <label htmlFor="email">Email *</label>
-                <input type="email" id="email" name="contact[email]" autoComplete="email" required />
-              </div>
-            </div>
-            <div className="contact-field">
-              <label htmlFor="comment">Comment</label>
-              <textarea id="comment" name="contact[Comment]" />
-            </div>
-            <button type="submit" className="btn btn-primary" style={{ alignSelf: "flex-start" }}>
-              Send Message
-            </button>
-          </form>
+          <ContactForm />
         </div>
 
         <div className="contact-info-card">
