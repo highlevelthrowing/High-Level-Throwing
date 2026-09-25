@@ -46,6 +46,25 @@ const nextConfig: NextConfig = {
       // without this they 404. The token in the path is what authorises the
       // download, and a redirect carries it through untouched.
       { source: "/a/:path*", destination: `${SHOPIFY_STORE}/a/:path*`, permanent: false },
+      // Everything else Shopify owns that this domain used to answer for, and
+      // that customer emails, marketing links and ads still point at:
+      //   /orders/<token>   order status page in every confirmation email
+      //   /account*         customer login and order history
+      //   /discount/<code>  discount links sent from Klaviyo and ads
+      //   /checkouts/*      abandoned-checkout recovery links
+      //   /cart/<id>:<qty>  add-to-cart permalinks used in campaigns
+      //   /policies/*       the canonical policy pages Shopify links to
+      // :path+ on /cart matches only sub-paths, so this site's own cart page
+      // is untouched.
+      { source: "/orders/:path*", destination: `${SHOPIFY_STORE}/orders/:path*`, permanent: false },
+      { source: "/account", destination: `${SHOPIFY_STORE}/account`, permanent: false },
+      { source: "/account/:path*", destination: `${SHOPIFY_STORE}/account/:path*`, permanent: false },
+      { source: "/discount/:path*", destination: `${SHOPIFY_STORE}/discount/:path*`, permanent: false },
+      { source: "/checkouts/:path*", destination: `${SHOPIFY_STORE}/checkouts/:path*`, permanent: false },
+      { source: "/cart/:path+", destination: `${SHOPIFY_STORE}/cart/:path+`, permanent: false },
+      { source: "/policies/:path*", destination: `${SHOPIFY_STORE}/policies/:path*`, permanent: false },
+      { source: "/apps/:path*", destination: `${SHOPIFY_STORE}/apps/:path*`, permanent: false },
+      { source: "/tools/:path*", destination: `${SHOPIFY_STORE}/tools/:path*`, permanent: false },
       // Collections used to render on the Shopify theme. Sending people there
       // now drops them onto the old storefront, so keep them in the shop here.
       { source: "/collections/:path*", destination: "/shop", permanent: false },
