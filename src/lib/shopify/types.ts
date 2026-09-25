@@ -14,6 +14,11 @@ export type ProductVariant = {
   id: string;
   title: string;
   availableForSale: boolean;
+  /**
+   * Spots left. Undefined when the token has no inventory scope, in which case
+   * the quantity control falls back to the per-order cap alone.
+   */
+  quantityAvailable?: number | null;
   price: Money;
   image: ShopifyImage | null;
   selectedOptions: { name: string; value: string }[];

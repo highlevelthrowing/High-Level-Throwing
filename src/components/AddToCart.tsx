@@ -38,10 +38,14 @@ export default function AddToCart({
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
 
-  // Reading real stock here needs the Storefront token's inventory scope, which
-  // it does not have, so this is the per-order ceiling only. Shopify still
+  // Spots left, when the token's inventory scope lets us read it. Without it
+  // this is undefined and only the per-order ceiling applies; Shopify still
   // refuses to oversell at checkout because every session is DENY on stockout.
-  const maxQuantity = MAX_PER_ORDER;
+  const remaining = selectedVariant?.quantityAvailable;
+  const knowsRemaining = typeof remaining === "number" && remaining > 0;
+  const maxQuantity = knowsRemaining
+    ? Math.max(1, Math.min(MAX_PER_ORDER, remaining))
+    : MAX_PER_ORDER;
   const atMax = quantity >= maxQuantity;
 
   // Switching to a variant with fewer spots left must pull the chosen quantity
@@ -194,6 +198,12 @@ export default function AddToCart({
           {!selectedVariant?.availableForSale ? "Sold Out" : isPending ? "Adding…" : added ? "Added ✓" : "Add to Cart"}
         </button>
       </div>
+
+      {knowsRemaining && (
+        <p className={`spots-left${remaining <= 5 ? " spots-left--low" : ""}`} role="status">
+          {remaining === 1 ? "1 spot left" : `${remaining} spots left`}
+        </p>
+      )}
     </div>
   );
 }
