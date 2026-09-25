@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/lib/shopify/cart";
 import { trackAddedToCart } from "@/lib/klaviyo";
@@ -12,6 +12,9 @@ import type { ProductVariant } from "@/lib/shopify/types";
 // Product Options app and stores them under these keys, so orders placed here
 // match the format the existing fulfilment process already reads.
 const GPO_OPTION_SET = "747605";
+
+// Clinic sessions are capped at 18 spots, so one order can never exceed that.
+const MAX_PER_ORDER = 18;
 
 export default function AddToCart({
   variants,
@@ -34,6 +37,19 @@ export default function AddToCart({
   const router = useRouter();
 
   const selectedVariant = variants.find((v) => v.id === selectedVariantId) ?? variants[0];
+
+  // Reading real stock here needs the Storefront token's inventory scope, which
+  // it does not have, so this is the per-order ceiling only. Shopify still
+  // refuses to oversell at checkout because every session is DENY on stockout.
+  const maxQuantity = MAX_PER_ORDER;
+  const atMax = quantity >= maxQuantity;
+
+  // Switching to a variant with fewer spots left must pull the chosen quantity
+  // down with it, or the cap could be stepped around by picking a fuller
+  // session first.
+  useEffect(() => {
+    setQuantity((q) => Math.min(q, maxQuantity));
+  }, [maxQuantity]);
 
   function handleAdd() {
     if (!selectedVariant) return;
@@ -160,7 +176,12 @@ export default function AddToCart({
             −
           </button>
           <span>{quantity}</span>
-          <button type="button" onClick={() => setQuantity((q) => q + 1)} aria-label="Increase quantity">
+          <button
+            type="button"
+            onClick={() => setQuantity((q) => Math.min(maxQuantity, q + 1))}
+            disabled={atMax}
+            aria-label="Increase quantity"
+          >
             +
           </button>
         </div>
