@@ -15,8 +15,63 @@ function SubmitButton() {
   );
 }
 
+const FORMSUBMIT_TO = "austin@highlevelthrowing.com";
+const FORMSUBMIT_CC = "highlevelthrowinghlt@gmail.com";
+
+/**
+ * FormSubmit only accepts requests that carry a real browser Origin, so this
+ * runs here rather than in the server action — a server-to-server call is
+ * rejected with success:"false".
+ */
+async function emailViaFormSubmit(formData: FormData): Promise<boolean> {
+  const name =
+    [formData.get("firstName"), formData.get("lastName")]
+      .map((v) => String(v ?? "").trim())
+      .filter(Boolean)
+      .join(" ") || "Website visitor";
+
+  try {
+    const res = await fetch(`https://formsubmit.co/ajax/${FORMSUBMIT_TO}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify({
+        name,
+        email: String(formData.get("email") ?? ""),
+        phone: String(formData.get("phone") ?? "") || "—",
+        message: String(formData.get("comment") ?? "") || "(no message)",
+        _subject: `Website enquiry from ${name}`,
+        _cc: FORMSUBMIT_CC,
+        _replyto: String(formData.get("email") ?? ""),
+        _template: "table",
+        _captcha: "false",
+      }),
+    });
+    if (!res.ok) return false;
+    const body = (await res.json().catch(() => null)) as { success?: string | boolean } | null;
+    return body?.success === true || body?.success === "true";
+  } catch {
+    return false;
+  }
+}
+
 export default function ContactForm() {
-  const [state, formAction] = useActionState(submitContact, INITIAL);
+  const [state, formAction] = useActionState(
+    async (prev: ContactState, formData: FormData): Promise<ContactState> => {
+      // Record it server-side first so the enquiry is captured even if the
+      // mail hop fails, then send the email from here where it is accepted.
+      const recorded = await submitContact(prev, formData);
+      if (recorded.status === "error") return recorded;
+
+      const emailed = await emailViaFormSubmit(formData);
+      return emailed
+        ? { status: "sent" }
+        : {
+            status: "sent",
+            message: "Thanks — we've got your details and will be in touch shortly.",
+          };
+    },
+    INITIAL
+  );
   const [toast, setToast] = useState(false);
 
   // A confirmation dialog over the page, on top of the panel that replaces the
