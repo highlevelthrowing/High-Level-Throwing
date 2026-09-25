@@ -19,28 +19,42 @@ export default function ContactForm() {
   const [state, formAction] = useActionState(submitContact, INITIAL);
   const [toast, setToast] = useState(false);
 
-  // A confirmation that is hard to miss, on top of the panel that replaces the
-  // form. It clears itself so it does not sit over the page.
+  // A confirmation dialog over the page, on top of the panel that replaces the
+  // form — it stays until dismissed so it cannot be missed.
   useEffect(() => {
     if (state.status !== "sent") return;
     setToast(true);
-    const timer = setTimeout(() => setToast(false), 5000);
-    return () => clearTimeout(timer);
+
+    // Escape closes it, like any other dialog.
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setToast(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
   }, [state.status]);
 
-  const sentToast = toast ? (
-    <div className="contact-toast" role="status" aria-live="polite">
-      <span className="contact-toast-check" aria-hidden="true">
-        ✓
-      </span>
-      Sent!
+  const sentModal = toast ? (
+    <div className="contact-modal-backdrop" role="presentation" onClick={() => setToast(false)}>
+      <div
+        className="contact-modal"
+        role="alertdialog"
+        aria-modal="true"
+        aria-labelledby="contact-sent-title"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <h2 id="contact-sent-title">Sent!</h2>
+        <p>Thanks — we will be in touch shortly.</p>
+        <button type="button" className="btn btn-primary" onClick={() => setToast(false)} autoFocus>
+          Close
+        </button>
+      </div>
     </div>
   ) : null;
 
   if (state.status === "sent") {
     return (
       <>
-        {sentToast}
+        {sentModal}
       <div className="contact-sent" role="status">
         <h3>Message sent</h3>
         <p>{state.message ?? "Thanks for reaching out — we'll get back to you shortly."}</p>

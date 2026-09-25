@@ -683,23 +683,28 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 }
 .contact-form button[disabled]{opacity:0.6;cursor:progress;}
 
-/* CONTACT "SENT!" TOAST */
-.contact-toast{
-  position:fixed;top:92px;left:50%;transform:translateX(-50%);
-  z-index:200;display:flex;align-items:center;gap:10px;
-  background:var(--lime);color:var(--navy);
-  font-weight:900;font-size:1rem;letter-spacing:0.5px;
-  padding:14px 26px;border-radius:999px;
-  box-shadow:0 14px 40px rgba(0,0,0,0.55), 0 0 0 1px rgba(198,255,46,0.5);
-  animation:contact-toast-in .28s ease-out;
+/* CONTACT "SENT!" DIALOG */
+.contact-modal-backdrop{
+  position:fixed;inset:0;z-index:200;display:flex;align-items:center;justify-content:center;
+  padding:24px;background:rgba(0,0,0,0.72);backdrop-filter:blur(3px);
+  animation:contact-modal-fade .2s ease-out;
 }
-.contact-toast-check{
-  display:flex;align-items:center;justify-content:center;
-  width:22px;height:22px;border-radius:50%;
-  background:var(--navy);color:var(--lime);font-size:0.8rem;
+.contact-modal{
+  width:100%;max-width:440px;text-align:center;
+  background:var(--card);border:2px solid var(--lime);border-radius:22px;
+  padding:40px 36px 36px;box-shadow:0 30px 80px rgba(0,0,0,0.7);
+  animation:contact-modal-in .24s ease-out;
 }
-@keyframes contact-toast-in{
-  from{opacity:0;transform:translateX(-50%) translateY(-12px);}
-  to{opacity:1;transform:translateX(-50%) translateY(0);}
+.contact-modal h2{
+  color:var(--lime);font-size:2.6rem;font-weight:900;margin:0 0 14px;line-height:1.05;
 }
-@media (prefers-reduced-motion:reduce){ .contact-toast{animation:none;} }
+.contact-modal p{color:var(--text);font-size:1.02rem;margin:0 0 28px;}
+.contact-modal .btn{min-width:170px;}
+@keyframes contact-modal-fade{ from{opacity:0;} to{opacity:1;} }
+@keyframes contact-modal-in{
+  from{opacity:0;transform:translateY(14px) scale(0.97);}
+  to{opacity:1;transform:translateY(0) scale(1);}
+}
+@media (prefers-reduced-motion:reduce){
+  .contact-modal,.contact-modal-backdrop{animation:none;}
+}
