@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { getClinics } from "@/lib/clinics";
+import { formatClinicDate, getClinics } from "@/lib/clinics";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
@@ -69,6 +69,7 @@ export default async function ClinicSchedule() {
           </div>
 
           <div className="clinic-card-body">
+            <div className="clinic-card-when">{formatClinicDate(clinic)}</div>
             <h3 className="clinic-card-title">{clinic.title}</h3>
             {clinic.blurb && <p className="clinic-card-blurb">{clinic.blurb}</p>}
 
