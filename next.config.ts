@@ -40,6 +40,12 @@ const nextConfig: NextConfig = {
         destination: "/video-assessment",
         permanent: false,
       },
+      // Shopify app-proxy paths. Digital download links are issued under
+      // /a/downloads/... on the shop's own domain — every link already emailed
+      // to a customer points here, and this domain now answers from Vercel, so
+      // without this they 404. The token in the path is what authorises the
+      // download, and a redirect carries it through untouched.
+      { source: "/a/:path*", destination: `${SHOPIFY_STORE}/a/:path*`, permanent: false },
       // Collections used to render on the Shopify theme. Sending people there
       // now drops them onto the old storefront, so keep them in the shop here.
       { source: "/collections/:path*", destination: "/shop", permanent: false },
