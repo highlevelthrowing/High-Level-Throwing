@@ -37,7 +37,7 @@ const LOGOS: { src: string; alt: string; glow?: boolean; bg?: string }[] = [
 export default function TrustedByLogos() {
   return (
     <section className="trusted-by">
-      <h2 className="trusted-label">Trusted By Programs &amp; Organizations Including</h2>
+      <h3 className="trusted-label">Trusted By Programs &amp; Organizations Including</h3>
       <div className="trusted-grid">
         {LOGOS.map((logo) => (
           <div className="trusted-logo" key={logo.alt} style={logo.bg ? { background: logo.bg } : undefined}>
