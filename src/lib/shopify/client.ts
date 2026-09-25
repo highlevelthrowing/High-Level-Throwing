@@ -17,24 +17,11 @@ export function isShopifyConfigured(): boolean {
 
 /**
  * quantityAvailable needs the token's unauthenticated_read_product_inventory
- * scope. Rather than hard-code whether it is granted, ask for it and remember
- * the answer: if the scope is turned on in Shopify later, the next cold start
- * picks it up with no redeploy, and until then queries quietly go without.
+ * scope. It is granted, but rather than depend on that staying true, a query
+ * refused for want of it is retried once without the field. No per-server
+ * memory of the outcome: that made servers disagree about whether to ask, so
+ * the same page showed a count on one request and not the next.
  */
-let inventoryScopeGranted: boolean | null = null;
-let inventoryScopeCheckedAt = 0;
-
-// A denial is remembered only briefly. Otherwise a server that started before
-// the scope was granted would keep stripping the field until it was replaced,
-// and the counts would stay missing long after Shopify started allowing them.
-const SCOPE_RECHECK_MS = 60_000;
-
-function scopeDeniedRecently(): boolean {
-  return (
-    inventoryScopeGranted === false && Date.now() - inventoryScopeCheckedAt < SCOPE_RECHECK_MS
-  );
-}
-
 const INVENTORY_FIELD = /^\s*quantityAvailable\s*$/m;
 
 function withoutInventory(query: string): string {
@@ -47,10 +34,6 @@ function isInventoryScopeError(errors: { message: string }[]): boolean {
       e.message.includes("quantityAvailable") &&
       e.message.includes("unauthenticated_read_product_inventory")
   );
-}
-
-export function hasInventoryScope(): boolean {
-  return inventoryScopeGranted === true;
 }
 
 export async function shopifyFetch<T>({
@@ -92,17 +75,11 @@ export async function shopifyFetch<T>({
   }
 
   const asksForInventory = INVENTORY_FIELD.test(query);
-  const sentQuery = asksForInventory && scopeDeniedRecently() ? withoutInventory(query) : query;
 
-  let json = await send(JSON.stringify({ query: sentQuery, variables }));
+  let json = await send(JSON.stringify({ query, variables }));
 
   if (json.errors && asksForInventory && isInventoryScopeError(json.errors)) {
-    inventoryScopeGranted = false;
-    inventoryScopeCheckedAt = Date.now();
     json = await send(JSON.stringify({ query: withoutInventory(query), variables }));
-  } else if (!json.errors && asksForInventory && sentQuery === query) {
-    inventoryScopeGranted = true;
-    inventoryScopeCheckedAt = Date.now();
   }
 
   if (json.errors) {
