@@ -61,6 +61,16 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*announcement-bar"[\s\S]*?(?=<main[^>]*id="MainContent")/i, "");
   html = html.replace(/<div[^>]*id="shopify-section-[^"]*__footer"[\s\S]*?(?=<\/body>)/i, "");
 
+  // The theme carries its own Klaviyo onsite script, which fires the 15% OFF
+  // signup pop-up from inside the iframe. Suppressing Klaviyo on the parent
+  // page does nothing about that, so the script is removed here: someone part
+  // way through registering for a clinic should not be interrupted.
+  html = html.replace(
+    /<script[^>]*static\.klaviyo\.com[^>]*>\s*<\/script>/gi,
+    ""
+  );
+  html = html.replace(/<script[^>]*\bklaviyo\b[^>]*\/>/gi, "");
+
   // The theme goes in last, after the section <style> blocks Shopify emits in
   // the body — those are more specific and carry !important, so a stylesheet in
   // <head> loses to them.
