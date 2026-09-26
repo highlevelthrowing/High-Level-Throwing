@@ -14,7 +14,7 @@ export async function GET(
   const { code: raw } = await params;
   const code = decodeURIComponent(raw).trim();
 
-  const applied = code ? await applyDiscountCode(code) : false;
+  if (code) await applyDiscountCode(code);
 
   // Shopify supports ?redirect=/path on its discount links, so honour the same
   // parameter. Only same-site paths, so the link cannot bounce people offsite.
@@ -22,8 +22,7 @@ export async function GET(
   const path = requested.startsWith("/") && !requested.startsWith("//") ? requested : "/";
 
   const destination = new URL(path, SITE_URL);
-  destination.searchParams.set("discount", code);
-  if (!applied) destination.searchParams.set("discount_applied", "false");
+  if (code) destination.searchParams.set("discount", code);
 
   return NextResponse.redirect(destination, { status: 302 });
 }

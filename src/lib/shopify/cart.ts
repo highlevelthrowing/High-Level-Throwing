@@ -152,9 +152,12 @@ export async function applyDiscountCode(code: string): Promise<boolean> {
     });
 
     const codes = res.cartDiscountCodesUpdate.cart?.discountCodes ?? [];
-    // Shopify accepts an unknown code and simply marks it inapplicable, so the
-    // flag is what decides whether the visitor actually got a discount.
-    return codes.some((c) => c.code.toLowerCase() === code.toLowerCase() && c.applicable);
+    // Not "applicable" — a product-specific code reads as inapplicable until a
+    // qualifying item is in the cart, and Shopify reports an unknown code the
+    // same way, so applicability says nothing useful at this point. Attaching
+    // it is what matters: Shopify applies it at checkout once the cart
+    // qualifies.
+    return codes.some((c) => c.code.toLowerCase() === code.toLowerCase());
   } catch {
     return false;
   }
