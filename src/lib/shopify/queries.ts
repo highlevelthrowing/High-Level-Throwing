@@ -212,6 +212,16 @@ export const CART_LINES_UPDATE_MUTATION = /* GraphQL */ `
   }
 `;
 
+export const CART_DISCOUNT_CODES_UPDATE_MUTATION = /* GraphQL */ `
+  mutation CartDiscountCodesUpdate($cartId: ID!, $discountCodes: [String!]) {
+    cartDiscountCodesUpdate(cartId: $cartId, discountCodes: $discountCodes) {
+      cart { ...CartFields }
+      userErrors { field message }
+    }
+  }
+  ${CART_FRAGMENT}
+`;
+
 export const CART_LINES_REMOVE_MUTATION = /* GraphQL */ `
   ${CART_FRAGMENT}
   mutation CartLinesRemove($cartId: ID!, $lineIds: [ID!]!) {

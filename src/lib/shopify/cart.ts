@@ -8,6 +8,7 @@ import {
   CART_LINES_ADD_MUTATION,
   CART_LINES_REMOVE_MUTATION,
   CART_LINES_UPDATE_MUTATION,
+  CART_DISCOUNT_CODES_UPDATE_MUTATION,
   GET_CART_QUERY,
 } from "./queries";
 import type { Cart, CartLine } from "./types";
@@ -114,4 +115,47 @@ export async function removeCartLine(lineId: string) {
 
   revalidatePath("/cart");
   revalidatePath("/", "layout");
+}
+
+/**
+ * Puts a discount code on the visitor's cart so it is already applied when they
+ * reach checkout. Creates an empty cart first if they have not started one —
+ * a shared discount link is usually the first thing someone clicks, before
+ * they have added anything.
+ */
+export async function applyDiscountCode(code: string): Promise<boolean> {
+  let cartId = await getCartId();
+
+  if (!cartId) {
+    const created = await shopifyFetch<{
+      cartCreate: { cart: RawCart | null };
+    }>({
+      query: CART_CREATE_MUTATION,
+      variables: { lines: [] },
+      cache: "no-store",
+    });
+    cartId = created.cartCreate.cart?.id;
+    if (!cartId) return false;
+    await setCartId(cartId);
+  }
+
+  try {
+    const res = await shopifyFetch<{
+      cartDiscountCodesUpdate: {
+        cart: { discountCodes: { code: string; applicable: boolean }[] } | null;
+        userErrors: { message: string }[];
+      };
+    }>({
+      query: CART_DISCOUNT_CODES_UPDATE_MUTATION,
+      variables: { cartId, discountCodes: [code] },
+      cache: "no-store",
+    });
+
+    const codes = res.cartDiscountCodesUpdate.cart?.discountCodes ?? [];
+    // Shopify accepts an unknown code and simply marks it inapplicable, so the
+    // flag is what decides whether the visitor actually got a discount.
+    return codes.some((c) => c.code.toLowerCase() === code.toLowerCase() && c.applicable);
+  } catch {
+    return false;
+  }
 }

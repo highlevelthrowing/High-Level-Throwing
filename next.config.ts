@@ -50,7 +50,6 @@ const nextConfig: NextConfig = {
       // that customer emails, marketing links and ads still point at:
       //   /orders/<token>   order status page in every confirmation email
       //   /account*         customer login and order history
-      //   /discount/<code>  discount links sent from Klaviyo and ads
       //   /checkouts/*      abandoned-checkout recovery links
       //   /cart/<id>:<qty>  add-to-cart permalinks used in campaigns
       //   /policies/*       the canonical policy pages Shopify links to
@@ -59,7 +58,6 @@ const nextConfig: NextConfig = {
       { source: "/orders/:path*", destination: `${SHOPIFY_STORE}/orders/:path*`, permanent: false },
       { source: "/account", destination: `${SHOPIFY_STORE}/account`, permanent: false },
       { source: "/account/:path*", destination: `${SHOPIFY_STORE}/account/:path*`, permanent: false },
-      { source: "/discount/:path*", destination: `${SHOPIFY_STORE}/discount/:path*`, permanent: false },
       { source: "/checkouts/:path*", destination: `${SHOPIFY_STORE}/checkouts/:path*`, permanent: false },
       { source: "/cart/:path+", destination: `${SHOPIFY_STORE}/cart/:path+`, permanent: false },
       { source: "/policies/:path*", destination: `${SHOPIFY_STORE}/policies/:path*`, permanent: false },
