@@ -40,8 +40,10 @@ async function articleTitle(segments: string[]): Promise<string | null> {
     .replace(/&amp;/g, "&")
     .replace(/\s+/g, " ")
     .trim();
-  // Shopify appends the shop name after a pipe or dash.
-  const title = raw.split(/\s+[|\u2013\u2014-]\s+/)[0].trim();
+  // Strip only the trailing shop name, and only that. Splitting on the first
+  // separator truncated real titles that contain one, turning "Softball
+  // Throwing Velocity - NEW Leader" into "Softball Throwing Velocity".
+  const title = raw.replace(/\s*[|\u2013\u2014-]\s*High Level Throwing\s*$/i, "").trim();
   return title || null;
 }
 
