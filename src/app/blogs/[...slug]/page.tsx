@@ -29,14 +29,19 @@ async function articleTitle(segments: string[]): Promise<string | null> {
   const html = await res.text();
   const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
   if (!match) return null;
+  // Decode before splitting: the separator Shopify uses is the entity
+  // "&ndash;", not the character, so splitting first leaves it in the title.
+  // "&amp;" goes last so an escaped entity is not decoded twice.
   const raw = match[1]
+    .replace(/&(?:ndash|#8211);/g, "\u2013")
+    .replace(/&(?:mdash|#8212);/g, "\u2014")
+    .replace(/&(?:rsquo|#8217|#39|apos);/g, "\u2019")
+    .replace(/&(?:quot|#34);/g, '"')
     .replace(/&amp;/g, "&")
-    .replace(/&#39;|&rsquo;|&apos;/g, "\u2019")
-    .replace(/&quot;/g, '"')
     .replace(/\s+/g, " ")
     .trim();
   // Shopify appends the shop name after a pipe or dash.
-  const title = raw.split(/\s+[|\u2013-]\s+/)[0].trim();
+  const title = raw.split(/\s+[|\u2013\u2014-]\s+/)[0].trim();
   return title || null;
 }
 
