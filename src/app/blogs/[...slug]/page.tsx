@@ -8,11 +8,44 @@ const SEGMENT = /^[a-z0-9®–—_.-]+$/i;
 function titleFromSlug(slug: string[]): string {
   const last = decodeURIComponent(slug[slug.length - 1] ?? "");
   if (!last) return "Articles";
-  return last
-    .split("-")
-    .filter(Boolean)
-    .map((word) => (word.length > 3 ? word[0].toUpperCase() + word.slice(1) : word))
+  const words = last.split("-").filter(Boolean);
+  // Small words stay lower case unless they open the title.
+  const minor = new Set(["a", "an", "and", "as", "at", "but", "by", "for", "in", "of", "on", "or", "the", "to", "vs", "with"]);
+  return words
+    .map((word, i) =>
+      i > 0 && minor.has(word.toLowerCase()) ? word.toLowerCase() : word[0].toUpperCase() + word.slice(1)
+    )
     .join(" ");
+}
+
+/**
+ * The slug drops apostrophes and casing, so "we're" comes back as "Were". The
+ * article's own <title> is the real one — this reuses the same fetch the page
+ * makes, so asking for it costs nothing extra.
+ */
+async function articleTitle(segments: string[]): Promise<string | null> {
+  const res = await fetchArticle(segments);
+  if (!res || !res.ok) return null;
+  const html = await res.text();
+  const match = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i);
+  if (!match) return null;
+  const raw = match[1]
+    .replace(/&amp;/g, "&")
+    .replace(/&#39;|&rsquo;|&apos;/g, "\u2019")
+    .replace(/&quot;/g, '"')
+    .replace(/\s+/g, " ")
+    .trim();
+  // Shopify appends the shop name after a pipe or dash.
+  const title = raw.split(/\s+[|\u2013-]\s+/)[0].trim();
+  return title || null;
+}
+
+function fetchArticle(segments: string[]) {
+  const target = `${SHOPIFY_STORE}/blogs/${segments.map(encodeURIComponent).join("/")}`;
+  return fetch(target, {
+    headers: { "User-Agent": "Mozilla/5.0 (compatible; HLTStorefrontEmbed/1.0)" },
+    next: { revalidate: 300 },
+  }).catch(() => null);
 }
 
 export async function generateMetadata({
@@ -21,7 +54,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string[] }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  return { title: titleFromSlug(slug ?? []) };
+  const segments = (slug ?? []).map((s) => decodeURIComponent(s));
+  const real = segments.every((s) => SEGMENT.test(s)) ? await articleTitle(segments) : null;
+  return { title: real ?? titleFromSlug(segments) };
 }
 
 /**
@@ -42,11 +77,7 @@ export default async function ArticlePage({
     notFound();
   }
 
-  const target = `${SHOPIFY_STORE}/blogs/${segments.map(encodeURIComponent).join("/")}`;
-  const res = await fetch(target, {
-    headers: { "User-Agent": "Mozilla/5.0 (compatible; HLTStorefrontEmbed/1.0)" },
-    next: { revalidate: 300 },
-  }).catch(() => null);
+  const res = await fetchArticle(segments);
 
   if (!res || !res.ok) notFound();
 
