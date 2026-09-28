@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "Are We Playing More Than We're Developing?",
+    date: "September 28, 2026",
+    excerpt:
+      "Youth softball has never offered more chances to compete. But games are not the same thing as development — an athlete can play hundreds of innings and still reinforce inefficient throwing...",
+    image: "/images/article-development-vs-competition.jpg",
+    href: "/blogs/news/are-we-playing-more-than-were-developing",
+  },
+  {
     title: "NTangible: Twenty-Eight Went Pro. Here Is What Their Scores Looked Like.",
     date: "August 12, 2026",
     excerpt:
