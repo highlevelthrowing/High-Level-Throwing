@@ -86,7 +86,9 @@ function resolveRegistration(block: string): Pick<Clinic, "registerHref" | "regi
 export async function getClinics(): Promise<Clinic[]> {
   let raw: string;
   try {
-    const res = await fetch(FEED_URL, { next: { revalidate: 1800 } });
+    // Five minutes, not thirty: the calendar is edited in Tockify and the change
+    // is expected on the site straight away, so a long window reads as broken.
+    const res = await fetch(FEED_URL, { next: { revalidate: 300 } });
     if (!res.ok) return [];
     raw = unfold(await res.text());
   } catch {
