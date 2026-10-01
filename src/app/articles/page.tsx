@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "College Coaches Know HLT. Will You Be Ready?",
+    date: "October 1, 2026",
+    excerpt:
+      "D1 and JUCO programs are already using High Level Throwing®. That means college coaches know what efficient throwing development looks like — and they can recognise it in a recruit without...",
+    image: "/images/article-college-coaches.jpg",
+    href: "/blogs/news/college-coaches-know-hlt-will-you-be-ready",
+  },
+  {
     title: "Are We Playing More Than We're Developing?",
     date: "September 28, 2026",
     excerpt:
