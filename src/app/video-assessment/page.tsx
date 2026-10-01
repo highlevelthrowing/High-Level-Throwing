@@ -91,7 +91,6 @@ export default function VideoAssessmentPage() {
             />
             <div className="big-price">
               $150
-              <small>1 x Video Assessment · $75 for each additional</small>
             </div>
             <div className="divider" />
             <p style={{ color: "var(--muted)", fontSize: "0.92rem", marginBottom: 22 }}>
