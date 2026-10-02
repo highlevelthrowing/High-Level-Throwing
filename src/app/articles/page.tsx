@@ -20,7 +20,7 @@ const ARTICLES = [
     date: "October 2, 2026",
     excerpt:
       "A softball pitcher should learn how to be an athlete before she becomes a specialized pitcher. The windmill and the overhand throw are two different movement patterns — and one does not...",
-    image: "/images/article-pitcher-separation.jpg",
+    image: "/images/hlt-throw-guide.jpg",
     href: "/blogs/news/before-you-specialize-the-pitcher-teach-the-athlete-to-throw",
   },
   {
