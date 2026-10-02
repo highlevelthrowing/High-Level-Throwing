@@ -1,6 +1,7 @@
 // The article list is rendered by /articles; the paths live here so the
 // sitemap can reference the same set without duplicating the copy.
 export const ARTICLE_PATHS = [
+  "/blogs/news/why-some-common-throwing-drills-create-more-problems-than-they-solve",
   "/blogs/news/before-you-specialize-the-pitcher-teach-the-athlete-to-throw",
   "/blogs/news/college-coaches-know-hlt-will-you-be-ready",
   "/blogs/news/are-we-playing-more-than-were-developing",

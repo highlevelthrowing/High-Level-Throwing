@@ -8,11 +8,19 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "Why Some Common Throwing Drills Create More Problems Than They Solve",
+    date: "October 2, 2026",
+    excerpt:
+      "If a drill looks like part of the throwing motion, it must be helping — right? Wrist flicks, L-drills and isolated arm-action work can teach patterns an athlete later has to...",
+    image: "/images/article-wrist-flick-elbow-pain.jpg",
+    href: "/blogs/news/why-some-common-throwing-drills-create-more-problems-than-they-solve",
+  },
+  {
     title: "Before You Specialize the Pitcher, Teach the Athlete to Throw",
     date: "October 2, 2026",
     excerpt:
       "A softball pitcher should learn how to be an athlete before she becomes a specialized pitcher. The windmill and the overhand throw are two different movement patterns — and one does not...",
-    image: "/images/article-pitcher-separation.jpg",
+    image: "/images/article-pitchers-are-athletes.jpg",
     href: "/blogs/news/before-you-specialize-the-pitcher-teach-the-athlete-to-throw",
   },
   {
