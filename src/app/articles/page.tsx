@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "Before You Specialize the Pitcher, Teach the Athlete to Throw",
+    date: "October 2, 2026",
+    excerpt:
+      "A softball pitcher should learn how to be an athlete before she becomes a specialized pitcher. The windmill and the overhand throw are two different movement patterns — and one does not...",
+    image: "/images/article-pitcher-separation.jpg",
+    href: "/blogs/news/before-you-specialize-the-pitcher-teach-the-athlete-to-throw",
+  },
+  {
     title: "College Coaches Know HLT. Will You Be Ready?",
     date: "October 1, 2026",
     excerpt:
