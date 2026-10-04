@@ -14,6 +14,16 @@ const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
 // and are left exactly as the theme renders them.
 const STYLED_BY_THEME = new Set(["leaderboard"]);
 
+/** Per-page text corrections applied to the proxied HTML. See usage below. */
+const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
+  "high-level-throwing-clinic-poland-oh-february-2027": [
+    ["Poland, Ohio 2026", "Poland, Ohio 2027"],
+    ["Poland , OH 2026", "Poland, OH 2027"],
+    ["Poland, OH 2026", "Poland, OH 2027"],
+    ["Poland , OH", "Poland, OH"],
+  ],
+};
+
 const SEGMENT = /^[a-z0-9®–—_.-]+$/i;
 
 // A single segment not in EMBED_TARGETS is a Shopify page handle, so clinic
@@ -54,6 +64,16 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
 
   let html = await res.text();
   html = html.replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n<base href="${targetUrl}">`);
+
+  // Corrections the theme still carries. Writes to a published theme are
+  // refused by Shopify, so a wrong year on a live registration page can only be
+  // fixed here until someone edits it in the theme editor. Each entry is scoped
+  // to one page and is a no-op once the source is corrected, so leaving a stale
+  // entry behind costs nothing.
+  const corrections = PAGE_TEXT_FIXES[page];
+  if (corrections) {
+    for (const [wrong, right] of corrections) html = html.split(wrong).join(right);
+  }
 
   // Strip the theme's own announcement bar / header and footer sections so the
   // embed only shows the page's actual content — the storefront already renders
