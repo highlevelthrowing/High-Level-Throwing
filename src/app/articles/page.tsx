@@ -12,8 +12,7 @@ const ARTICLES = [
     date: "October 5, 2026",
     excerpt:
       "We budget for uniforms, tournament fees, travel and strength training. Throwing development is still treated as an extra — and for a skill every position on the field uses every day, that...",
-    image:
-      "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/730608683_1348366604153006_233357622436173440_n.jpg?v=1782521997&width=900",
+    image: "/images/article-budget-cover.jpg",
     href: "/blogs/news/throwing-development-should-be-in-the-yearly-budget",
   },
   {
