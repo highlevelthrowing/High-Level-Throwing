@@ -3,6 +3,7 @@ import Link from "next/link";
 import EmailCapture from "@/components/EmailCapture";
 
 const QUICK_LINKS = [
+  { label: "Schools & Teams — PO, Invoice & W-9", href: "/contact" },
   { label: "Search", href: "/search" },
   { label: "Terms Of Service", href: "/terms-of-service" },
   { label: "Shipping", href: "/shipping" },
@@ -72,7 +73,6 @@ export default function Footer() {
       </p>
 
       <div className="footer-legal">
-        <Link href="/contact">Schools &amp; Teams — PO, Invoice &amp; W-9</Link>
         <span>© {new Date().getFullYear()} High Level Throwing</span>
         <Link href="/refund-policy">Refund Policy</Link>
         <Link href="/privacy-policy">Privacy Policy</Link>
