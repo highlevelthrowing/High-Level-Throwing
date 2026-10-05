@@ -717,3 +717,81 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   color:var(--lime);font-weight:800;font-size:0.82rem;
   letter-spacing:0.6px;text-transform:uppercase;
 }
+
+/* ===== BASEBALL VARIANT (light blue) =====
+   Used only by /baseball-video-assessment. The lime page at /video-assessment
+   is untouched: every rule below is scoped under .accent-baseball, and the
+   colour swap works by redefining the same custom properties the shared
+   components already read, so .btn-primary, .feature-list, h1/h2/h3 and the
+   rest recolour without duplicating their rules. */
+.accent-baseball{
+  --lime:#7dd3fc;        /* buttons, prices, emphasis — was acid lime */
+  --neon-green:#bae6fd;  /* headings */
+  --accent:#38bdf8;      /* eyebrows, section tags, bullets */
+}
+.accent-baseball .hero{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(125,211,252,0.16), transparent 42%),
+    radial-gradient(circle at 80% 10%, rgba(56,189,248,0.14), transparent 42%);
+}
+.accent-baseball .cta-final{
+  background:radial-gradient(circle at 50% 0%, rgba(125,211,252,0.12), transparent 60%);
+}
+.accent-baseball .btn-primary:hover{box-shadow:0 8px 24px rgba(125,211,252,0.30);}
+.accent-baseball .pillar-card:hover{border-color:rgba(125,211,252,0.45);}
+.accent-baseball .col-media .badge{background:rgba(125,211,252,0.14);color:var(--lime);}
+.accent-baseball .contact-field input:focus,
+.accent-baseball .contact-field textarea:focus{border-color:var(--lime);}
+
+/* Bullets become white baseballs instead of the lightning bolt. The bolt is a
+   single-colour mask; a ball needs two (white leather, red stitching), so this
+   swaps the mask out for a real background image. */
+.accent-baseball .feature-list li{padding-left:30px;}
+.accent-baseball .feature-list li::before{
+  background-color:transparent;
+  -webkit-mask-image:none;mask-image:none;
+  width:18px;height:18px;top:2px;
+  background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><circle cx="12" cy="12" r="11" fill="%23ffffff"/><path d="M5.2 3.4c2.9 3 2.9 14.2 0 17.2M18.8 3.4c-2.9 3-2.9 14.2 0 17.2" fill="none" stroke="%23e11d48" stroke-width="1.5" stroke-linecap="round"/><path d="M3.6 6.6l2.2.9M3.1 9.3l2.4.5M3.1 14.7l2.4-.5M3.6 17.4l2.2-.9M20.4 6.6l-2.2.9M20.9 9.3l-2.4.5M20.9 14.7l-2.4-.5M20.4 17.4l-2.2-.9" stroke="%23e11d48" stroke-width="1.1" stroke-linecap="round"/></svg>');
+  background-size:contain;background-repeat:no-repeat;
+}
+
+/* Decorative baseballs drifting behind the hero copy. */
+.bb-field{position:absolute;inset:0;pointer-events:none;overflow:hidden;z-index:0;}
+.bb-field svg{position:absolute;}
+.accent-baseball .hero > *:not(.bb-field){position:relative;z-index:1;}
+
+/* Stitched rule used to separate the hero from the page body. */
+.bb-seam{
+  height:2px;max-width:1180px;margin:0 auto;
+  background:repeating-linear-gradient(90deg, rgba(225,29,72,0.85) 0 14px, transparent 14px 28px);
+  opacity:0.55;
+}
+
+/* Amber callout for content that still needs real assets dropped in. */
+.bb-note{
+  max-width:720px;margin:0 auto 32px;padding:14px 18px;border-radius:12px;
+  background:rgba(251,191,36,0.10);border:1px solid rgba(251,191,36,0.40);
+  color:#fcd34d;font-size:0.88rem;font-weight:600;text-align:center;
+}
+
+
+/* ===== PAIRS WITH (add-on offer under a digital product) =====
+   The books are the cheapest things in the shop and take the most orders, so
+   this is where an order either stops at $30 or becomes a real basket. */
+.pairs-with{max-width:1180px;margin:56px auto 0;padding:34px 26px 30px;
+  border:1px solid var(--border);border-radius:20px;background:var(--card);}
+.pairs-with h2{font-size:1.5rem;font-weight:900;margin:0 0 8px;}
+.pairs-with-sub{color:var(--muted);font-size:0.94rem;margin:0 0 26px;max-width:62ch;}
+.pairs-with-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px;}
+.pairs-with-card{display:flex;gap:18px;align-items:center;
+  border:1px solid var(--border);border-radius:16px;padding:14px;background:var(--navy-2);}
+.pairs-with-media{flex:0 0 112px;height:112px;border-radius:12px;overflow:hidden;background:#000;
+  display:flex;align-items:center;justify-content:center;}
+.pairs-with-media img{width:100%;height:100%;object-fit:contain;}
+.pairs-with-body{min-width:0;display:flex;flex-direction:column;gap:7px;}
+.pairs-with-body h3{font-size:0.98rem;font-weight:800;margin:0;line-height:1.3;color:var(--text);}
+.pairs-with-price{color:var(--lime);font-weight:900;font-size:1.05rem;}
+@media (max-width:760px){
+  .pairs-with{margin-top:40px;padding:26px 18px 22px;}
+  .pairs-with-grid{grid-template-columns:1fr;gap:14px;}
+}

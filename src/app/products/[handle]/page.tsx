@@ -9,6 +9,7 @@ import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import TrackProductView from "@/components/TrackProductView";
 import JsonLd from "@/components/JsonLd";
+import PairsWith from "@/components/PairsWith";
 
 export async function generateMetadata({
   params,
@@ -147,6 +148,8 @@ export default async function ProductPage({
           />
         </div>
       </div>
+
+      <PairsWith handle={product.handle} productType={product.productType} tags={product.tags} />
     </section>
   );
 }
