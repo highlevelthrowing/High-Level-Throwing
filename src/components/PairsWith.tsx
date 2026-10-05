@@ -46,7 +46,7 @@ export default async function PairsWith({
 
   return (
     <section className="pairs-with" aria-labelledby="pairs-with-heading">
-      <h2 id="pairs-with-heading">Train it, don&apos;t just read it</h2>
+      <h2 id="pairs-with-heading">Add our Flagship Training Tools!</h2>
       <p className="pairs-with-sub">
         The drills in this book are built around our Lightning Ball Plyos and Bands. Add them and
         start the progressions the day your download arrives.
