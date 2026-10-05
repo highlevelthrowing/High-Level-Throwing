@@ -35,7 +35,7 @@ export default function EmailCapture({
     return (
       <div className="email-capture" role="status">
         <h3>You&apos;re in.</h3>
-        <p>Check your inbox — the first email is on its way.</p>
+        <p>You&apos;ll hear from us when new clinic dates, drills and releases go out.</p>
       </div>
     );
   }

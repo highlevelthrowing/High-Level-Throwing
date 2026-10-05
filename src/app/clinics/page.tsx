@@ -70,9 +70,6 @@ export default function Clinics() {
         </div>
       </section>
 
-      <section id="clinic-waitlist">
-        <ClinicWaitlist />
-      </section>
 
       <section id="model">
         <div className="section-head">
@@ -217,6 +214,10 @@ export default function Clinics() {
             Schedule a Call
           </Link>
         </div>
+      </section>
+
+      <section id="clinic-waitlist">
+        <ClinicWaitlist />
       </section>
 
       <TrustedByLogos />
