@@ -170,6 +170,25 @@ export const GET_CART_QUERY = /* GraphQL */ `
   }
 `;
 
+/**
+ * Creating the cart with its discount code in one call. Adding the line and
+ * then applying the code as a second step left the code unattached, because
+ * the cart cookie written earlier in the same request is not readable yet.
+ */
+export const CART_CREATE_WITH_DISCOUNT_MUTATION = /* GraphQL */ `
+  ${CART_FRAGMENT}
+  mutation CartCreateWithDiscount($lines: [CartLineInput!], $discountCodes: [String!]) {
+    cartCreate(input: { lines: $lines, discountCodes: $discountCodes }) {
+      cart {
+        ...CartFragment
+      }
+      userErrors {
+        message
+      }
+    }
+  }
+`;
+
 export const CART_CREATE_MUTATION = /* GraphQL */ `
   ${CART_FRAGMENT}
   mutation CartCreate($lines: [CartLineInput!]) {

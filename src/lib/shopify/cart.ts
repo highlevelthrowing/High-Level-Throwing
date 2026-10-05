@@ -5,6 +5,7 @@ import { revalidatePath } from "next/cache";
 import { shopifyFetch } from "./client";
 import {
   CART_CREATE_MUTATION,
+  CART_CREATE_WITH_DISCOUNT_MUTATION,
   CART_LINES_ADD_MUTATION,
   CART_LINES_REMOVE_MUTATION,
   CART_LINES_UPDATE_MUTATION,
@@ -161,4 +162,38 @@ export async function applyDiscountCode(code: string): Promise<boolean> {
   } catch {
     return false;
   }
+}
+
+/**
+ * One click from an email to a paid-for checkout: builds a fresh cart holding
+ * just this item with the code already on it, and hands back the checkout URL.
+ * Deliberately starts a new cart rather than reusing the visitor's — the point
+ * is to get this one item to checkout, not to drag along whatever else they
+ * were browsing.
+ */
+export async function createCheckoutWithDiscount(
+  variantId: string,
+  code: string
+): Promise<string | null> {
+  const data = await shopifyFetch<{
+    cartCreate: {
+      cart: (RawCart & { checkoutUrl: string }) | null;
+      userErrors: { message: string }[];
+    };
+  }>({
+    query: CART_CREATE_WITH_DISCOUNT_MUTATION,
+    variables: {
+      lines: [{ merchandiseId: variantId, quantity: 1 }],
+      discountCodes: code ? [code] : [],
+    },
+    cache: "no-store",
+  });
+
+  const cart = data.cartCreate.cart;
+  if (!cart) return null;
+
+  await setCartId(cart.id);
+  revalidatePath("/cart");
+  revalidatePath("/", "layout");
+  return cart.checkoutUrl ?? null;
 }
