@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import EmailCapture from "@/components/EmailCapture";
 
 const QUICK_LINKS = [
   { label: "Search", href: "/search" },
@@ -30,6 +31,8 @@ const SOCIAL_LINKS = [
 export default function Footer() {
   return (
     <footer className="site-footer">
+      <EmailCapture />
+
       <div className="footer-quicklinks-label">Quick links</div>
       <div className="footer-quicklinks">
         {QUICK_LINKS.map((link) => (

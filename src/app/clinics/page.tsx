@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import TrustedByLogos from "@/components/TrustedByLogos";
 import ClinicSchedule from "@/components/ClinicSchedule";
+import ClinicWaitlist from "@/components/ClinicWaitlist";
 import VideoEmbed from "@/components/VideoEmbed";
 import TestimonialSlider from "@/components/TestimonialSlider";
 
@@ -26,6 +27,9 @@ export default function Clinics() {
           <Link className="btn btn-primary" href="/contact">
             Schedule a Clinic!
           </Link>
+          <a className="btn btn-outline" href="#clinic-waitlist">
+            Request a Clinic in Your Area
+          </a>
           <a className="btn btn-outline" href="#model">
             See How It Works
           </a>
@@ -59,6 +63,15 @@ export default function Clinics() {
           <p>See where High Level Throwing® is headed next and find a clinic near you.</p>
         </div>
         <ClinicSchedule />
+        <div className="clinic-schedule-cta">
+          <a className="btn btn-primary" href="#clinic-waitlist">
+            Don&apos;t See Your City? Request a Clinic
+          </a>
+        </div>
+      </section>
+
+      <section id="clinic-waitlist">
+        <ClinicWaitlist />
       </section>
 
       <section id="model">
@@ -155,7 +168,7 @@ export default function Clinics() {
             </div>
             <div className="big-price">
               <span className="price-blur">$160</span> <span style={{ fontSize: "1.4rem" }}>per player</span>
-              <small>max 16 athletes per session</small>
+              <small>max 18 athletes per session</small>
             </div>
             <div className="divider" />
             <div

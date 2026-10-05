@@ -794,3 +794,52 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   .pairs-with{margin-top:40px;padding:26px 18px 22px;}
   .pairs-with-grid{grid-template-columns:1fr;gap:14px;}
 }
+
+/* EMAIL CAPTURE + CLINIC WAITLIST */
+.email-capture{max-width:620px;margin:0 auto 40px;text-align:center;}
+.email-capture h3{font-size:1.15rem;font-weight:900;color:var(--text);margin:0 0 18px;line-height:1.3;}
+.email-capture p{color:rgba(255,255,255,0.65);font-size:0.88rem;margin:0 0 18px;}
+.email-capture-form{display:flex;gap:10px;align-items:stretch;justify-content:center;}
+.email-capture-form input[type="email"]{
+  flex:1 1 auto;min-width:0;background:var(--navy-3);border:1px solid var(--border);border-radius:999px;
+  padding:13px 20px;color:var(--text);font-family:inherit;font-size:0.95rem;transition:border-color .2s;
+}
+.email-capture-form input[type="email"]:focus{outline:none;border-color:var(--lime);}
+.email-capture-form .btn{flex:0 0 auto;white-space:nowrap;}
+.email-capture-form .btn[disabled]{opacity:0.6;cursor:progress;}
+.email-capture-error{color:var(--pink);font-weight:700;font-size:0.85rem;margin:12px 0 0;}
+.email-capture p.email-capture-legal{color:rgba(255,255,255,0.4);font-size:0.72rem;margin:14px 0 0;}
+@media (max-width:560px){
+  .email-capture-form{flex-direction:column;}
+  .email-capture-form .btn{width:100%;}
+}
+
+.clinic-waitlist{
+  max-width:1180px;margin:0 auto;padding:34px 30px 30px;border:1px solid var(--border);
+  border-radius:20px;background:var(--card);
+}
+.clinic-waitlist h2{font-size:1.5rem;font-weight:900;margin:0 0 8px;}
+.clinic-waitlist > p{color:rgba(255,255,255,0.68);font-size:0.95rem;margin:0 0 24px;max-width:640px;}
+.clinic-waitlist-form{display:grid;grid-template-columns:1.2fr 1.2fr 1fr auto;gap:14px;align-items:end;}
+.clinic-waitlist-field label{
+  display:block;font-size:0.72rem;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;
+  color:rgba(255,255,255,0.6);margin-bottom:7px;
+}
+.clinic-waitlist-field input, .clinic-waitlist-field select{
+  width:100%;background:var(--navy-3);border:1px solid var(--border);border-radius:12px;
+  padding:13px 15px;color:var(--text);font-family:inherit;font-size:0.95rem;transition:border-color .2s;
+}
+.clinic-waitlist-field input:focus, .clinic-waitlist-field select:focus{outline:none;border-color:var(--lime);}
+.clinic-waitlist-form .btn{white-space:nowrap;padding:13px 28px;}
+.clinic-waitlist-form .btn[disabled]{opacity:0.6;cursor:progress;}
+@media (max-width:860px){
+  .clinic-waitlist-form{grid-template-columns:1fr 1fr;}
+  .clinic-waitlist-form .btn{grid-column:1 / -1;width:100%;}
+}
+@media (max-width:520px){
+  .clinic-waitlist{padding:26px 20px 24px;}
+  .clinic-waitlist-form{grid-template-columns:1fr;}
+}
+
+.clinic-schedule-cta{display:flex;justify-content:center;margin-top:28px;}
+@media (max-width:520px){ .clinic-schedule-cta .btn{width:100%;text-align:center;} }
