@@ -15,6 +15,20 @@ const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
 const STYLED_BY_THEME = new Set(["leaderboard"]);
 
 /** Per-page text corrections applied to the proxied HTML. See usage below. */
+/**
+ * Clinic pages are built by copying a previous clinic's page, which leaves the
+ * old clinic's product links behind. Rewrite them to this clinic's own product
+ * rather than ship a link that sells the wrong session.
+ */
+const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
+  "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
+    [
+      "hlt-clinic-uxbridge-ma-2024-coach-access-100",
+      "hlt-clinic-fort-lauderdale-fl-coach-access-125",
+    ],
+  ],
+};
+
 const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
   "high-level-throwing-clinic-poland-oh-february-2027": [
     ["Poland, Ohio 2026", "Poland, Ohio 2027"],
@@ -73,6 +87,11 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   const corrections = PAGE_TEXT_FIXES[page];
   if (corrections) {
     for (const [wrong, right] of corrections) html = html.split(wrong).join(right);
+  }
+
+  const linkFixes = PAGE_LINK_FIXES[page];
+  if (linkFixes) {
+    for (const [wrong, right] of linkFixes) html = html.split(wrong).join(right);
   }
 
   // Strip the theme's own announcement bar / header and footer sections so the
@@ -138,7 +157,9 @@ const EMBED_RUNTIME = /* html */ `
       // It was invisible until these anchors gained a background, so tag it and
       // let the stylesheet hide it rather than show an empty lime pill.
       var inline = a.getAttribute("style") || "";
-      if (inline.indexOf("2cbc13") !== -1 && !a.textContent.replace(/\s+/g, "")) {
+      var blank = inline.indexOf("2cbc13") !== -1 && !a.textContent.replace(/\s+/g, "");
+      // fixLinks runs again on every DOM change, so only add the class once.
+      if (blank && a.className.indexOf("hlt-blank") === -1) {
         a.className = a.className ? a.className + " hlt-blank" : "hlt-blank";
       }
 
