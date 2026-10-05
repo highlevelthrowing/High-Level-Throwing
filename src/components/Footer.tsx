@@ -72,6 +72,7 @@ export default function Footer() {
       </p>
 
       <div className="footer-legal">
+        <Link href="/contact">Schools &amp; Teams — PO, Invoice &amp; W-9</Link>
         <span>© {new Date().getFullYear()} High Level Throwing</span>
         <Link href="/refund-policy">Refund Policy</Link>
         <Link href="/privacy-policy">Privacy Policy</Link>
