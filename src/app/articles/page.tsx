@@ -8,6 +8,15 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "Throwing Development Should Be in the Yearly Budget",
+    date: "October 5, 2026",
+    excerpt:
+      "We budget for uniforms, tournament fees, travel and strength training. Throwing development is still treated as an extra — and for a skill every position on the field uses every day, that...",
+    image:
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/730608683_1348366604153006_233357622436173440_n.jpg?v=1782521997&width=900",
+    href: "/blogs/news/throwing-development-should-be-in-the-yearly-budget",
+  },
+  {
     title: "Why Some Common Throwing Drills Create More Problems Than They Solve",
     date: "October 2, 2026",
     excerpt:
