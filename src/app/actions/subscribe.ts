@@ -3,11 +3,20 @@
 const KLAVIYO_COMPANY_ID = "QP3GE9";
 
 /**
- * The list new signups join. Without it the profile and the signup event are
- * still recorded — the event is enough to trigger a Klaviyo flow — but the
- * person is not marked as a subscriber, so set this before sending campaigns.
+ * The list each signup joins. A profile that is not a subscriber cannot be
+ * sent marketing email — Klaviyo records a Skipped Send instead — so the
+ * subscription is what makes the welcome flow actually deliver. List IDs are
+ * not secrets; the override exists so the lists can be changed without a
+ * deploy.
  */
-const KLAVIYO_LIST_ID = process.env.KLAVIYO_LIST_ID;
+const LISTS: Record<string, string> = {
+  "Clinic waitlist": "SCLsSU", // HLT Clinics
+};
+const DEFAULT_LIST = "S8XqhP"; // HLT Newletter
+
+function listFor(source: string): string {
+  return process.env.KLAVIYO_LIST_ID || LISTS[source] || DEFAULT_LIST;
+}
 
 export type SubscribeState = { status: "idle" | "ok" | "error"; message?: string };
 
@@ -63,18 +72,16 @@ export async function subscribe(
       },
     });
 
-    if (KLAVIYO_LIST_ID) {
-      await klaviyo("subscriptions", {
-        data: {
-          type: "subscription",
-          attributes: {
-            custom_source: source,
-            profile: { data: { type: "profile", attributes: { email, properties } } },
-          },
-          relationships: { list: { data: { type: "list", id: KLAVIYO_LIST_ID } } },
+    await klaviyo("subscriptions", {
+      data: {
+        type: "subscription",
+        attributes: {
+          custom_source: source,
+          profile: { data: { type: "profile", attributes: { email, properties } } },
         },
-      });
-    }
+        relationships: { list: { data: { type: "list", id: listFor(source) } } },
+      },
+    });
   } catch {
     // Captured addresses are worth more than a perfect error path.
   }
