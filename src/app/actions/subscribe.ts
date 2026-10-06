@@ -9,10 +9,15 @@ const KLAVIYO_COMPANY_ID = "QP3GE9";
  * not secrets; the override exists so the lists can be changed without a
  * deploy.
  */
-const LISTS: Record<string, string> = {
-  "Clinic waitlist": "SCLsSU", // HLT Clinics
-};
-const DEFAULT_LIST = "S8XqhP"; // HLT Newletter
+/**
+ * Website Signups is single opt-in, so the welcome email lands immediately.
+ * The older lists (HLT Newletter, HLT Clinics, Full List) are double opt-in
+ * and hold subscribers who joined under that promise, so they are left alone —
+ * signup_source and requested_location on the profile are what separate the
+ * footer from the clinic waitlist, not a second list.
+ */
+const LISTS: Record<string, string> = {};
+const DEFAULT_LIST = "TJMGe7"; // Website Signups
 
 function listFor(source: string): string {
   return process.env.KLAVIYO_LIST_ID || LISTS[source] || DEFAULT_LIST;
