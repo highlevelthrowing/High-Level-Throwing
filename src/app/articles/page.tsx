@@ -8,6 +8,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "In Season Throwing: Take Care of Your Arm While You Compete",
+    date: "October 6, 2026",
+    excerpt:
+      "Games, travel and repeated high-intent throws all add stress. The season is not the time to stop developing — it is the time to maintain movement, arm health and the ability to throw with...",
+    image: "/images/article-inseason-cover.jpg",
+    href: "/blogs/news/in-season-throwing-take-care-of-your-arm-while-you-compete",
+  },
+  {
     title: "Throwing Development Should Be in the Yearly Budget",
     date: "October 5, 2026",
     excerpt:
