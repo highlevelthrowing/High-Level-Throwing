@@ -9,6 +9,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "The High Level Throwing® Breakdown: Understanding the Throw From the Ground Up",
+    date: "October 7, 2026",
+    excerpt:
+      "A throw is a sequence — lower half, trunk, scapula and arm contributing in order. Breaking it down is what lets an athlete understand why they move, not just...",
+    image: "/images/article-breakdown-cover.jpg",
+    href: "/blogs/news/the-high-level-throwing-breakdown-understanding-the-throw-from-the-ground-up",
+  },
+  {
     title: "In Season Throwing: Take Care of Your Arm While You Compete",
     date: "October 6, 2026",
     excerpt:
