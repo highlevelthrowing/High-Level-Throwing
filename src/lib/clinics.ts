@@ -44,8 +44,7 @@ const OVERRIDES: Record<
   // artwork is the placeholder rather than the clinic's own flyer.
   "2026-12-16|Fort Lauderdale, FL": {
     blurb: "Registration is open!",
-    image:
-      "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2026-10-05_at_11.41.03_AM.png?v=1791230675",
+    image: "/images/clinic-fort-lauderdale-2026.jpg",
   },
 };
 
