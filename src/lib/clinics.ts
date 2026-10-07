@@ -31,16 +31,21 @@ export type Clinic = {
 const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com", "high-level-throwing.myshopify.com"]);
 
 /**
- * Stop-gaps for clinics whose Tockify entry has not caught up with reality —
- * registration is open on our own page but the calendar still has no promotion
- * button and an out-of-date blurb. Keyed by `YYYY-MM-DD|Title` as the schedule
- * renders them. Delete an entry once its Tockify event carries the button.
+ * Stop-gaps for clinics whose Tockify entry has not caught up with reality.
+ * Keyed by `YYYY-MM-DD|Title` as the schedule renders them. Delete an entry
+ * once the calendar says the right thing on its own.
  */
-const OVERRIDES: Record<string, { registerHref: string; registerLabel: string; blurb?: string }> = {
+const OVERRIDES: Record<
+  string,
+  { blurb?: string; image?: string; registerHref?: string; registerLabel?: string }
+> = {
+  // Registration is open and the calendar now carries the button, but its
+  // preview text still reads "Registration opens soon!" beside it, and its
+  // artwork is the placeholder rather than the clinic's own flyer.
   "2026-12-16|Fort Lauderdale, FL": {
-    registerHref: "/pages/high-level-throwing-clinic-fort-lauderdale-fl-2026",
-    registerLabel: "Register",
     blurb: "Wednesday, December 16th @ 7PM–9PM at Cardinal Gibbons High School. Ages 12+, 18 players max.",
+    image:
+      "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2026-10-05_at_11.41.03_AM.png?v=1791230675",
   },
 };
 
@@ -175,10 +180,10 @@ export async function getClinics(): Promise<Clinic[]> {
       end,
       allDay: when.allDay,
       blurb: override?.blurb ?? blurb,
-      image,
+      image: override?.image ?? image,
       ...resolveRegistration(block),
-      ...(override
-        ? { registerHref: override.registerHref, registerLabel: override.registerLabel, external: false }
+      ...(override?.registerHref
+        ? { registerHref: override.registerHref, registerLabel: override.registerLabel ?? "Register", external: false }
         : {}),
     });
   }
