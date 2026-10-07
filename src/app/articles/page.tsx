@@ -9,6 +9,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "What Is Arm Care Exactly? And Why Arm Care Is More Than Taking Care of the Arm",
+    date: "October 7, 2026",
+    excerpt:
+      "Arm care isn't a few bands after practice. It's preparation, movement, sequencing, workload and recovery — and it starts long before the ball leaves...",
+    image: "/images/article-armcare-cover.jpg",
+    href: "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
+  },
+  {
     title: "The High Level Throwing® Breakdown: Understanding the Throw From the Ground Up",
     date: "October 7, 2026",
     excerpt:
