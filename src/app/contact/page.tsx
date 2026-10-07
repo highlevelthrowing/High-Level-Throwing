@@ -71,7 +71,7 @@ export default function ContactPage() {
             </div>
             <div>
               <h4>Schools &amp; Teams</h4>
-              <p>Purchase Orders, Invoices &amp; Booster Club payments welcome.</p>
+              <p>Purchase Orders, Invoices &amp; Booster Club payments accepted.</p>
               <a href="mailto:austin@highlevelthrowing.com?subject=Schools%20%26%20Teams%20enquiry">
                 Request a Quote or Invoice
               </a>
