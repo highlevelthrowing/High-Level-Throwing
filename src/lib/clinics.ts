@@ -43,7 +43,7 @@ const OVERRIDES: Record<
   // preview text still reads "Registration opens soon!" beside it, and its
   // artwork is the placeholder rather than the clinic's own flyer.
   "2026-12-16|Fort Lauderdale, FL": {
-    blurb: "Wednesday, December 16th @ 7PM–9PM at Cardinal Gibbons High School. Ages 12+, 18 players max.",
+    blurb: "Registration is open!",
     image:
       "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Screen_Shot_2026-10-05_at_11.41.03_AM.png?v=1791230675",
   },
