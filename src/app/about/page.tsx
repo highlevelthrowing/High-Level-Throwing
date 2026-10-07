@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import TrustedByLogos from "@/components/TrustedByLogos";
 import TeamGrid from "@/components/TeamGrid";
+import VideoEmbed from "@/components/VideoEmbed";
 
 export const metadata: Metadata = {
   title: "About",
@@ -57,6 +58,15 @@ export default function AboutPage() {
               <li>Division 1 Baseball — University of New Orleans &amp; University of Connecticut</li>
               <li>Two seasons of professional baseball, including a 2007 championship with the Nashua Pride</li>
             </ul>
+            {/* Twenty seconds of Austin saying what HLT is, in his own words.
+                Sits with the bio on desktop and stacks under it on phones. */}
+            <div className="founder-video">
+              <VideoEmbed
+                vimeoId="956639755"
+                title="Austin Wasserman on High Level Throwing®"
+                poster="/images/about-austin-video-poster.jpg"
+              />
+            </div>
           </div>
         </div>
       </section>
