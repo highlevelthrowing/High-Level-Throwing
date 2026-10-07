@@ -3,7 +3,6 @@ import Link from "next/link";
 import EmailCapture from "@/components/EmailCapture";
 
 const QUICK_LINKS = [
-  { label: "Schools & Teams — PO, Invoice & W-9", href: "/contact" },
   { label: "Search", href: "/search" },
   { label: "Terms Of Service", href: "/terms-of-service" },
   { label: "Shipping", href: "/shipping" },
