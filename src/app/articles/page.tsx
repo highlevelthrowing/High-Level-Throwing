@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { getArticles } from "@/lib/shopify/articles";
 import Image from "next/image";
+import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
   title: "Articles",
@@ -13,7 +14,7 @@ const ARTICLES = [
     date: "October 7, 2026",
     excerpt:
       "The shoulder blade is the platform the throwing arm moves from. Why scapular movement sits at the centre of an efficient sequence — and why the scap pull is...",
-    image: "/images/article-scapula-cover.jpg",
+    image: "/images/bd2-scap.jpg",
     href: "/blogs/news/the-role-of-the-scapula-in-baseball-and-softball-throwing",
   },
   {
@@ -21,7 +22,7 @@ const ARTICLES = [
     date: "October 7, 2026",
     excerpt:
       "Arm care isn't a few bands after practice. It's preparation, movement, sequencing, workload and recovery — and it starts long before the ball leaves...",
-    image: "/images/article-armcare-cover.jpg",
+    image: "/images/ac2-strength.jpg",
     href: "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
   },
   {
@@ -29,7 +30,7 @@ const ARTICLES = [
     date: "October 7, 2026",
     excerpt:
       "A throw is a sequence — lower half, trunk, scapula and arm contributing in order. Breaking it down is what lets an athlete understand why they move, not just...",
-    image: "/images/article-breakdown-cover.jpg",
+    image: "/images/bd2-cover.jpg",
     href: "/blogs/news/the-high-level-throwing-breakdown-understanding-the-throw-from-the-ground-up",
   },
   {
@@ -212,6 +213,7 @@ export default async function ArticlesPage() {
           </Link>
         ))}
       </div>
+      <BackToTop />
     </section>
   );
 }
