@@ -1,6 +1,7 @@
 // The article list is rendered by /articles; the paths live here so the
 // sitemap can reference the same set without duplicating the copy.
 export const ARTICLE_PATHS = [
+  "/blogs/news/the-role-of-the-scapula-in-baseball-and-softball-throwing",
   "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
   "/blogs/news/the-high-level-throwing-breakdown-understanding-the-throw-from-the-ground-up",
   "/blogs/news/in-season-throwing-take-care-of-your-arm-while-you-compete",

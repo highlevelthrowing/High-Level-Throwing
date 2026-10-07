@@ -9,6 +9,14 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "The Role of the Scapula in Baseball and Softball Throwing",
+    date: "October 7, 2026",
+    excerpt:
+      "The shoulder blade is the platform the throwing arm moves from. Why scapular movement sits at the centre of an efficient sequence — and why the scap pull is...",
+    image: "/images/article-scapula-cover.jpg",
+    href: "/blogs/news/the-role-of-the-scapula-in-baseball-and-softball-throwing",
+  },
+  {
     title: "What Is Arm Care Exactly? And Why Arm Care Is More Than Taking Care of the Arm",
     date: "October 7, 2026",
     excerpt:
