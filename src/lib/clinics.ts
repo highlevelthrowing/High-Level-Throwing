@@ -9,7 +9,14 @@ export type Clinic = {
   id: string;
   title: string;
   start: string; // ISO date (no time) or ISO datetime
-  /** Last day of the clinic, inclusive. Same as start for single-day clinics. */
+  /**
+   * First day of the clinic as a plain YYYY-MM-DD in the calendar's own
+   * timezone. `start` keeps the raw instant for schema.org; this is what the
+   * page shows, because a 7pm Eastern clinic is exported as midnight UTC the
+   * next day and would otherwise read as the wrong date.
+   */
+  date: string;
+  /** Last day of the clinic, inclusive. Same as date for single-day clinics. */
   end: string;
   allDay: boolean;
   blurb: string;
@@ -22,6 +29,20 @@ export type Clinic = {
 };
 
 const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com", "high-level-throwing.myshopify.com"]);
+
+/**
+ * Stop-gaps for clinics whose Tockify entry has not caught up with reality —
+ * registration is open on our own page but the calendar still has no promotion
+ * button and an out-of-date blurb. Keyed by `YYYY-MM-DD|Title` as the schedule
+ * renders them. Delete an entry once its Tockify event carries the button.
+ */
+const OVERRIDES: Record<string, { registerHref: string; registerLabel: string; blurb?: string }> = {
+  "2026-12-16|Fort Lauderdale, FL": {
+    registerHref: "/pages/high-level-throwing-clinic-fort-lauderdale-fl-2026",
+    registerLabel: "Register",
+    blurb: "Wednesday, December 16th @ 7PM–9PM at Cardinal Gibbons High School. Ages 12+, 18 players max.",
+  },
+};
 
 function unescapeText(value: string): string {
   return value
@@ -41,6 +62,25 @@ function field(block: string, name: string): { params: string; value: string } |
   const match = block.match(new RegExp(`^${name}([^:\\n]*):(.*)$`, "m"));
   if (!match) return null;
   return { params: match[1] ?? "", value: match[2] ?? "" };
+}
+
+/** The timezone the calendar is kept in; every event time is relative to it. */
+function calendarTimeZone(raw: string): string {
+  return field(raw.split("BEGIN:VEVENT")[0], "X-WR-TIMEZONE")?.value.trim() || "America/New_York";
+}
+
+/** The plain calendar date an instant falls on in the given timezone. */
+function calendarDate(iso: string, timeZone: string): string {
+  if (!iso.includes("T")) return iso.slice(0, 10);
+  const parsed = new Date(iso);
+  if (Number.isNaN(parsed.getTime())) return iso.slice(0, 10);
+  // en-CA formats as YYYY-MM-DD, which is what we want to compare and store.
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(parsed);
 }
 
 function parseDate(block: string, name: "DTSTART" | "DTEND"): { start: string; allDay: boolean } | null {
@@ -95,6 +135,7 @@ export async function getClinics(): Promise<Clinic[]> {
     return [];
   }
 
+  const timeZone = calendarTimeZone(raw);
   const blocks = raw.match(/BEGIN:VEVENT([\s\S]*?)END:VEVENT/g) ?? [];
   const clinics: Clinic[] = [];
 
@@ -103,17 +144,19 @@ export async function getClinics(): Promise<Clinic[]> {
     const summary = field(block, "SUMMARY");
     if (!when || !summary) continue;
 
+    const date = calendarDate(when.start, timeZone);
+
     // ICS end dates are exclusive for all-day events, so step back a day to get
     // the last day the clinic actually runs.
     const rawEnd = parseDate(block, "DTEND");
-    let end = when.start;
+    let end = date;
     if (rawEnd) {
-      const endDay = new Date(`${rawEnd.start.slice(0, 10)}T00:00:00`);
+      const endDay = new Date(`${calendarDate(rawEnd.start, timeZone)}T00:00:00`);
       if (when.allDay) endDay.setDate(endDay.getDate() - 1);
       const iso = `${endDay.getFullYear()}-${String(endDay.getMonth() + 1).padStart(2, "0")}-${String(
         endDay.getDate()
       ).padStart(2, "0")}`;
-      if (iso > when.start.slice(0, 10)) end = iso;
+      if (iso > date) end = iso;
     }
 
     const image = field(block, "X-TKF-FEATURED-IMAGE")?.value.trim() || null;
@@ -121,24 +164,29 @@ export async function getClinics(): Promise<Clinic[]> {
       field(block, "X-TKF-CUSTOM-PREVIEW")?.value ?? field(block, "DESCRIPTION")?.value ?? ""
     );
 
+    const title = unescapeText(summary.value).replace(/^High Level Throwing\s*[-–]\s*/i, "");
+    const override = OVERRIDES[`${date}|${title}`];
+
     clinics.push({
       id: field(block, "UID")?.value.trim() || `${when.start}-${summary.value}`,
-      title: unescapeText(summary.value).replace(/^High Level Throwing\s*[-–]\s*/i, ""),
+      title,
       start: when.start,
+      date,
       end,
       allDay: when.allDay,
-      blurb,
+      blurb: override?.blurb ?? blurb,
       image,
       ...resolveRegistration(block),
+      ...(override
+        ? { registerHref: override.registerHref, registerLabel: override.registerLabel, external: false }
+        : {}),
     });
   }
 
   // Drop anything that has already happened, then show the soonest first.
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-  return clinics
-    .filter((c) => new Date(c.start).getTime() >= today.getTime())
-    .sort((a, b) => a.start.localeCompare(b.start));
+  // Compared as plain calendar dates so a clinic stays listed on its own day.
+  const today = calendarDate(new Date().toISOString(), timeZone);
+  return clinics.filter((c) => c.end >= today).sort((a, b) => a.date.localeCompare(b.date));
 }
 
 // All-day feed dates carry no timezone, so parse them as plain calendar dates
@@ -149,14 +197,14 @@ function asLocalDate(iso: string): Date {
 }
 
 export function formatClinicDate(clinic: Clinic): string {
-  const start = asLocalDate(clinic.start);
+  const start = asLocalDate(clinic.date);
   const opts: Intl.DateTimeFormatOptions = {
     weekday: "short",
     month: "short",
     day: "numeric",
   };
 
-  if (clinic.end === clinic.start.slice(0, 10) || clinic.end === clinic.start) {
+  if (clinic.end === clinic.date) {
     return start.toLocaleDateString("en-US", { ...opts, year: "numeric" });
   }
 
