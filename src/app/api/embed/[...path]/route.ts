@@ -26,6 +26,13 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
       "hlt-clinic-uxbridge-ma-2024-coach-access-100",
       "hlt-clinic-fort-lauderdale-fl-coach-access-125",
     ],
+    // The flyer on the live theme predates the South Florida Select Softball
+    // partnership. The theme itself is read-only to us, so the updated artwork
+    // is swapped in here until the section setting is changed in the editor.
+    [
+      "//high-level-throwing.myshopify.com/cdn/shop/files/Screen_Shot_2026-10-05_at_11.41.03_AM.png?v=1791230675",
+      "https://www.highlevelthrowing.com/images/clinic-fort-lauderdale-2026.jpg",
+    ],
   ],
 };
 
