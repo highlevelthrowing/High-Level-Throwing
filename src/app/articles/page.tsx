@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { getArticles } from "@/lib/shopify/articles";
 import Image from "next/image";
 
 export const metadata: Metadata = {
@@ -117,7 +118,52 @@ const ARTICLES = [
   },
 ];
 
-export default function ArticlesPage() {
+/**
+ * The curated list above still supplies the artwork and hand-written excerpts
+ * for the featured pieces; everything else on the blog is pulled live so a new
+ * article appears here without an edit. Shopify is the source of truth for what
+ * exists — the page used to show thirteen of seventy-eight.
+ */
+const CURATED = new Map(ARTICLES.map((a) => [a.href, a]));
+
+function formatDate(iso: string): string {
+  return new Date(iso).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  });
+}
+
+/** Prefer a set excerpt; most articles have none, so fall back to the body. */
+function summarise(a: { excerpt: string | null; content: string | null }): string {
+  const text = stripHtml(a.excerpt) || stripHtml(a.content);
+  if (text.length <= 150) return text;
+  const cut = text.slice(0, 150);
+  return cut.slice(0, cut.lastIndexOf(" ")).trimEnd() + "\u2026";
+}
+
+function stripHtml(value: string | null): string {
+  if (!value) return "";
+  return value.replace(/<[^>]*>/g, " ").replace(/\s+/g, " ").trim();
+}
+
+export default async function ArticlesPage() {
+  const live = await getArticles().catch(() => []);
+
+  const merged = live.length
+    ? live.map((a) => {
+        const href = `/blogs/news/${encodeURIComponent(a.handle)}`;
+        const curated = CURATED.get(href);
+        return {
+          href,
+          title: curated?.title ?? a.title,
+          date: curated?.date ?? formatDate(a.publishedAt),
+          excerpt: curated?.excerpt ?? summarise(a),
+          image: curated?.image ?? a.image?.url ?? null,
+        };
+      })
+    : ARTICLES.map((a) => ({ ...a, image: a.image as string | null }));
+
   return (
     <section>
       <div className="section-head">
@@ -126,15 +172,17 @@ export default function ArticlesPage() {
         <p>The latest from High Level Throwing — partnerships, leaderboard updates, and research.</p>
       </div>
       <div className="article-grid">
-        {ARTICLES.map((article, index) => (
+        {merged.map((article, index) => (
           <Link className="article-card" href={article.href} key={article.href}>
             <div className="thumb">
-              <Image src={article.image} alt={article.title} fill unoptimized priority={index < 3} />
+              {article.image && (
+                <Image src={article.image} alt={article.title} fill unoptimized priority={index < 4} />
+              )}
             </div>
             <div className="body">
               <span className="article-date">{article.date}</span>
               <h3>{article.title}</h3>
-              <p>{article.excerpt}</p>
+              {article.excerpt && <p>{article.excerpt}</p>}
               <span className="card-link">Read more →</span>
             </div>
           </Link>
