@@ -22,7 +22,7 @@ const ARTICLES = [
     date: "October 7, 2026",
     excerpt:
       "Arm care isn't a few bands after practice. It's preparation, movement, sequencing, workload and recovery — and it starts long before the ball leaves...",
-    image: "/images/ac2-strength.jpg",
+    image: "/images/ac2-bandguide.jpg",
     href: "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
   },
   {
