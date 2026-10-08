@@ -40,12 +40,6 @@ const nextConfig: NextConfig = {
         destination: "/video-assessment",
         permanent: false,
       },
-      // Shopify app-proxy paths. Digital download links are issued under
-      // /a/downloads/... on the shop's own domain — every link already emailed
-      // to a customer points here, and this domain now answers from Vercel, so
-      // without this they 404. The token in the path is what authorises the
-      // download, and a redirect carries it through untouched.
-      { source: "/a/:path*", destination: `${SHOPIFY_STORE}/a/:path*`, permanent: false },
       // Everything else Shopify owns that this domain used to answer for, and
       // that customer emails, marketing links and ads still point at:
       //   /orders/<token>   order status page in every confirmation email
@@ -66,6 +60,22 @@ const nextConfig: NextConfig = {
       // Collections used to render on the Shopify theme. Sending people there
       // now drops them onto the old storefront, so keep them in the shop here.
       { source: "/collections/:path*", destination: "/shop", permanent: false },
+    ];
+  },
+  // Shopify app-proxy paths. Digital download links are issued under
+  // /a/downloads/... on the shop's own domain — every link already emailed to a
+  // customer points here, and this domain now answers from Vercel, so without
+  // this they 404. The token in the path is what authorises the download.
+  //
+  // A rewrite rather than a redirect: a redirect moved the customer to
+  // high-level-throwing.myshopify.com, so a link that said highlevelthrowing.com
+  // in their inbox opened on a domain they did not recognise — which reads as
+  // phishing and gets rewritten or flagged by some mail filters. Proxying keeps
+  // them on the domain the email promised, and the "Download Now" button on that
+  // page is a relative /a/... link, so it comes back through here too.
+  async rewrites() {
+    return [
+      { source: "/a/:path*", destination: "https://high-level-throwing.myshopify.com/a/:path*" },
     ];
   },
 };
