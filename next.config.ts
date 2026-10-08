@@ -73,11 +73,6 @@ const nextConfig: NextConfig = {
   // phishing and gets rewritten or flagged by some mail filters. Proxying keeps
   // them on the domain the email promised, and the "Download Now" button on that
   // page is a relative /a/... link, so it comes back through here too.
-  async rewrites() {
-    return [
-      { source: "/a/:path*", destination: "https://high-level-throwing.myshopify.com/a/:path*" },
-    ];
-  },
   // This path used to answer with a redirect, and a browser that cached it kept
   // sending customers to the old destination after the fix went out — the first
   // person to retry saw nothing until they opened a different browser. Telling
