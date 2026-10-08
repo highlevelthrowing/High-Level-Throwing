@@ -78,6 +78,16 @@ const nextConfig: NextConfig = {
       { source: "/a/:path*", destination: "https://high-level-throwing.myshopify.com/a/:path*" },
     ];
   },
+  // This path used to answer with a redirect, and a browser that cached it kept
+  // sending customers to the old destination after the fix went out — the first
+  // person to retry saw nothing until they opened a different browser. Telling
+  // the browser never to store a response here means the next change to how
+  // downloads are served reaches everyone immediately.
+  async headers() {
+    return [
+      { source: "/a/:path*", headers: [{ key: "Cache-Control", value: "no-store, must-revalidate" }] },
+    ];
+  },
 };
 
 export default nextConfig;
