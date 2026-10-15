@@ -246,7 +246,6 @@ export default async function Home() {
                     alt={service.imageAlt}
                     fill
                     sizes="(max-width: 900px) 100vw, 380px"
-                    style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
                   />
                 </div>
               )}
