@@ -888,20 +888,22 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 /* Help widget. Sits bottom-left because .back-to-top already owns the right
    corner, so the two never stack on top of each other. */
 .help-launcher{
-  position:fixed;left:18px;bottom:22px;z-index:60;
+  position:fixed;right:18px;bottom:22px;z-index:62;
+  display:inline-flex;align-items:center;gap:8px;
   padding:10px 16px;border-radius:999px;
-  background:var(--lime);color:#000;border:1px solid var(--lime);
+  background:var(--sky);color:#000;border:1px solid var(--sky);
   font-size:0.78rem;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;
   cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,0.5);
 }
-.help-launcher:hover{background:#d4ff5c;}
+.help-launcher-icon{width:18px;height:18px;flex:none;}
+.help-launcher:hover{background:#7dd3fc;}
 .help-launcher:focus-visible{outline:2px solid #fff;outline-offset:3px;}
 
 .help-panel{
-  position:fixed;left:18px;bottom:74px;z-index:61;
+  position:fixed;right:18px;bottom:74px;z-index:63;
   width:min(360px, calc(100vw - 36px));max-height:min(70vh, 560px);
   display:flex;flex-direction:column;overflow:hidden;
-  background:var(--card);border:1px solid rgba(198,255,46,0.45);border-radius:16px;
+  background:#06202e;border:1px solid rgba(56,189,248,0.5);border-radius:16px;
   box-shadow:0 18px 50px rgba(0,0,0,0.6);
 }
 .help-panel:focus{outline:none;}
@@ -923,25 +925,25 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   background:none;border:none;cursor:pointer;
   color:var(--text);font-size:0.9rem;line-height:1.35;
 }
-.help-list button:hover{background:rgba(198,255,46,0.1);color:var(--lime);}
+.help-list button:hover{background:rgba(56,189,248,0.12);color:var(--sky);}
 
 .help-answer{padding:16px;overflow-y:auto;}
 .help-back{
   background:none;border:none;cursor:pointer;padding:0;margin-bottom:12px;
   color:var(--muted);font-size:0.78rem;font-weight:700;
 }
-.help-back:hover{color:var(--lime);}
+.help-back:hover{color:var(--sky);}
 .help-answer h4{margin:0 0 8px;font-size:1rem;font-weight:800;}
 .help-answer p{margin:0 0 16px;color:var(--muted);font-size:0.9rem;line-height:1.5;}
-.help-cta{display:inline-flex;font-size:0.82rem;padding:10px 16px;}
+.help-cta{display:inline-flex;font-size:0.82rem;padding:10px 16px;background:var(--sky);color:#000;}
 
 @media (max-width:520px){
-  .help-launcher{left:12px;bottom:16px;padding:9px 13px;font-size:0.7rem;}
+  .help-launcher{right:12px;bottom:16px;padding:9px 13px;font-size:0.7rem;}
   .help-panel{left:12px;right:12px;bottom:64px;width:auto;}
 }
 
 .back-to-top{
-  position:fixed;right:18px;bottom:22px;z-index:60;
+  position:fixed;right:18px;bottom:78px;z-index:60;
   display:inline-flex;align-items:center;gap:7px;
   padding:10px 15px;border-radius:999px;
   background:var(--lime);color:#000;border:1px solid var(--lime);
@@ -954,7 +956,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .back-to-top:hover{background:#d4ff5c;border-color:#d4ff5c;}
 .back-to-top:focus-visible{outline:2px solid #fff;outline-offset:3px;}
 @media (max-width:600px){
-  .back-to-top{right:12px;bottom:16px;padding:9px 13px;font-size:0.7rem;}
+  .back-to-top{right:12px;bottom:66px;padding:9px 13px;font-size:0.7rem;}
   .back-to-top svg{width:16px;height:16px;}
 }
 @media (prefers-reduced-motion:reduce){

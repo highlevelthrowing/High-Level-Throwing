@@ -158,7 +158,20 @@ export default function HelpWidget() {
         onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
       >
-        {open ? "Close" : "How can we help?"}
+        <svg
+          className="help-launcher-icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <circle cx="12" cy="8" r="3.4" />
+          <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
+        </svg>
+        <span>{open ? "Close" : "How can we help?"}</span>
       </button>
     </>
   );
