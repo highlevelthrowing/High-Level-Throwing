@@ -51,8 +51,8 @@ const SERVICES = [
     cta: "Shop Equipment",
     href: "/shop",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
-    image: "/images/plyo-balls-closeup.jpg",
-    imageAlt: "The four Lightning Ball Plyo weights lined up on infield dirt",
+    image: "/images/equipment-team-and-plyos.jpg",
+    imageAlt: "A team holding High Level Throwing bags beside a close-up of the Lightning Ball plyos",
     accent: "sky" as const,
   },
 ];
@@ -60,9 +60,52 @@ const SERVICES = [
 // The three offerings a program can plug in, laid out as tiers so a coach can
 // compare them side by side. Clinic pricing is quoted per program, so it stays
 // off the card the way it does on the clinics page.
+type TierIconKind = "chart" | "calendar" | "ball";
+
+/** Same 24-unit box, 2px round stroke and accent colour as the icon on the
+ *  offering cards above, so the two rows read as one family. */
+function TierIcon({ kind, accent }: { kind: TierIconKind; accent: string }) {
+  const paths: Record<TierIconKind, React.ReactNode> = {
+    chart: (
+      <>
+        <path d="M3 3v16a2 2 0 0 0 2 2h16" />
+        <polyline points="7 15 11 10 15 13 20 7" />
+      </>
+    ),
+    calendar: (
+      <>
+        <rect x="3" y="5" width="18" height="16" rx="2" />
+        <path d="M8 3v4M16 3v4M3 10h18" />
+      </>
+    ),
+    ball: (
+      <>
+        <circle cx="12" cy="12" r="9" />
+        <path d="M13 6.8 9.3 12.6h2.6L11 17.2l3.7-5.8h-2.6z" />
+      </>
+    ),
+  };
+  return (
+    <svg
+      className="tier-icon"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      style={{ color: `var(--${accent})` }}
+    >
+      {paths[kind]}
+    </svg>
+  );
+}
+
 const INTEGRATION = [
   {
     name: "Video Assessments",
+    icon: "chart" as const,
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
@@ -81,6 +124,7 @@ const INTEGRATION = [
   },
   {
     name: "Clinics",
+    icon: "calendar" as const,
     cta: "Book a Clinic",
     href: "/clinics",
     forLabel: "Built for",
@@ -98,6 +142,7 @@ const INTEGRATION = [
   },
   {
     name: "Lightning Ball Plyos",
+    icon: "ball" as const,
     cta: "Shop Equipment",
     href: "/shop",
     forLabel: "Built for",
@@ -284,6 +329,7 @@ export default async function Home() {
         <div className="tier-grid">
           {INTEGRATION.map((box) => (
             <div className={`tier-card tier-card--${box.accent}`} key={box.name}>
+              <TierIcon kind={box.icon} accent={box.accent} />
               <h3 className="tier-name">{box.name}</h3>
 
               <Link className="btn btn-primary tier-cta" href={box.href}>
