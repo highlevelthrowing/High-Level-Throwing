@@ -40,9 +40,8 @@ const SERVICES = [
     cta: "Schedule a Clinic",
     href: "/clinics",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
-    image: "/images/clinic-bombers-alliance.jpg",
-    imageAlt: "Austin Wasserman with Bombers Fastpitch athletes at an Alliance Fastpitch clinic",
-    imagePosition: "50% 35%",
+    image: "/images/clinic-top-performers-camp.jpg",
+    imageAlt: "Austin Wasserman demonstrating a throw to a group of athletes at a Top Performers camp",
     accent: "lime" as const,
   },
   {
