@@ -52,8 +52,8 @@ const SERVICES = [
     cta: "Shop Equipment",
     href: "/shop",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
-    image: "/images/ac2-plyos.jpg",
-    imageAlt: "Lightning Ball Plyo Set on a pitching mound",
+    image: "/images/plyo-balls-closeup.jpg",
+    imageAlt: "The four Lightning Ball Plyo weights lined up on infield dirt",
     accent: "sky" as const,
   },
 ];
