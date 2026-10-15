@@ -19,12 +19,6 @@ const FAQS: { q: string; a: string; href?: string; cta?: string }[] = [
     cta: "See the clinic schedule",
   },
   {
-    q: "How much is a clinic?",
-    a: "Athlete sessions are $160. Coach Access is $125 and lets a coach attend any session, help out, learn the system and take video.",
-    href: "/clinics",
-    cta: "View clinics",
-  },
-  {
     q: "Can you bring a clinic to my team or facility?",
     a: "Yes — we run Foundational and Advanced clinics on-site for rec leagues, travel organizations, facilities and colleges, baseball and softball, all ages. Tell us where you are and we'll put together a plan.",
     href: "/contact",
@@ -47,12 +41,6 @@ const FAQS: { q: string; a: string; href?: string; cta?: string }[] = [
     a: "Athletes 13 and older are eligible. Throw at a clinic or submit a verified velocity and you'll appear on the live leaderboard.",
     href: "/leaderboard",
     cta: "View the leaderboard",
-  },
-  {
-    q: "What is your refund policy?",
-    a: "Clinic registrations are non-refundable. You can transfer your spot to another athlete, or take the High Level Throwing® book for free instead.",
-    href: "/refund-policy",
-    cta: "Read the policy",
   },
   {
     q: "I bought a book — where is my download?",
