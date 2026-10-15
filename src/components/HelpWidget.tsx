@@ -13,6 +13,12 @@ import Link from "next/link";
  */
 const FAQS: { q: string; a: string; href?: string; cta?: string }[] = [
   {
+    q: "My son or daughter needs help with their mechanics — where do we start?",
+    a: "A Video Assessment is the place to begin. You send a throwing video, and we come back with a High Level Throwing® Score, a full mechanics breakdown in 24–48 hours and a 12-week program built around what we find — so you are working on the right thing rather than guessing.",
+    href: "/video-assessment",
+    cta: "Start a Video Assessment",
+  },
+  {
     q: "Where are your upcoming clinics?",
     a: "Every clinic we have scheduled is listed with its dates, sessions and age groups. Registration opens on each clinic's own page.",
     href: "/clinics",
