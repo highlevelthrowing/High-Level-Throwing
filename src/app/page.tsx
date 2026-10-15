@@ -28,6 +28,9 @@ const SERVICES = [
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "trending-up" as const,
+    image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/ScreenShot2024-04-08at6.59.25PM_0fb03d93-5a06-4290-804e-76f291b0037c.png?v=1713496613&width=900",
+    imageAlt: "Softball player seen side-on mid-throw, the angle an assessment is filmed from",
+    imagePosition: "50% 18%",
     accent: "pink" as const,
   },
   {
@@ -37,6 +40,9 @@ const SERVICES = [
     cta: "Schedule a Clinic",
     href: "/clinics",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
+    image: "/images/clinic-bombers-alliance.jpg",
+    imageAlt: "Austin Wasserman with Bombers Fastpitch athletes at an Alliance Fastpitch clinic",
+    imagePosition: "50% 35%",
     accent: "lime" as const,
   },
   {
@@ -46,6 +52,8 @@ const SERVICES = [
     cta: "Shop Equipment",
     href: "/shop",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
+    image: "/images/ac2-plyos.jpg",
+    imageAlt: "Lightning Ball Plyo Set on a pitching mound",
     accent: "sky" as const,
   },
 ];
@@ -188,6 +196,17 @@ export default async function Home() {
               </div>
               <h3>{service.title}</h3>
               <p>{service.body}</p>
+              {service.image && (
+                <div className="pillar-media">
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 380px"
+                    style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
+                  />
+                </div>
+              )}
               {service.href.startsWith("/") ? (
                 <Link className="card-link" href={service.href}>
                   {service.cta} →
