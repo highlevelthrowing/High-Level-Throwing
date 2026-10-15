@@ -64,6 +64,9 @@ function isPopupFreePath(pathname: string): boolean {
   // purchase it is meant to encourage.
   if (pathname.startsWith("/products/")) return true;
   if (pathname === "/cart" || pathname.startsWith("/cart/")) return true;
+  if (pathname === "/shop" || pathname.startsWith("/shop/")) return true;
+  if (pathname === "/books" || pathname.startsWith("/books/")) return true;
+  if (pathname.endsWith("video-assessment")) return true;
   if (pathname === "/clinics" || pathname.startsWith("/clinics/")) return true;
   // Embedded clinic and registration pages.
   if (pathname.startsWith("/pages/")) return true;
@@ -122,8 +125,56 @@ function useDeferredKlaviyo() {
   }, [pathname]);
 }
 
+
+/**
+ * The path list above is maintained by hand and will go stale the first time a
+ * page grows a Buy button without anyone thinking of this file. This is the
+ * backstop: if a Klaviyo form ever renders on top of a purchase control
+ * anywhere, it gets removed from the layout. A list can be wrong; this cannot.
+ */
+function useBuyButtonGuard() {
+  useEffect(() => {
+    const BUY = /add to cart|add to bag|buy now|checkout|register now|i want this/i;
+
+    const sweep = () => {
+      const forms = document.querySelectorAll<HTMLElement>(
+        '[class*="kl-private"], .klaviyo-form'
+      );
+      if (!forms.length) return;
+
+      const buys = Array.from(document.querySelectorAll<HTMLElement>("button, a"))
+        .filter((el) => BUY.test(el.textContent || ""))
+        .map((el) => el.getBoundingClientRect())
+        .filter((r) => r.width > 0 && r.height > 0);
+      if (!buys.length) return;
+
+      forms.forEach((form) => {
+        const r = form.getBoundingClientRect();
+        if (r.width === 0 || r.height === 0) return;
+        const covers = buys.some(
+          (b) => !(r.bottom < b.top || r.top > b.bottom || r.right < b.left || r.left > b.right)
+        );
+        if (covers) form.style.setProperty("display", "none", "important");
+      });
+    };
+
+    const observer = new MutationObserver(sweep);
+    observer.observe(document.body, { childList: true, subtree: true });
+    const onScroll = () => sweep();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    const timer = setInterval(sweep, 1000);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener("scroll", onScroll);
+      clearInterval(timer);
+    };
+  }, []);
+}
+
 export default function Analytics() {
   usePageViews();
+  useBuyButtonGuard();
   useDeferredKlaviyo();
 
   return (
