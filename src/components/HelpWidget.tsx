@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 /**
  * The same handful of questions arrive through the contact form every week.
@@ -158,23 +159,14 @@ export default function HelpWidget() {
         onClick={() => (open ? close() : setOpen(true))}
         aria-expanded={open}
       >
-        <svg
-          className="help-launcher-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
+        <Image
+          className="help-launcher-avatar"
+          src="/images/help-coach-avatar.jpg"
+          alt=""
+          width={28}
+          height={28}
           aria-hidden="true"
-        >
-          {/* ball cap: crown, band and brim, over a face and shoulders */}
-          <path d="M8 8.2a4 4 0 0 1 8 0" />
-          <path d="M8 8.2h8" />
-          <path d="M16 8.2h4.6" />
-          <path d="M9.4 8.2v2.2a2.6 2.6 0 0 0 5.2 0V8.2" />
-          <path d="M5.5 20a6.5 6.5 0 0 1 13 0" />
-        </svg>
+        />
         <span>{open ? "Close" : "How can we help?"}</span>
       </button>
     </>
