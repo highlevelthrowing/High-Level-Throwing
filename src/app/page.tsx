@@ -51,8 +51,8 @@ const SERVICES = [
     cta: "Shop Equipment",
     href: "/shop",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
-    image: "/images/equipment-nsu-team-plyos.jpg",
-    imageAlt: "The NSU Softball roster holding up their Lightning Ball plyos",
+    image: "/images/equipment-fau-team-plyos.jpg",
+    imageAlt: "The FAU Softball roster holding up their Lightning Ball plyos with Austin Wasserman",
     accent: "sky" as const,
   },
 ];
