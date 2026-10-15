@@ -209,32 +209,6 @@ export default async function Home() {
         <div className="grid grid-3">
           {SERVICES.map((service) => (
             <div className={`pillar-card pillar-card--${service.accent}`} key={service.title}>
-              {service.icon === "trending-up" ? (
-                <svg
-                  width="40"
-                  height="40"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  className="pillar-icon"
-                  style={{ color: `var(--${service.accent})` }}
-                >
-                  <polyline points="3 17 9 11 13 15 21 7" />
-                  <polyline points="14 7 21 7 21 14" />
-                </svg>
-              ) : (
-                service.icon && (
-                  <Image
-                    src={service.icon}
-                    alt={`${service.title} icon`}
-                    width={40}
-                    height={40}
-                    className="pillar-icon"
-                    unoptimized
-                  />
-                )
-              )}
               <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>
                 {service.tag}
               </div>
@@ -262,6 +236,33 @@ export default async function Home() {
                   {service.cta} →
                 </a>
               )}
+              {service.icon === "trending-up" ? (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  className="pillar-icon"
+                  style={{ color: `var(--${service.accent})` }}
+                >
+                  <polyline points="3 17 9 11 13 15 21 7" />
+                  <polyline points="14 7 21 7 21 14" />
+                </svg>
+              ) : (
+                service.icon && (
+                  <Image
+                    src={service.icon}
+                    alt={`${service.title} icon`}
+                    width={40}
+                    height={40}
+                    className="pillar-icon"
+                    unoptimized
+                  />
+                )
+              )}
+
             </div>
           ))}
         </div>
