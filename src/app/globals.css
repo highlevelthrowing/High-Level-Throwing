@@ -887,6 +887,16 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
    fixed mobile bits, fades in so it never pops under the reader's thumb. */
 /* Help widget. Sits bottom-left because .back-to-top already owns the right
    corner, so the two never stack on top of each other. */
+/* Klaviyo pop-ups are kept off registration and clinic pages. display:none on
+   the whole wrapper, not visibility or opacity: the modal ships a fixed,
+   full-screen backdrop, and anything that leaves it in the layout can still
+   intercept a tap meant for a Buy or Register button underneath it. */
+body.no-klaviyo-forms .klaviyo-form,
+body.no-klaviyo-forms [class*="kl-private-reset-css"],
+body.no-klaviyo-forms div[data-testid="klaviyo-form"]{
+  display:none !important;
+}
+
 .help-launcher{
   position:fixed;right:18px;bottom:22px;z-index:62;
   display:inline-flex;align-items:center;gap:8px;

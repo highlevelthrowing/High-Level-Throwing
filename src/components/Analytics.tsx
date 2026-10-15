@@ -53,10 +53,11 @@ function usePageViews() {
  * Nothing is lost by waiting: _learnq is a queue, so any event pushed before
  * the script arrives (an Added to Cart, an identify) is flushed once it loads.
  */
-// Klaviyo's signup form is configured in the Klaviyo account, not here, so the
-// only way to keep it off a page is to not load Klaviyo there. Clinic and
-// registration pages are mid-purchase — a discount pop-up over a registration
-// form costs more than it earns.
+// Clinic and registration pages are mid-purchase, and a discount pop-up over a
+// registration form costs more than it earns. Holding the whole script back
+// used to be how that was done, but that also threw away the tracking: every
+// Viewed Product on a clinic page sat unsent in _learnq forever. The script now
+// loads everywhere and only the form is suppressed here.
 function isPopupFreePath(pathname: string): boolean {
   if (pathname === "/clinics" || pathname.startsWith("/clinics/")) return true;
   // Embedded clinic and registration pages.
@@ -70,8 +71,18 @@ function isPopupFreePath(pathname: string): boolean {
 function useDeferredKlaviyo() {
   const pathname = usePathname();
 
+  // Suppressing the form is a class on <body>, not a missing script, so events
+  // still reach Klaviyo from these pages. display:none on the wrapper rather
+  // than hiding it visually — a Klaviyo modal carries a full-screen backdrop,
+  // and anything short of removing it from layout can still swallow a click on
+  // a Buy button underneath.
   useEffect(() => {
-    if (isPopupFreePath(pathname)) return;
+    const suppress = isPopupFreePath(pathname);
+    document.body.classList.toggle("no-klaviyo-forms", suppress);
+    return () => document.body.classList.remove("no-klaviyo-forms");
+  }, [pathname]);
+
+  useEffect(() => {
     if (document.getElementById("klaviyo-onsite")) return;
 
     let done = false;
