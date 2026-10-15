@@ -28,8 +28,9 @@ const SERVICES = [
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "trending-up" as const,
-    image: "/images/assessment-catcher.jpg",
-    imageAlt: "A catcher in full gear set behind the plate",
+    image: "/images/assessment-lalia-result.jpg",
+    imageAlt: "Lalia Mejia, age 13 — start velo 49 mph, current velo 58 mph after three months of remote training",
+    imageAspect: "1 / 1",
     accent: "pink" as const,
   },
   {
@@ -240,7 +241,10 @@ export default async function Home() {
               <h3>{service.title}</h3>
               <p>{service.body}</p>
               {service.image && (
-                <div className="pillar-media">
+                <div
+                  className="pillar-media"
+                  style={service.imageAspect ? ({ "--media-aspect": service.imageAspect } as React.CSSProperties) : undefined}
+                >
                   <Image
                     src={service.image}
                     alt={service.imageAlt}
