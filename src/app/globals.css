@@ -843,6 +843,15 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   .email-capture-form .btn{width:100%;}
 }
 
+/* On a clinic registration page the block above is an embedded iframe that
+   just stops wherever the theme content ends, with no closing edge of its own.
+   Without a rule here the waitlist reads as part of that clinic's page rather
+   than as a separate offer, so mark the boundary explicitly. */
+.waitlist-break{position:relative;border-top:1px solid var(--border);}
+.waitlist-break::before{
+  content:"";position:absolute;top:-2px;left:50%;transform:translateX(-50%);
+  width:140px;height:3px;border-radius:999px;background:var(--lime);
+}
 .clinic-waitlist{
   max-width:1180px;margin:0 auto;padding:34px 30px 30px;border:1px solid var(--border);
   border-radius:20px;background:var(--card);

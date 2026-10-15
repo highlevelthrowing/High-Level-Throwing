@@ -50,7 +50,7 @@ export default async function ShopifyHostedPage({
     <>
       <SimpleEmbed embedKey={handle} iframeTitle="High Level Throwing" height={2400} />
       {isClinicRegistrationPage(handle) && (
-        <section id="clinic-waitlist">
+        <section id="clinic-waitlist" className="waitlist-break">
           <ClinicWaitlist />
         </section>
       )}
