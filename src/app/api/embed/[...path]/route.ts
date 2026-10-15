@@ -21,6 +21,32 @@ const STYLED_BY_THEME = new Set(["leaderboard"]);
  * rather than ship a link that sells the wrong session.
  */
 const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
+  // Tracy's 2026 page was copied from the January clinic, so every session
+  // button still sells a January product that no longer exists — all five 404.
+  // The live products kept their older handles, so the dates in the targets
+  // below are the handles' own, not this clinic's.
+  "high-level-throwing-clinic-tracy-ca-december-2026": [
+    [
+      "hlt-clinic-tracy-ca-session-1-saturday-january-25th-9am-11am-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-1-saturday-december-6th-9am-11am-155-ages-8-12",
+    ],
+    [
+      "hlt-clinic-tracy-ca-session-2-saturday-january-25th-1130am-130pm-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-2-saturday-decembrer-6th-1130am-130pm-155-ages-8-12",
+    ],
+    [
+      "hlt-clinic-tracy-ca-session-3-saturday-january-25th-2pm-4pm-155-ages-13",
+      "hlt-clinic-tracy-ca-session-3-saturday-december-6th-2pm-4pm-155-ages-13",
+    ],
+    [
+      "hlt-clinic-tracy-ca-session-4-sunday-january-26th-9am-11am-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-4-sunday-december-7th-9am-11am-155-ages-8-12",
+    ],
+    [
+      "hlt-clinic-tracy-ca-session-5-sunday-january-26th-1130am-130pm-155-ages-13",
+      "hlt-clinic-tracy-ca-session-5-sunday-december-7th-1130am-130pm-155-ages-13",
+    ],
+  ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     [
       "hlt-clinic-uxbridge-ma-2024-coach-access-100",
@@ -37,6 +63,9 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
 };
 
 const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
+  "high-level-throwing-clinic-tracy-ca-december-2026": [
+    ["December 5th & 76h 2026", "December 5th & 6th 2026"],
+  ],
   "high-level-throwing-clinic-poland-oh-february-2027": [
     ["Poland, Ohio 2026", "Poland, Ohio 2027"],
     ["Poland , OH 2026", "Poland, OH 2027"],
