@@ -79,7 +79,20 @@ const nextConfig: NextConfig = {
   // the browser never to store a response here means the next change to how
   // downloads are served reaches everyone immediately.
   async headers() {
+    // Baseline hardening on every response. No CSP here on purpose: this site
+    // pulls scripts, images and frames from Shopify's CDN, Vimeo, Klaviyo and
+    // the Tockify image host, so a policy written without auditing those would
+    // silently break them. That wants its own pass, report-only first.
+    const security = [
+      { key: "X-Content-Type-Options", value: "nosniff" },
+      { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+      // SAMEORIGIN rather than DENY: the clinic registration pages render the
+      // proxied Shopify page in an iframe on this same origin.
+      { key: "X-Frame-Options", value: "SAMEORIGIN" },
+      { key: "Permissions-Policy", value: "camera=(), microphone=(), geolocation=()" },
+    ];
     return [
+      { source: "/:path*", headers: security },
       { source: "/a/:path*", headers: [{ key: "Cache-Control", value: "no-store, must-revalidate" }] },
     ];
   },
