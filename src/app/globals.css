@@ -885,6 +885,61 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 
 /* Back to top — only mounted on the long article list. Sits above the
    fixed mobile bits, fades in so it never pops under the reader's thumb. */
+/* Help widget. Sits bottom-left because .back-to-top already owns the right
+   corner, so the two never stack on top of each other. */
+.help-launcher{
+  position:fixed;left:18px;bottom:22px;z-index:60;
+  padding:10px 16px;border-radius:999px;
+  background:var(--lime);color:#000;border:1px solid var(--lime);
+  font-size:0.78rem;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;
+  cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,0.5);
+}
+.help-launcher:hover{background:#d4ff5c;}
+.help-launcher:focus-visible{outline:2px solid #fff;outline-offset:3px;}
+
+.help-panel{
+  position:fixed;left:18px;bottom:74px;z-index:61;
+  width:min(360px, calc(100vw - 36px));max-height:min(70vh, 560px);
+  display:flex;flex-direction:column;overflow:hidden;
+  background:var(--card);border:1px solid rgba(198,255,46,0.45);border-radius:16px;
+  box-shadow:0 18px 50px rgba(0,0,0,0.6);
+}
+.help-panel:focus{outline:none;}
+.help-head{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 16px;border-bottom:1px solid var(--border);
+  font-weight:800;font-size:0.95rem;color:var(--text);
+}
+.help-x{
+  background:none;border:none;color:var(--muted);font-size:1.5rem;line-height:1;
+  cursor:pointer;padding:0 4px;
+}
+.help-x:hover{color:var(--text);}
+
+.help-list{list-style:none;margin:0;padding:6px;overflow-y:auto;}
+.help-list button{
+  display:block;width:100%;text-align:left;
+  padding:11px 12px;border-radius:10px;
+  background:none;border:none;cursor:pointer;
+  color:var(--text);font-size:0.9rem;line-height:1.35;
+}
+.help-list button:hover{background:rgba(198,255,46,0.1);color:var(--lime);}
+
+.help-answer{padding:16px;overflow-y:auto;}
+.help-back{
+  background:none;border:none;cursor:pointer;padding:0;margin-bottom:12px;
+  color:var(--muted);font-size:0.78rem;font-weight:700;
+}
+.help-back:hover{color:var(--lime);}
+.help-answer h4{margin:0 0 8px;font-size:1rem;font-weight:800;}
+.help-answer p{margin:0 0 16px;color:var(--muted);font-size:0.9rem;line-height:1.5;}
+.help-cta{display:inline-flex;font-size:0.82rem;padding:10px 16px;}
+
+@media (max-width:520px){
+  .help-launcher{left:12px;bottom:16px;padding:9px 13px;font-size:0.7rem;}
+  .help-panel{left:12px;right:12px;bottom:64px;width:auto;}
+}
+
 .back-to-top{
   position:fixed;right:18px;bottom:22px;z-index:60;
   display:inline-flex;align-items:center;gap:7px;

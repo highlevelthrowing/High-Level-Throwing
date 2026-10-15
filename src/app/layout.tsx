@@ -5,6 +5,7 @@ import { SITE_URL } from "@/lib/site";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
+import HelpWidget from "@/components/HelpWidget";
 
 export const metadata: Metadata = {
   // metadataBase makes every relative canonical and OG url resolve to the live
@@ -32,6 +33,7 @@ export default function RootLayout({
         <main className="flex-1">{children}</main>
         <Footer />
         {/* useSearchParams needs a boundary; analytics must never block a page. */}
+        <HelpWidget />
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>
