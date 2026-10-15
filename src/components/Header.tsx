@@ -15,7 +15,6 @@ const NAV: NavItem[] = [
   { label: "Shop Equipment", href: "/shop" },
   { label: "Books", href: "/books" },
   { label: "Articles", href: "/articles" },
-  { label: "Contact", href: "/contact" },
 ];
 
 function isDropdown(item: NavItem): item is { label: string; children: NavLeaf[] } {
@@ -49,7 +48,15 @@ export default async function Header() {
             priority
           />
         </Link>
-        <MobileNav links={NAV.flatMap((item) => (isDropdown(item) ? item.children : [item]))} />
+        {/* Contact is not in NAV: the button beside it covers that on desktop.
+            That button is hidden under 520px though, so the mobile menu carries
+            its own entry rather than leaving phones with no way to reach it. */}
+        <MobileNav
+          links={[
+            ...NAV.flatMap((item) => (isDropdown(item) ? item.children : [item])),
+            { label: "Contact", href: "/contact" },
+          ]}
+        />
         <div className="navlinks">
           {NAV.map((item) =>
             isDropdown(item) ? (
@@ -87,7 +94,7 @@ export default async function Header() {
             {count > 0 && <span className="cart-count">{count}</span>}
           </Link>
           <Link className="nav-cta" href="/contact">
-            Talk to Us
+            Contact Us
           </Link>
         </div>
       </nav>
