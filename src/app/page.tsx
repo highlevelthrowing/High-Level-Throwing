@@ -28,9 +28,8 @@ const SERVICES = [
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "trending-up" as const,
-    image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/ScreenShot2024-04-08at6.59.25PM_0fb03d93-5a06-4290-804e-76f291b0037c.png?v=1713496613&width=900",
-    imageAlt: "Softball player seen side-on mid-throw, the angle an assessment is filmed from",
-    imagePosition: "50% 18%",
+    image: "/images/assessment-catcher.jpg",
+    imageAlt: "A catcher in full gear set behind the plate",
     accent: "pink" as const,
   },
   {
