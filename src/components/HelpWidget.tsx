@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 
 /**
@@ -73,12 +74,25 @@ const SEEN_KEY = "hlt-help-seen";
 // panels competing, so wait until that has had its moment.
 const AUTO_OPEN_MS = 7000;
 
+/** Pages with a Buy button: the launcher stays, but nothing opens itself over
+ *  a purchase. The panel is nearly full width on a phone and would cover Add to
+ *  Cart outright. */
+function blocksPurchase(pathname: string): boolean {
+  return (
+    pathname.startsWith("/products/") ||
+    pathname.startsWith("/cart") ||
+    pathname.startsWith("/pages/")
+  );
+}
+
 export default function HelpWidget() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState<number | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (blocksPurchase(pathname)) return;
     let seen = true;
     try {
       seen = sessionStorage.getItem(SEEN_KEY) === "1";
@@ -94,7 +108,7 @@ export default function HelpWidget() {
       } catch {}
     }, AUTO_OPEN_MS);
     return () => clearTimeout(t);
-  }, []);
+  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;

@@ -59,6 +59,11 @@ function usePageViews() {
 // Viewed Product on a clinic page sat unsent in _learnq forever. The script now
 // loads everywhere and only the form is suppressed here.
 function isPopupFreePath(pathname: string): boolean {
+  // Any page with a Buy button on it. On a phone the Klaviyo modal lands
+  // squarely over Add to Cart, so the discount offer physically blocks the
+  // purchase it is meant to encourage.
+  if (pathname.startsWith("/products/")) return true;
+  if (pathname === "/cart" || pathname.startsWith("/cart/")) return true;
   if (pathname === "/clinics" || pathname.startsWith("/clinics/")) return true;
   // Embedded clinic and registration pages.
   if (pathname.startsWith("/pages/")) return true;
