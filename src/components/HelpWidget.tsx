@@ -183,17 +183,19 @@ export default function HelpWidget() {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          strokeWidth="1.8"
+          strokeWidth="1.7"
           strokeLinecap="round"
           strokeLinejoin="round"
           aria-hidden="true"
         >
-          {/* cap filled solid so it reads as a cap at 18px, face and
-              shoulders left as outline underneath it */}
-          <path d="M7.6 8.4a4.4 4.4 0 0 1 8.8 0v.9H7.6z" fill="currentColor" stroke="none" />
-          <path d="M16.4 8.6h4.3a.7.7 0 0 1 0 1.4h-4.3z" fill="currentColor" stroke="none" />
-          <path d="M9.4 9.3v1.9a2.6 2.6 0 0 0 5.2 0V9.3" />
-          <path d="M5.5 20.5a6.5 6.5 0 0 1 13 0" />
+          {/* ball low-left with a single seam, bat running up to the right.
+              Barrel is filled so it still reads as a bat at 20px, where a
+              two-line outline would close up into a smudge. */}
+          <circle cx="7.1" cy="16.9" r="3.3" />
+          <path d="M4.9 14.4c1.3 1 2.1 2.5 2.2 4.1" />
+          <path d="M13.1 13.9l6.1-7a2.1 2.1 0 0 1 3 2.9l-6.6 6.6z" fill="currentColor" stroke="none" />
+          <path d="M13.1 13.9l-1.6 1.6" />
+          <circle cx="10.8" cy="16.2" r="1.05" fill="currentColor" stroke="none" />
         </svg>
         <span>{open ? "Close" : "How can we help?"}</span>
       </button>
