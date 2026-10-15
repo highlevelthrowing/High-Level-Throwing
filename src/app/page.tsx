@@ -28,9 +28,9 @@ const SERVICES = [
     cta: "Start Video Assessment",
     href: "/video-assessment",
     icon: "trending-up" as const,
-    image: "/images/assessment-lalia-result.jpg",
-    imageAlt: "Lalia Mejia, age 13 — start velo 49 mph, current velo 58 mph after three months of remote training",
-    imageAspect: "1 / 1",
+    image: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/ScreenShot2024-04-08at6.59.25PM_0fb03d93-5a06-4290-804e-76f291b0037c.png?v=1713496613&width=900",
+    imageAlt: "Softball player seen side-on mid-throw, the angle an assessment is filmed from",
+    imagePosition: "50% 18%",
     accent: "pink" as const,
   },
   {
@@ -40,8 +40,8 @@ const SERVICES = [
     cta: "Schedule a Clinic",
     href: "/clinics",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
-    image: "/images/clinic-top-performers-camp.jpg",
-    imageAlt: "Austin Wasserman demonstrating a throw to a group of athletes at a Top Performers camp",
+    image: "/images/clinic-coach-teaching.jpg",
+    imageAlt: "Austin Wasserman coaching a group of athletes at an on-site clinic",
     accent: "lime" as const,
   },
   {
@@ -209,33 +209,6 @@ export default async function Home() {
         <div className="grid grid-3">
           {SERVICES.map((service) => (
             <div className={`pillar-card pillar-card--${service.accent}`} key={service.title}>
-              <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>
-                {service.tag}
-              </div>
-              <h3>{service.title}</h3>
-              <p>{service.body}</p>
-              {service.image && (
-                <div
-                  className="pillar-media"
-                  style={service.imageAspect ? ({ "--media-aspect": service.imageAspect } as React.CSSProperties) : undefined}
-                >
-                  <Image
-                    src={service.image}
-                    alt={service.imageAlt}
-                    fill
-                    sizes="(max-width: 900px) 100vw, 380px"
-                  />
-                </div>
-              )}
-              {service.href.startsWith("/") ? (
-                <Link className="card-link" href={service.href}>
-                  {service.cta} →
-                </Link>
-              ) : (
-                <a className="card-link" href={service.href} target="_blank" rel="noopener">
-                  {service.cta} →
-                </a>
-              )}
               {service.icon === "trending-up" ? (
                 <svg
                   width="40"
@@ -262,7 +235,31 @@ export default async function Home() {
                   />
                 )
               )}
-
+              <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>
+                {service.tag}
+              </div>
+              <h3>{service.title}</h3>
+              <p>{service.body}</p>
+              {service.image && (
+                <div className="pillar-media">
+                  <Image
+                    src={service.image}
+                    alt={service.imageAlt}
+                    fill
+                    sizes="(max-width: 900px) 100vw, 380px"
+                    style={service.imagePosition ? { objectPosition: service.imagePosition } : undefined}
+                  />
+                </div>
+              )}
+              {service.href.startsWith("/") ? (
+                <Link className="card-link" href={service.href}>
+                  {service.cta} →
+                </Link>
+              ) : (
+                <a className="card-link" href={service.href} target="_blank" rel="noopener">
+                  {service.cta} →
+                </a>
+              )}
             </div>
           ))}
         </div>

@@ -155,13 +155,12 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .grid-3{grid-template-columns:repeat(3,1fr);max-width:1180px;}
 @media (max-width:900px){ .grid-2, .grid-3{grid-template-columns:1fr;} }
 .pillar-card{
-  display:flex;flex-direction:column;
   background:var(--card);border:1px solid var(--border);border-radius:18px;
   padding:36px;transition:border-color .2s, transform .2s;text-align:left;
 }
 .pillar-card:hover{border-color:rgba(198,255,46,0.4);transform:translateY(-4px);}
 .pillar-card.option-blue:hover{border-color:rgba(56,189,248,0.4);}
-.pillar-icon{width:40px;height:40px;object-fit:contain;margin-top:auto;padding-top:28px;opacity:0.9;}
+.pillar-icon{width:40px;height:40px;object-fit:contain;margin-bottom:16px;}
 .pillar-num{
   display:inline-block;font-weight:900;font-size:0.75rem;letter-spacing:1px;
   color:var(--navy);background:var(--lime);padding:4px 12px;border-radius:999px;margin-bottom:20px;
@@ -173,7 +172,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
    link. fill + a positioned parent so it crops rather than distorts as the
    three-up grid collapses to one column. */
 .pillar-media{
-  position:relative;width:100%;aspect-ratio:var(--media-aspect, 16/9);margin-bottom:18px;
+  position:relative;width:100%;aspect-ratio:16/9;margin-bottom:18px;
   border-radius:12px;overflow:hidden;border:1px solid var(--border);
 }
 .pillar-media img{object-fit:cover;}
