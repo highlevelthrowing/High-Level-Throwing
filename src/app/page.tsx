@@ -51,8 +51,8 @@ const SERVICES = [
     cta: "Shop Equipment",
     href: "/shop",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
-    image: "/images/equipment-team-and-plyos.jpg",
-    imageAlt: "A team holding High Level Throwing bags beside a close-up of the Lightning Ball plyos",
+    image: "/images/equipment-team-plyos.jpg",
+    imageAlt: "A softball team holding up their Lightning Ball plyos with Austin Wasserman",
     accent: "sky" as const,
   },
 ];
