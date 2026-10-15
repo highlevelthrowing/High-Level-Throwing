@@ -19,6 +19,12 @@ const FAQS: { q: string; a: string; href?: string; cta?: string }[] = [
     cta: "Start a Video Assessment",
   },
   {
+    q: "I'm a coach — where should I start?",
+    a: "Start with the digital books. They lay out the High Level Throwing® system the same way we teach it at clinics — arm care, patterning, drills and progressions — so you can run it with your own athletes straight away. Baseball and softball editions, and youth versions of both.",
+    href: "/books",
+    cta: "Browse the books",
+  },
+  {
     q: "Where are your upcoming clinics?",
     a: "Every clinic we have scheduled is listed with its dates, sessions and age groups. Registration opens on each clinic's own page.",
     href: "/clinics",
