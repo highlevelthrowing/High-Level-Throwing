@@ -895,10 +895,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   font-size:0.78rem;font-weight:800;letter-spacing:0.6px;text-transform:uppercase;
   cursor:pointer;box-shadow:0 10px 26px rgba(0,0,0,0.5);
 }
-.help-launcher-avatar{
-  width:28px;height:28px;flex:none;border-radius:50%;object-fit:cover;
-  border:2px solid rgba(0,0,0,0.35);margin:-4px 0 -4px -6px;
-}
+.help-launcher-icon{width:20px;height:20px;flex:none;}
 .help-launcher:hover{background:#7dd3fc;}
 .help-launcher:focus-visible{outline:2px solid #fff;outline-offset:3px;}
 
