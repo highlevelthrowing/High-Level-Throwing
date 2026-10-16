@@ -93,6 +93,31 @@ function resolveTarget(segments: string[]): string | null {
   return `${SHOPIFY_STORE}/${segments.map(encodeURIComponent).join("/")}`;
 }
 
+
+/**
+ * Shopify's own analytics travel with the proxied markup, and they post to
+ * high-level-throwing.myshopify.com/api/collect. Served from this domain that
+ * is cross-origin, so every beacon is refused by CORS, the promise rejects
+ * unhandled, and the bundle retries — on a registration page left open for a
+ * minute the loop is enough to make scrolling stutter and then stall, with the
+ * Register buttons unreachable underneath.
+ *
+ * Only the analytics go. The theme scripts, cart sync, dynamic checkout and the
+ * product-options app are what make the page work and are left alone.
+ */
+function stripShopifyAnalytics(html: string): string {
+  const drop: RegExp[] = [
+    // Web Pixels Manager, which carries trekkie with it
+    /<script\b[^>]*>(?:(?!<\/script>)[\s\S])*?wpmLoader(?:(?!<\/script>)[\s\S])*?<\/script>/gi,
+    // the trekkie loader itself
+    /<script\b[^>]*class=["']analytics["'][^>]*>[\s\S]*?<\/script>/gi,
+    // perf-kit, the one that actually names api/collect
+    /<script\b[^>]*shopify-perf-kit[^>]*>\s*<\/script>/gi,
+    /<script\b[^>]*src=["'][^"']*shopify-perf-kit[^"']*["'][^>]*\/?>/gi,
+  ];
+  return drop.reduce((acc, re) => acc.replace(re, ""), html);
+}
+
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const segments = (path ?? []).map((s) => decodeURIComponent(s));
@@ -112,7 +137,7 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
     return new Response("Unable to load this page right now.", { status: 502 });
   }
 
-  let html = await res.text();
+  let html = stripShopifyAnalytics(await res.text());
   html = html.replace(/<head(\s[^>]*)?>/i, (match) => `${match}\n<base href="${targetUrl}">`);
 
   // Corrections the theme still carries. Writes to a published theme are
