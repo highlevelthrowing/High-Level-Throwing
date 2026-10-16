@@ -95,7 +95,12 @@ function blocksPurchase(pathname: string): boolean {
  * Shopify's checkout is a different domain and never had this on it.
  */
 function isRegistrationPage(pathname: string): boolean {
-  return pathname.startsWith("/pages/") && /clinic/i.test(decodeURIComponent(pathname));
+  const path = decodeURIComponent(pathname);
+  // the registration page itself
+  if (path.startsWith("/pages/") && /clinic/i.test(path)) return true;
+  // and the session product behind its buttons, which is where payment happens
+  if (/^\/products\/hlt-clinic/i.test(path)) return true;
+  return false;
 }
 
 export default function HelpWidget() {
