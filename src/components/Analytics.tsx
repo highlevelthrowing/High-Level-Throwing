@@ -146,11 +146,20 @@ function useBuyButtonGuard() {
         .filter((el) => BUY.test(el.textContent || ""))
         .map((el) => el.getBoundingClientRect())
         .filter((r) => r.width > 0 && r.height > 0);
-      if (!buys.length) return;
+
+      // A lock with no visible form behind it is just a frozen page.
+      const anyVisible = Array.from(forms).some((f) => {
+        const r = f.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && getComputedStyle(f).display !== "none";
+      });
+      if (!anyVisible) {
+        document.body.classList.remove("klaviyo-prevent-body-scrolling");
+      }
 
       forms.forEach((form) => {
         const r = form.getBoundingClientRect();
         if (r.width === 0 || r.height === 0) return;
+        if (!buys.length) return;
         const covers = buys.some(
           (b) => !(r.bottom < b.top || r.top > b.bottom || r.right < b.left || r.left > b.right)
         );

@@ -897,6 +897,15 @@ body.no-klaviyo-forms div[data-testid="klaviyo-form"]{
   display:none !important;
 }
 
+/* Hiding the form does not stop Klaviyo locking the page behind it. When its
+   pop-up "opens" it puts klaviyo-prevent-body-scrolling on <body>, which sets
+   overflow:hidden — so on a page where the form itself is hidden the visitor
+   simply loses the ability to scroll, with nothing on screen to dismiss. Give
+   the scroll back wherever we have suppressed the form. */
+body.no-klaviyo-forms.klaviyo-prevent-body-scrolling{
+  overflow:visible !important;
+}
+
 .help-launcher{
   position:fixed;right:18px;bottom:22px;z-index:62;
   display:inline-flex;align-items:center;gap:8px;
