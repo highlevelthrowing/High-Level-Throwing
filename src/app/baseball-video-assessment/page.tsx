@@ -112,9 +112,7 @@ export default function BaseballVideoAssessmentPage() {
             </ul>
             <p style={{ fontSize: "0.88rem" }}>
               *Athletes should measure their starting velocity using a{" "}
-              <Link href="/products/coach-package" style={{ color: "var(--lime)", fontWeight: 700 }}>
-                Pocket Radar device
-              </Link>{" "}
+              <strong style={{ color: "var(--lime)" }}>Pocket Radar device</strong>{" "}
               before the program begins, then again at the end of the 12-week program to see real improvements.
             </p>
           </div>
