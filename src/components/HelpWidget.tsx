@@ -85,6 +85,19 @@ function blocksPurchase(pathname: string): boolean {
   );
 }
 
+/**
+ * Registration pages get no widget at all, not just no auto-open. Every answer
+ * in it routes somewhere else — clinics, books, the shop — so to someone who
+ * has already chosen a session and started filling in the form it is only an
+ * exit. Nothing in the list answers what they would actually ask at that point,
+ * which is about that clinic: age group, times, transfers.
+ *
+ * Shopify's checkout is a different domain and never had this on it.
+ */
+function isRegistrationPage(pathname: string): boolean {
+  return pathname.startsWith("/pages/") && /clinic/i.test(decodeURIComponent(pathname));
+}
+
 export default function HelpWidget() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -127,6 +140,8 @@ export default function HelpWidget() {
       sessionStorage.setItem(SEEN_KEY, "1");
     } catch {}
   }
+
+  if (isRegistrationPage(pathname)) return null;
 
   return (
     <>
