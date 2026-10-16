@@ -204,14 +204,13 @@ export default function HelpWidget() {
           fill="none"
           aria-hidden="true"
         >
-          {/* Coach in a ball cap. Solid rather than outlined because this
-              renders at 20px, and the bolt is knocked out of the cap with
-              evenodd so it stays legible instead of closing up. */}
+          {/* Coach in a ball cap, solid rather than outlined because this
+              renders at 20px. The cap is left plain: a bolt or a star in it
+              is about 3px tall here and reads as a smudge, not a mark. */}
           <circle cx="12" cy="2.5" r="1.25" fill="currentColor" />
           <path
             fill="currentColor"
-            fillRule="evenodd"
-            d="M12 3.6c-3.55 0-6.15 2.6-6.15 6.1v1.25h12.3V9.7c0-3.5-2.6-6.1-6.15-6.1zm1.05 2.15L10.4 9.4h1.6l-.6 2.05 2.65-3.65h-1.6z"
+            d="M12 3.6c-3.55 0-6.15 2.6-6.15 6.1v1.25h12.3V9.7c0-3.5-2.6-6.1-6.15-6.1z"
           />
           <path
             fill="currentColor"
