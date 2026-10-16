@@ -202,18 +202,33 @@ export default function HelpWidget() {
           className="help-launcher-icon"
           viewBox="0 0 24 24"
           fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
           aria-hidden="true"
         >
-          {/* cap filled solid so it reads as a cap at 18px, face and
-              shoulders left as outline underneath it */}
-          <path d="M7.6 8.4a4.4 4.4 0 0 1 8.8 0v.9H7.6z" fill="currentColor" stroke="none" />
-          <path d="M16.4 8.6h4.3a.7.7 0 0 1 0 1.4h-4.3z" fill="currentColor" stroke="none" />
-          <path d="M9.4 9.3v1.9a2.6 2.6 0 0 0 5.2 0V9.3" />
-          <path d="M5.5 20.5a6.5 6.5 0 0 1 13 0" />
+          {/* Coach in a ball cap. Solid rather than outlined because this
+              renders at 20px, and the bolt is knocked out of the cap with
+              evenodd so it stays legible instead of closing up. */}
+          <circle cx="12" cy="2.5" r="1.25" fill="currentColor" />
+          <path
+            fill="currentColor"
+            fillRule="evenodd"
+            d="M12 3.6c-3.55 0-6.15 2.6-6.15 6.1v1.25h12.3V9.7c0-3.5-2.6-6.1-6.15-6.1zm1.05 2.15L10.4 9.4h1.6l-.6 2.05 2.65-3.65h-1.6z"
+          />
+          <path
+            fill="currentColor"
+            d="M4.5 11.35h15c.62 0 1.1.47 1.1 1.05s-.48 1.05-1.1 1.05h-15c-.62 0-1.1-.47-1.1-1.05s.48-1.05 1.1-1.05z"
+          />
+          <path
+            d="M7.3 13.6v1.3a4.7 4.7 0 0 0 9.4 0v-1.3"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+          />
+          <path
+            d="M4.2 21.6a7.8 7.8 0 0 1 15.6 0"
+            stroke="currentColor"
+            strokeWidth="1.7"
+            strokeLinecap="round"
+          />
         </svg>
         <span>{open ? "Close" : "How can we help?"}</span>
       </button>
