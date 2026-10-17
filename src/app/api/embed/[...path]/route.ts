@@ -118,6 +118,43 @@ function stripShopifyAnalytics(html: string): string {
   return drop.reduce((acc, re) => acc.replace(re, ""), html);
 }
 
+/**
+ * Registering for a clinic is the opt-in for HLT's email list, so the pages
+ * that take the registration have to say so — that disclosure is what makes the
+ * consent defensible, and it is the only notice a registrant ever sees.
+ *
+ * Injected rather than written into the theme because there are 600+ clinic
+ * pages and a published theme cannot be written to from here. It carries its own
+ * background override: EMBED_THEME strips background-color from everything that
+ * is not media or a control, so a plain panel would come out invisible.
+ */
+const CONSENT_NOTICE = /* html */ `
+<style id="hlt-consent-style">
+  :root:root #hlt-consent-notice{
+    background:var(--hlt-surface,#111) !important;
+    border:1px solid var(--hlt-border,#2a2a2a) !important;
+    border-left:3px solid var(--hlt-lime,#c6ff2e) !important;
+    border-radius:10px !important;
+    margin:28px auto 8px !important;
+    padding:16px 18px !important;
+    max-width:760px !important;
+    font-size:14px !important;
+    line-height:1.55 !important;
+  }
+  :root:root #hlt-consent-notice p{
+    color:var(--hlt-muted,rgba(255,255,255,0.78)) !important;
+    margin:0 !important;
+  }
+  :root:root #hlt-consent-notice strong{ color:var(--hlt-text,#fff) !important; }
+</style>
+<div id="hlt-consent-notice">
+  <p><strong>Heads up:</strong> by registering you&rsquo;ll receive your clinic
+  details plus throwing guides, drills and occasional updates from High Level
+  Throwing. Unsubscribe anytime &mdash; there&rsquo;s a one-click link in every
+  email.</p>
+</div>
+`;
+
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const segments = (path ?? []).map((s) => decodeURIComponent(s));
@@ -153,6 +190,12 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   const linkFixes = PAGE_LINK_FIXES[page];
   if (linkFixes) {
     for (const [wrong, right] of linkFixes) html = html.split(wrong).join(right);
+  }
+
+  // Clinic pages are the registration point, so they carry the email-consent
+  // notice. Matched on the handle: every clinic page handle names the clinic.
+  if (/clinic/i.test(page)) {
+    html = html.replace(/<\/main>/i, `${CONSENT_NOTICE}</main>`);
   }
 
   // Strip the theme's own announcement bar / header and footer sections so the
