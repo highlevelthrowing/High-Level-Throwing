@@ -146,6 +146,10 @@ const CONSENT_NOTICE = /* html */ `
     margin:0 !important;
   }
   :root:root #hlt-consent-notice strong{ color:var(--hlt-text,#fff) !important; }
+
+  /* Nothing overlays the register buttons on a registration page. */
+  :root:root [id^="evm-product-sp"],
+  :root:root .evm-product-sp-block{ display:none !important; }
 </style>
 <div id="hlt-consent-notice">
   <p><strong>Heads up:</strong> by registering you&rsquo;ll receive your clinic
@@ -203,9 +207,19 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
     // so the panel covers a register button on the way past. It stays on the
     // product pages where it belongs; on the page that takes the registration
     // nothing is allowed to sit on top of the buy control.
+    //
+    // It is not a <script src> — the theme lists it in a `var urls = [...]`
+    // array that a loader walks and injects, so the URL has to come out of the
+    // array. Splitting on commas is safe: the entries are quoted URLs.
     html = html.replace(
-      /<script\b[^>]*src=["'][^"']*salespush[^"']*["'][^>]*>\s*<\/script>/gi,
-      ""
+      /(var\s+urls\s*=\s*\[)([^\]]*)(\])/g,
+      (_match, open: string, body: string, close: string) => {
+        const kept = body
+          .split(",")
+          .map((entry) => entry.trim())
+          .filter((entry) => entry && !/salespush/i.test(entry));
+        return `${open}${kept.join(",")}${close}`;
+      }
     );
   }
 
