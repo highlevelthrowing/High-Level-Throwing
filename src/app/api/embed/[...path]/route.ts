@@ -196,6 +196,17 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   // notice. Matched on the handle: every clinic page handle names the clinic.
   if (/clinic/i.test(page)) {
     html = html.replace(/<\/main>/i, `${CONSENT_NOTICE}</main>`);
+
+    // A social-proof app ("Amanda in Kentwood just purchased...") renders a
+    // 400x140 position:fixed panel at z-index 9999999 in the lower left. The
+    // six I WANT THIS buttons sit at x~34 and scroll through that fixed band,
+    // so the panel covers a register button on the way past. It stays on the
+    // product pages where it belongs; on the page that takes the registration
+    // nothing is allowed to sit on top of the buy control.
+    html = html.replace(
+      /<script\b[^>]*src=["'][^"']*salespush[^"']*["'][^>]*>\s*<\/script>/gi,
+      ""
+    );
   }
 
   // Strip the theme's own announcement bar / header and footer sections so the
