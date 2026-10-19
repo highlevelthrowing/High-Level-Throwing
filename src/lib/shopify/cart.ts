@@ -53,6 +53,38 @@ export async function getCart(): Promise<Cart | null> {
   return data.cart ? normalizeCart(data.cart) : null;
 }
 
+/**
+ * Shopify consumes a cart when its checkout completes, and drops an idle one
+ * after about ten days — but the cookie holding its id lasts thirty. So a
+ * returning customer, which is to say anyone who has bought before, arrives
+ * carrying an id that no longer resolves, and Shopify answers "The specified
+ * cart does not exist." Starting a fresh cart is always the right recovery:
+ * the old one cannot be revived, and the visitor is mid-purchase.
+ */
+async function createCartWith(
+  variantId: string,
+  quantity: number,
+  lineAttributes: { key: string; value: string }[]
+) {
+  const data = await shopifyFetch<{
+    cartCreate: { cart: RawCart; userErrors: { message: string }[] };
+  }>({
+    query: CART_CREATE_MUTATION,
+    variables: { lines: [{ merchandiseId: variantId, quantity, attributes: lineAttributes }] },
+    cache: "no-store",
+  });
+  if (data.cartCreate.userErrors.length) {
+    throw new Error(data.cartCreate.userErrors[0].message);
+  }
+  await setCartId(data.cartCreate.cart.id);
+}
+
+function isMissingCart(error: unknown): boolean {
+  return /cart does not exist|does not exist/i.test(
+    error instanceof Error ? error.message : String(error)
+  );
+}
+
 export async function addToCart(
   variantId: string,
   quantity = 1,
@@ -62,27 +94,25 @@ export async function addToCart(
   const cartId = await getCartId();
 
   if (!cartId) {
-    const data = await shopifyFetch<{
-      cartCreate: { cart: RawCart; userErrors: { message: string }[] };
-    }>({
-      query: CART_CREATE_MUTATION,
-      variables: { lines: [{ merchandiseId: variantId, quantity, attributes: lineAttributes }] },
-      cache: "no-store",
-    });
-    if (data.cartCreate.userErrors.length) {
-      throw new Error(data.cartCreate.userErrors[0].message);
-    }
-    await setCartId(data.cartCreate.cart.id);
+    await createCartWith(variantId, quantity, lineAttributes);
   } else {
-    const data = await shopifyFetch<{
-      cartLinesAdd: { cart: RawCart; userErrors: { message: string }[] };
-    }>({
-      query: CART_LINES_ADD_MUTATION,
-      variables: { cartId, lines: [{ merchandiseId: variantId, quantity, attributes: lineAttributes }] },
-      cache: "no-store",
-    });
-    if (data.cartLinesAdd.userErrors.length) {
-      throw new Error(data.cartLinesAdd.userErrors[0].message);
+    try {
+      const data = await shopifyFetch<{
+        cartLinesAdd: { cart: RawCart; userErrors: { message: string }[] };
+      }>({
+        query: CART_LINES_ADD_MUTATION,
+        variables: { cartId, lines: [{ merchandiseId: variantId, quantity, attributes: lineAttributes }] },
+        cache: "no-store",
+      });
+      if (data.cartLinesAdd.userErrors.length) {
+        throw new Error(data.cartLinesAdd.userErrors[0].message);
+      }
+    } catch (error) {
+      // Only a dead cart is recoverable here. Anything else — a sold-out
+      // session, a network failure — has to reach the caller, which shows the
+      // visitor why the item did not go in.
+      if (!isMissingCart(error)) throw error;
+      await createCartWith(variantId, quantity, lineAttributes);
     }
   }
 
@@ -94,11 +124,17 @@ export async function updateCartLine(lineId: string, quantity: number) {
   const cartId = await getCartId();
   if (!cartId) return;
 
-  await shopifyFetch({
-    query: CART_LINES_UPDATE_MUTATION,
-    variables: { cartId, lines: [{ id: lineId, quantity }] },
-    cache: "no-store",
-  });
+  try {
+    await shopifyFetch({
+      query: CART_LINES_UPDATE_MUTATION,
+      variables: { cartId, lines: [{ id: lineId, quantity }] },
+      cache: "no-store",
+    });
+  } catch (error) {
+    // The cart went away underneath them; the line they are editing went with
+    // it. Re-rendering an empty cart is the honest result.
+    if (!isMissingCart(error)) throw error;
+  }
 
   revalidatePath("/cart");
   revalidatePath("/", "layout");
@@ -108,11 +144,17 @@ export async function removeCartLine(lineId: string) {
   const cartId = await getCartId();
   if (!cartId) return;
 
-  await shopifyFetch({
-    query: CART_LINES_REMOVE_MUTATION,
-    variables: { cartId, lineIds: [lineId] },
-    cache: "no-store",
-  });
+  try {
+    await shopifyFetch({
+      query: CART_LINES_REMOVE_MUTATION,
+      variables: { cartId, lineIds: [lineId] },
+      cache: "no-store",
+    });
+  } catch (error) {
+    // The cart went away underneath them; the line they are editing went with
+    // it. Re-rendering an empty cart is the honest result.
+    if (!isMissingCart(error)) throw error;
+  }
 
   revalidatePath("/cart");
   revalidatePath("/", "layout");
