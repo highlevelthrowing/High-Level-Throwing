@@ -599,7 +599,19 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .tier-card--sky{background:#06202e;border-color:rgba(56,189,248,0.45);}
 .tier-card--sky:hover{border-color:rgba(56,189,248,0.8);}
 
-.tier-icon{width:30px;height:30px;display:block;margin:0 auto 14px;}
+/* The icon sat bare against the card, which read as unfinished next to the
+   filled circle the steps section already uses. It gets the same treatment: a
+   solid disc, one step lighter than the card it sits on and in the card's own
+   hue, so the three boxes stay consistent with each other. Solid rather than a
+   translucent tint — these cards sit over a photographed section, and a
+   translucent disc picks up whatever is behind it and stops matching. */
+.tier-icon{
+  width:30px;height:30px;display:block;margin:0 auto 14px;
+  box-sizing:content-box;padding:13px;border-radius:50%;
+  background:#324310;
+}
+.tier-card--pink .tier-icon{background:#451038;}
+.tier-card--sky .tier-icon{background:#0b3a52;}
 .tier-name{
   font-size:0.95rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;
   margin:0 0 24px;color:var(--text);
