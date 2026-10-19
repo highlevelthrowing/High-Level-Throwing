@@ -581,7 +581,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 
 /* FULL INTEGRATION TIERS */
 .tier-grid{
-  max-width:1180px;margin:0 auto;display:grid;gap:22px;
+  max-width:1180px;margin:0 auto;display:grid;gap:26px;
   grid-template-columns:repeat(3,1fr);align-items:stretch;
 }
 @media (max-width:980px){ .tier-grid{grid-template-columns:1fr;max-width:520px;} }
@@ -592,11 +592,21 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   transition:border-color .2s, transform .2s;
 }
 .tier-card:hover{transform:translateY(-4px);}
-.tier-card--lime{background:#1d2708;border-color:rgba(198,255,46,0.45);}
+/* These three were mixed at roughly a tenth of full lightness, which put them
+   within a hair of the black page behind them. The effect was a box that
+   appeared to fade out: the eye read the bright icon and CTA at the top as
+   colour and the plain copy at the bottom as background, so the panel looked
+   like a gradient even though it has always been one flat value. Lifting each
+   to around a fifth makes the block read as a solid colour and gives the three
+   cards separation from the page and from each other.
+
+   background-image is cleared explicitly so nothing layered later can
+   reintroduce the fade this was fixing. */
+.tier-card--lime{background-color:#2f4012;background-image:none;border-color:rgba(198,255,46,0.45);}
 .tier-card--lime:hover{border-color:rgba(198,255,46,0.8);}
-.tier-card--pink{background:#2a0a23;border-color:rgba(255,46,203,0.45);}
+.tier-card--pink{background-color:#4a1340;background-image:none;border-color:rgba(255,46,203,0.45);}
 .tier-card--pink:hover{border-color:rgba(255,46,203,0.8);}
-.tier-card--sky{background:#06202e;border-color:rgba(56,189,248,0.45);}
+.tier-card--sky{background-color:#0f3a52;background-image:none;border-color:rgba(56,189,248,0.45);}
 .tier-card--sky:hover{border-color:rgba(56,189,248,0.8);}
 
 /* The icon sat bare against the card, which read as unfinished next to the
@@ -608,10 +618,10 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .tier-icon{
   width:30px;height:30px;display:block;margin:0 auto 14px;
   box-sizing:content-box;padding:13px;border-radius:50%;
-  background:#324310;
+  background:#46601b;
 }
-.tier-card--pink .tier-icon{background:#451038;}
-.tier-card--sky .tier-icon{background:#0b3a52;}
+.tier-card--pink .tier-icon{background:#6b1d5c;}
+.tier-card--sky .tier-icon{background:#175778;}
 .tier-name{
   font-size:0.95rem;font-weight:900;letter-spacing:2px;text-transform:uppercase;
   margin:0 0 24px;color:var(--text);
@@ -622,7 +632,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .tier-card--sky .tier-cta{background:var(--sky);color:var(--navy);}
 
 .tier-meta{
-  background:rgba(0,0,0,0.35);border:1px solid var(--border);border-radius:12px;
+  background:rgba(0,0,0,0.42);border:1px solid rgba(255,255,255,0.1);border-radius:12px;
   padding:16px 18px;margin-bottom:22px;display:grid;gap:4px;
 }
 .tier-meta-label{
