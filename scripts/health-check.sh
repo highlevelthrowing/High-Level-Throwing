@@ -67,7 +67,10 @@ echo
 echo "scroll lock and pop-up suppression are in the stylesheet"
 # Klaviyo locks <body> when its form opens. Where the form is hidden the lock
 # must be overridden or the page silently stops scrolling.
-css=$(curl -s "$SITE" | grep -o '/_next/static/chunks/[a-z0-9]*\.css' | head -1)
+# Next hashes this filename and the alphabet has included hyphens since the
+# chunk move, so the class has to allow them — a too-narrow pattern here fails
+# the check while the site is perfectly healthy.
+css=$(curl -s "$SITE" | grep -oE '/_next/static/(chunks|css)/[A-Za-z0-9_-]+\.css' | head -1)
 if [ -z "$css" ]; then
   fail "could not find the stylesheet"
 else
