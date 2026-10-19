@@ -1,3 +1,5 @@
+import { fetchWithRetry } from "@/lib/retry";
+
 const EMBED_TARGETS: Record<string, string> = {
   leaderboard: "https://high-level-throwing.myshopify.com/pages/leaderboard",
   "velocity-tracker": "https://high-level-throwing.myshopify.com/pages/velocity-tracker",
@@ -169,10 +171,13 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
     return new Response("Unknown embed target.", { status: 404 });
   }
 
-  const res = await fetch(targetUrl, {
+  // Same host, same failure: a pooled socket Shopify already closed. Every
+  // clinic registration page is rendered through here, so a single dead socket
+  // would otherwise turn into "Unable to load this page right now."
+  const res = await fetchWithRetry(targetUrl, {
     headers: { "User-Agent": "Mozilla/5.0 (compatible; HLTStorefrontEmbed/1.0)" },
     next: { revalidate: 300 },
-  });
+  } as RequestInit);
 
   if (!res.ok) {
     return new Response("Unable to load this page right now.", { status: 502 });

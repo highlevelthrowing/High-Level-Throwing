@@ -1,3 +1,13 @@
+import {
+  MAX_ATTEMPTS,
+  TIMEOUT_MS,
+  backoffMs,
+  sleep,
+  RetryableResponseError,
+  isConnectionFailure,
+  isTimeoutAbort,
+} from "../retry";
+
 const API_VERSION = process.env.SHOPIFY_API_VERSION || "2025-01";
 
 export class ShopifyNotConfiguredError extends Error {
@@ -36,59 +46,6 @@ function isInventoryScopeError(errors: { message: string }[]): boolean {
   );
 }
 
-/**
- * Shopify is reachable from Vercel most of the time, not all of it. Production
- * logged 204 `TypeError: fetch failed` across 131 visitors in a week —
- * `connect ETIMEDOUT`, `write ETIMEDOUT`, and sockets dropped before the TLS
- * handshake finished. Every one of those rendered an error page, because this
- * module asked once and let the throw travel up into the render.
- *
- * Two things are wrong with asking once. The obvious one is that a transient
- * blip becomes a lost visitor. The quieter one is that nothing sets a deadline,
- * so a stalled connect waits on the kernel (errno -110, past two minutes) while
- * the visitor watches a spinner.
- */
-const MAX_ATTEMPTS = 3;
-const TIMEOUT_MS = 8_000;
-
-function backoffMs(attempt: number): number {
-  // 250ms, 600ms, plus jitter so simultaneous renders do not retry in lockstep
-  // and arrive at Shopify as one spike.
-  return 250 * Math.pow(2.4, attempt - 1) + Math.random() * 150;
-}
-
-const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
-
-/** Thrown for an HTTP answer worth asking about again (429, 5xx, non-JSON body). */
-class RetryableResponseError extends Error {}
-
-/**
- * True only for failures that happened while establishing the connection, which
- * means the request never reached Shopify. That distinction is what makes a
- * retry safe for a mutation: re-sending cartLinesAdd after Shopify already
- * processed it would add the line twice.
- */
-function isConnectionFailure(error: unknown): boolean {
-  const codes = new Set([
-    "ECONNRESET",
-    "ETIMEDOUT",
-    "ENOTFOUND",
-    "EAI_AGAIN",
-    "ECONNREFUSED",
-    "UND_ERR_CONNECT_TIMEOUT",
-    "UND_ERR_SOCKET",
-  ]);
-  for (let e: unknown = error, depth = 0; e && depth < 4; depth++) {
-    const code = (e as { code?: string }).code;
-    if (code && codes.has(code)) return true;
-    e = (e as { cause?: unknown }).cause;
-  }
-  return false;
-}
-
-function isTimeoutAbort(error: unknown): boolean {
-  return (error as { name?: string })?.name === "TimeoutError";
-}
 
 export async function shopifyFetch<T>({
   query,
