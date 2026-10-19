@@ -173,7 +173,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
    three-up grid collapses to one column. */
 .pillar-media{
   position:relative;width:100%;aspect-ratio:16/9;margin-bottom:18px;
-  border-radius:12px;overflow:hidden;border:1px solid var(--border);
+  border-radius:12px;overflow:hidden;border:1px solid rgba(255,255,255,0.12);
 }
 .pillar-media img{object-fit:cover;}
 .tag-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:18px;}
@@ -506,11 +506,16 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 
 /* Per-service card accents — each block gets its own solid tinted fill so the
    three are distinguishable at a glance rather than three identical dark boxes. */
-.pillar-card--lime{background:#1d2708;border-color:rgba(198,255,46,0.45);}
+/* Same values as the tier cards below, and for the same reason: mixed at a
+   tenth of full lightness these sat within a hair of the black page, so the
+   box appeared to fade out rather than read as a solid colour. Kept identical
+   to .tier-card--* on purpose — the two rows sit on one page and any drift
+   between them reads as a mistake. */
+.pillar-card--lime{background-color:#2f4012;background-image:none;border-color:rgba(198,255,46,0.45);}
 .pillar-card--lime:hover{border-color:rgba(198,255,46,0.8);}
-.pillar-card--pink{background:#2a0a23;border-color:rgba(255,46,203,0.45);}
+.pillar-card--pink{background-color:#4a1340;background-image:none;border-color:rgba(255,46,203,0.45);}
 .pillar-card--pink:hover{border-color:rgba(255,46,203,0.8);}
-.pillar-card--sky{background:#06202e;border-color:rgba(56,189,248,0.45);}
+.pillar-card--sky{background-color:#0f3a52;background-image:none;border-color:rgba(56,189,248,0.45);}
 .pillar-card--sky:hover{border-color:rgba(56,189,248,0.8);}
 .pillar-num.num-pink{background:var(--pink);color:#fff;}
 
