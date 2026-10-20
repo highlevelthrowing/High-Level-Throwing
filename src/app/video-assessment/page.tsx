@@ -12,7 +12,7 @@ const CDN = "https://cdn.shopify.com/s/files/1/0771/2948/2547/files";
 // is not available through the Storefront API — it only existed in the rendered
 // theme HTML. Embedding that HTML meant iframing the store, which Shopify blocks
 // with X-Frame-Options, so the content lives here natively instead.
-const PRODUCT_HREF = "/products/high-level-throwing%C2%AE-video-assessment-throwing-program";
+const PRODUCT_HREF = "/products/high-level-throwing-video-assessment-throwing-program";
 
 const INCLUDES = [
   "Athlete Individual HLT Report",

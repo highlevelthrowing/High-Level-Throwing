@@ -14,7 +14,7 @@ const CDN = "https://cdn.shopify.com/s/files/1/0771/2948/2547/files";
 // to baseball and softball together and keeps the lime treatment. This one is a
 // separate route so it can be pointed at from baseball-specific ads and so a
 // softball twin can follow the same pattern later.
-const PRODUCT_HREF = "/products/high-level-throwing%C2%AE-video-assessment-throwing-program";
+const PRODUCT_HREF = "/products/high-level-throwing-video-assessment-throwing-program";
 
 const INCLUDES = [
   "Athlete Individual HLT Report",
