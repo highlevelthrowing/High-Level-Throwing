@@ -29,7 +29,44 @@ const nextConfig: NextConfig = {
   // now answers on its myshopify domain, so forward them there instead of 404ing.
   async redirects() {
     const SHOPIFY_STORE = "https://high-level-throwing.myshopify.com";
+
+    /**
+     * The ® came out of these product handles so the URLs stop needing
+     * percent-encoding. An encoded ® arrives as %C2%AE when it survives the
+     * trip and as a malformed %AE when something mangles it, and the second
+     * form cannot be decoded at all — production threw `failed to decode
+     * param` on exactly that.
+     *
+     * Shopify's own URL redirects only answer on the myshopify domain, so they
+     * do nothing for this app. Without these the old addresses returned a soft
+     * 404: HTTP 200 carrying not-found content under a self-referencing
+     * canonical, which Google reads as a thin duplicate rather than a move.
+     *
+     * Permanent, so the ranking the old address earned follows it across.
+     */
+    const RENAMED: [string, string][] = [
+      ["high-level-pitching®-youth", "high-level-pitching-youth"],
+      ["high-level-pitching®-bundle", "high-level-pitching-bundle-player-coach"],
+      ["high-level-pitching®-softball", "high-level-pitching-softball"],
+      ["high-level-pitching®-advanced", "high-level-pitching-advanced"],
+      [
+        "high-level-throwing®-video-assessment-throwing-program",
+        "high-level-throwing-video-assessment-throwing-program",
+      ],
+      [
+        "high-level-throwing®-x-pocket-radars-14-day-throwing-program",
+        "high-level-throwing-x-pocket-radars-14-day-throwing-program",
+      ],
+    ];
+    const renamedProducts = RENAMED.flatMap(([from, to]) =>
+      // Both spellings: the bare character, and the encoding a browser sends.
+      [...new Set([`/products/${from}`, `/products/${encodeURIComponent(from)}`])].map(
+        (source) => ({ source, destination: `/products/${to}`, permanent: true })
+      )
+    );
+
     return [
+      ...renamedProducts,
       // /pages/:handle is handled in-app by app/pages/[handle] so Shopify-authored
       // pages (clinics especially) render inside this site rather than sending
       // visitors off to the Shopify store.
