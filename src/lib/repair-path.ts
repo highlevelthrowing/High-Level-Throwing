@@ -21,20 +21,31 @@ export function pathDecodes(pathname: string): boolean {
 }
 
 /**
- * Drops only the escape runs that fail to decode on their own, so a valid
- * `%C2%AE` elsewhere in the same path survives untouched. Returns null when
- * nothing could be repaired.
+ * Repairs the escape runs that fail to decode, leaving valid ones alone.
+ *
+ * A lone `%80`-`%BF` is a Latin-1 character that was percent-encoded without
+ * being UTF-8 encoded first: byte 0xAE is U+00AE, ®, whose UTF-8 form is
+ * `%C2%AE`. Restoring the dropped lead byte is a real transformation rather
+ * than a guess, and it matters here — deleting the byte instead turns
+ * `high-level-pitching%AE-bundle` into `high-level-pitching-bundle`, which is
+ * a different live product (the $655 team bundle, not the $252 player/coach
+ * one). Sending a buyer to the wrong product is worse than the 500 this is
+ * replacing.
+ *
+ * Anything outside that range is dropped, which is the old behaviour and still
+ * the right answer when the byte cannot be reconstructed.
+ *
+ * Returns null when nothing could be repaired.
  */
 export function repairPath(pathname: string): string | null {
   if (pathDecodes(pathname)) return null;
 
   const repaired = pathname.replace(/(?:%[0-9A-Fa-f]{2})+/g, (run) => {
-    try {
-      decodeURIComponent(run);
-      return run;
-    } catch {
-      return "";
-    }
+    if (pathDecodes(run)) return run;
+
+    // Re-encode a bare Latin-1 byte as the UTF-8 sequence it should have been.
+    const rebuilt = run.replace(/%([89AaBb][0-9A-Fa-f])/g, (_m, hex) => `%C2%${hex}`);
+    return pathDecodes(rebuilt) ? rebuilt : "";
   });
 
   if (repaired === pathname || !pathDecodes(repaired)) return null;
