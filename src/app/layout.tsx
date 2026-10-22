@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
 import HelpWidget from "@/components/HelpWidget";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   // metadataBase makes every relative canonical and OG url resolve to the live
@@ -63,6 +64,21 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>
+        {/*
+          Vercel's pageview counter. Shopify only sees checkout-adjacent
+          traffic on a headless storefront — it reported a 27% conversion rate,
+          which is the shape of a store whose browsing is invisible to it — so
+          this is the first real measurement of the site itself.
+
+          It is safe on the clinic registration pages, which is the thing that
+          went wrong last time. What froze Lebanon was Shopify's own bundle
+          running INSIDE the embedded page: cross-origin beacons to
+          /api/collect, refused by CORS, retried forever until scrolling
+          stalled and the Register buttons could not be reached. This is
+          same-origin, renders nothing, and sits on the outer shell rather than
+          in the iframe where the buy controls live.
+        */}
+        <VercelAnalytics />
       </body>
     </html>
   );
