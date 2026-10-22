@@ -22,7 +22,9 @@ const ARTICLES = [
     date: "October 22, 2026",
     excerpt:
       "Roughly 90% of NCAA institutions have no embedded mental performance staff. Two questions every family should ask on a campus visit \u2014 and why you should not bank\u2026",
-    image: "/images/hlt-athlete-portrait.jpg",
+    // The chart from the whitepaper this article reports on. Served as SVG:
+    // the card uses next/image with unoptimized, so it passes through as-is.
+    image: "/images/ntangible-pressure-test-chart.svg",
     href: "/blogs/news/nine-in-ten-college-programs-have-nobody-doing-this-job",
   },
   {
@@ -30,7 +32,7 @@ const ARTICLES = [
     date: "October 22, 2026",
     excerpt:
       "Same questions, same 15 minutes \u2014 athletes can now speak instead of type. Why that matters most for the younger players we see in\u2026",
-    image: "/images/hlt-alliance-athletes.jpg",
+    image: "/images/ntangible-voice-assessment.jpg",
     href: "/blogs/news/clutch-factor-assessment-now-takes-spoken-answers",
   },
   {
@@ -38,7 +40,9 @@ const ARTICLES = [
     date: "October 22, 2026",
     excerpt:
       "Clutch Factor scores are being displayed alongside the footage itself. The encouraging reading, the sobering one, and the part it does not\u2026",
-    image: "/images/hlt-game-evaluation.jpg",
+    // NTangible's own partnership graphic — the piece is about their work,
+    // so their artwork carries it better than one of our clinic frames.
+    image: "/images/ntangible-airplai-partnership.jpg",
     href: "/blogs/news/cognitive-performance-data-is-moving-into-game-film",
   },
   {
