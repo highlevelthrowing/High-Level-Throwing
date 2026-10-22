@@ -57,7 +57,11 @@ export async function getArticles(limit = 250): Promise<BlogArticle[]> {
     const data: ArticlesResponse = await shopifyFetch<ArticlesResponse>({
       query: ARTICLES_QUERY,
       variables: { handle: "news", after },
-      revalidate: 1800,
+      // Five minutes, not thirty. A newly published article used to take up to
+      // half an hour to appear on /articles, which reads as a failed publish
+      // and sends you looking for a bug that is not there. The list is cheap
+      // to rebuild and the blog is published to often enough to want it fresh.
+      revalidate: 300,
     });
 
     const page = data.blog?.articles;
