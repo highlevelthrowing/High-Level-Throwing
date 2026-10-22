@@ -36,16 +36,6 @@ const ARTICLES = [
     href: "/blogs/news/clutch-factor-assessment-now-takes-spoken-answers",
   },
   {
-    title: "Cognitive Performance Data Is Moving Into Game Film",
-    date: "October 22, 2026",
-    excerpt:
-      "Clutch Factor scores are being displayed alongside the footage itself. The encouraging reading, the sobering one, and the part it does not\u2026",
-    // NTangible's own partnership graphic — the piece is about their work,
-    // so their artwork carries it better than one of our clinic frames.
-    image: "/images/ntangible-airplai-partnership.jpg",
-    href: "/blogs/news/cognitive-performance-data-is-moving-into-game-film",
-  },
-  {
     title: "Where Should I Start My Throwing Development Journey? A High Level Throwing\u00ae Approach",
     date: "October 21, 2026",
     excerpt:
