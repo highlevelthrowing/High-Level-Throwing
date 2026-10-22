@@ -14,9 +14,9 @@ const ARTICLES = [
     date: "October 21, 2026",
     excerpt:
       "The first question is not how hard you throw. It is where development begins \u2014 understanding how the body moves, how the parts work together, and how an efficient sequence is\u2026",
-    // The article's own framing is "from the ground up", so the lower-half
-    // frame from the Breakdown shoot is the picture of its argument.
-    image: "/images/article-breakdown-ground.jpg",
+    // A line of athletes patterning the movement — the article's answer to
+    // "where do I start" is movement before velocity.
+    image: "/images/hlt-start-patterning.jpg",
     href: "/blogs/news/where-should-i-start-my-throwing-development-journey",
   },
   {
@@ -24,7 +24,7 @@ const ARTICLES = [
     date: "October 21, 2026",
     excerpt:
       "Alex added 14 mph in a single year \u2014 remote training, ten months of program work, then two clinics. From not very recruitable to on par with D1 college\u2026",
-    image: "/images/article-70mph-radar.jpg",
+    image: "/images/hlt-velocity-cover.jpg",
     href: "/blogs/news/one-year-of-high-level-throwing-54mph-to-68mph-athlete-spotlight",
   },
   {
@@ -32,7 +32,7 @@ const ARTICLES = [
     date: "October 21, 2026",
     excerpt:
       "An outfielder's long arm pathway and an infielder's compact action are both correct. Which one is right depends on the play \u2014 not on a single arm shape every athlete is pushed\u2026",
-    image: "/images/article-breakdown-armpath.jpg",
+    image: "/images/hlt-of-if-cover.jpg",
     href: "/blogs/news/outfield-vs-infield-throwing-mechanics",
   },
   {
@@ -40,7 +40,7 @@ const ARTICLES = [
     date: "October 21, 2026",
     excerpt:
       "Seven things that separate a structured throwing system from a collection of drills \u2014 and why the difference is teaching the why, not just the\u2026",
-    image: "/images/austin-wasserman.png",
+    image: "/images/hlt-austin-cover.jpg",
     href: "/blogs/news/who-is-austin-wasserman-high-level-throwing-gold-standard",
   },
   {
