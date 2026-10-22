@@ -18,14 +18,6 @@ const ARTICLES = [
     href: "/blogs/news/what-a-750-clutch-factor-score-predicts-d1-signing",
   },
   {
-    title: "The 16.6% of At-Bats That Decide a Season",
-    date: "October 22, 2026",
-    excerpt:
-      "Most plate appearances do not change much. A small fraction do \u2014 and the hitters who hold up in them are identifiable before the season, not just\u2026",
-    image: "/images/hlt-pressure-at-bat.jpg",
-    href: "/blogs/news/the-16-percent-of-at-bats-that-decide-a-season",
-  },
-  {
     title: "Nine in Ten College Programs Have Nobody Doing This Job",
     date: "October 22, 2026",
     excerpt:
