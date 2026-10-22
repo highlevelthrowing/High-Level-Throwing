@@ -1,6 +1,10 @@
 // The article list is rendered by /articles; the paths live here so the
 // sitemap can reference the same set without duplicating the copy.
 export const ARTICLE_PATHS = [
+  "/blogs/news/where-should-i-start-my-throwing-development-journey",
+  "/blogs/news/one-year-of-high-level-throwing-54mph-to-68mph-athlete-spotlight",
+  "/blogs/news/outfield-vs-infield-throwing-mechanics",
+  "/blogs/news/who-is-austin-wasserman-high-level-throwing-gold-standard",
   "/blogs/news/the-role-of-the-scapula-in-baseball-and-softball-throwing",
   "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
   "/blogs/news/the-high-level-throwing-breakdown-understanding-the-throw-from-the-ground-up",
