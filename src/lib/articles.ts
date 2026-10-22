@@ -1,6 +1,11 @@
 // The article list is rendered by /articles; the paths live here so the
 // sitemap can reference the same set without duplicating the copy.
 export const ARTICLE_PATHS = [
+  "/blogs/news/what-a-750-clutch-factor-score-predicts-d1-signing",
+  "/blogs/news/the-16-percent-of-at-bats-that-decide-a-season",
+  "/blogs/news/nine-in-ten-college-programs-have-nobody-doing-this-job",
+  "/blogs/news/clutch-factor-assessment-now-takes-spoken-answers",
+  "/blogs/news/cognitive-performance-data-is-moving-into-game-film",
   "/blogs/news/where-should-i-start-my-throwing-development-journey",
   "/blogs/news/one-year-of-high-level-throwing-54mph-to-68mph-athlete-spotlight",
   "/blogs/news/outfield-vs-infield-throwing-mechanics",

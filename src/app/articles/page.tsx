@@ -10,6 +10,46 @@ export const metadata: Metadata = {
 
 const ARTICLES = [
   {
+    title: "What a 750 Clutch Factor Score Predicts: 309 Athletes Tracked to College",
+    date: "October 22, 2026",
+    excerpt:
+      "NTangible tracked 309 high school players to their college destinations. At 750 and above, 49% reached Division I. Below 750, 23%. What that does and does not\u2026",
+    image: "/images/hlt-d1-recruiting.jpg",
+    href: "/blogs/news/what-a-750-clutch-factor-score-predicts-d1-signing",
+  },
+  {
+    title: "The 16.6% of At-Bats That Decide a Season",
+    date: "October 22, 2026",
+    excerpt:
+      "Most plate appearances do not change much. A small fraction do \u2014 and the hitters who hold up in them are identifiable before the season, not just\u2026",
+    image: "/images/hlt-pressure-at-bat.jpg",
+    href: "/blogs/news/the-16-percent-of-at-bats-that-decide-a-season",
+  },
+  {
+    title: "Nine in Ten College Programs Have Nobody Doing This Job",
+    date: "October 22, 2026",
+    excerpt:
+      "Roughly 90% of NCAA institutions have no embedded mental performance staff. Two questions every family should ask on a campus visit \u2014 and why you should not bank\u2026",
+    image: "/images/hlt-athlete-portrait.jpg",
+    href: "/blogs/news/nine-in-ten-college-programs-have-nobody-doing-this-job",
+  },
+  {
+    title: "The Clutch Factor Assessment Now Takes Spoken Answers",
+    date: "October 22, 2026",
+    excerpt:
+      "Same questions, same 15 minutes \u2014 athletes can now speak instead of type. Why that matters most for the younger players we see in\u2026",
+    image: "/images/hlt-alliance-athletes.jpg",
+    href: "/blogs/news/clutch-factor-assessment-now-takes-spoken-answers",
+  },
+  {
+    title: "Cognitive Performance Data Is Moving Into Game Film",
+    date: "October 22, 2026",
+    excerpt:
+      "Clutch Factor scores are being displayed alongside the footage itself. The encouraging reading, the sobering one, and the part it does not\u2026",
+    image: "/images/hlt-game-evaluation.jpg",
+    href: "/blogs/news/cognitive-performance-data-is-moving-into-game-film",
+  },
+  {
     title: "Where Should I Start My Throwing Development Journey? A High Level Throwing\u00ae Approach",
     date: "October 21, 2026",
     excerpt:
