@@ -39,6 +39,16 @@ function fetchArticleHtml(segments: string[]) {
   }).catch(() => null);
 }
 
+/**
+ * Shopify titles often already end in the shop name, and the layout adds it
+ * again as a template — which rendered "High Level Throwing® | Outfield vs.
+ * Infield Throwing Mechanics | High Level Throwing®". Strip only a trailing
+ * occurrence, so a title that merely mentions the brand keeps it.
+ */
+function stripShopSuffix(title: string): string {
+  return title.replace(/\s*[|\u2013\u2014-]\s*High Level Throwing(?:®)?\s*$/i, "").trim() || title;
+}
+
 /** Collapse markup to plain text for a meta description. */
 function toText(html: string, limit = 300): string {
   const text = html
@@ -104,13 +114,13 @@ export async function generateMetadata({
   const image = article.image?.url;
 
   return {
-    title: article.seo?.title?.trim() || article.title,
+    title: stripShopSuffix(article.seo?.title?.trim() || article.title),
     description,
     alternates: { canonical: url },
     openGraph: {
       type: "article",
       url,
-      title: article.title,
+      title: stripShopSuffix(article.title),
       description,
       publishedTime: article.publishedAt,
       authors: article.author ? [article.author] : undefined,
@@ -118,7 +128,7 @@ export async function generateMetadata({
     },
     twitter: {
       card: image ? "summary_large_image" : "summary",
-      title: article.title,
+      title: stripShopSuffix(article.title),
       description,
       images: image ? [image] : undefined,
     },
@@ -129,7 +139,7 @@ function ArticleJsonLd({ article, url }: { article: FullArticle; url: string }) 
   const data = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: article.title,
+    headline: stripShopSuffix(article.title),
     datePublished: article.publishedAt,
     dateModified: article.publishedAt,
     mainEntityOfPage: { "@type": "WebPage", "@id": url },
@@ -198,7 +208,7 @@ export default async function ArticlePage({
         <article className="article-page">
           <header>
             <span className="article-date">{formatDate(article.publishedAt)}</span>
-            <h1>{article.title}</h1>
+            <h1>{stripShopSuffix(article.title)}</h1>
             {article.author && <p className="article-byline">By {article.author}</p>}
           </header>
           <div
