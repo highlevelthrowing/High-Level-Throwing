@@ -59,21 +59,25 @@ function usePageViews() {
 // Viewed Product on a clinic page sat unsent in _learnq forever. The script now
 // loads everywhere and only the form is suppressed here.
 function isPopupFreePath(pathname: string): boolean {
-  // Any page with a Buy button on it. On a phone the Klaviyo modal lands
-  // squarely over Add to Cart, so the discount offer physically blocks the
-  // purchase it is meant to encourage.
-  if (pathname.startsWith("/products/")) return true;
-  if (pathname === "/cart" || pathname.startsWith("/cart/")) return true;
-  if (pathname === "/shop" || pathname.startsWith("/shop/")) return true;
-  if (pathname === "/books" || pathname.startsWith("/books/")) return true;
-  if (pathname.endsWith("video-assessment")) return true;
-  if (pathname === "/clinics" || pathname.startsWith("/clinics/")) return true;
-  // Embedded clinic and registration pages.
-  if (pathname.startsWith("/pages/")) return true;
-  // The session products themselves — this is where someone actually
-  // registers, so it is the last place to interrupt them.
-  if (/^\/products\/hlt-clinic/i.test(decodeURIComponent(pathname))) return true;
-  return false;
+  // Everywhere. This was a list of pages with a Buy button on them, because a
+  // discount modal over Add to Cart blocks the purchase it is meant to
+  // encourage. It is now the whole site, for a worse reason found on an
+  // article page: Klaviyo's pop-up lays a fixed full-screen backdrop at
+  // z-index 90000 over the page, which swallows wheel and touch events, and
+  // the form itself is ~957px tall. In any viewport shorter than that the
+  // close button scrolls off the top — measured at y:-663 — so the reader can
+  // neither scroll the page nor reach the X. That is a dead end, not an offer.
+  //
+  // Suppressing the form is a class on <body>, not a missing script: Klaviyo
+  // still loads everywhere and every event still reaches it. Only the modal is
+  // hidden, and the sweep below then clears Klaviyo's scroll lock because no
+  // form is visible behind it.
+  //
+  // To bring the pop-up back on a subset of pages, return false for those
+  // paths here — but re-check the close button against a 375px-tall viewport
+  // before doing it.
+  void pathname;
+  return true;
 }
 
 function useDeferredKlaviyo() {

@@ -75,8 +75,14 @@ if [ -z "$css" ]; then
   fail "could not find the stylesheet"
 else
   sheet=$(curl -s "$SITE$css")
-  grep -q 'klaviyo-prevent-body-scrolling' <<<"$sheet" \
-    && pass "scroll-lock override present" || fail "scroll-lock override MISSING"
+  # The `html ` prefix is the whole point. Klaviyo ships the identical selector
+  # body.klaviyo-prevent-body-scrolling{overflow:hidden!important} from its own
+  # CDN, injected after ours, so without the extra qualifier theirs wins on
+  # equal specificity and the page silently freezes. Grepping for the class
+  # alone passed while the site was broken, which is how this was missed.
+  grep -q 'html body\.klaviyo-prevent-body-scrolling' <<<"$sheet" \
+    && pass "scroll-lock override outranks Klaviyo" \
+    || fail "scroll-lock override MISSING or too weak to beat Klaviyo"
   grep -q 'no-klaviyo-forms' <<<"$sheet" \
     && pass "pop-up suppression present" || fail "pop-up suppression MISSING"
 fi
