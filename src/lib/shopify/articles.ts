@@ -74,3 +74,70 @@ export async function getArticles(limit = 250): Promise<BlogArticle[]> {
 
   return out.slice(0, limit);
 }
+
+export type FullArticle = {
+  title: string;
+  handle: string;
+  publishedAt: string;
+  excerpt: string | null;
+  contentHtml: string;
+  image: { url: string; altText: string | null; width: number | null; height: number | null } | null;
+  author: string | null;
+  seo: { title: string | null; description: string | null } | null;
+};
+
+type ArticleResponse = {
+  blog: { articleByHandle: FullArticle | null } | null;
+};
+
+const ARTICLE_QUERY = /* GraphQL */ `
+  query BlogArticle($blog: String!, $handle: String!) {
+    blog(handle: $blog) {
+      articleByHandle(handle: $handle) {
+        title
+        handle
+        publishedAt
+        excerpt
+        contentHtml
+        image {
+          url
+          altText
+          width
+          height
+        }
+        authorV2 {
+          name
+        }
+        seo {
+          title
+          description
+        }
+      }
+    }
+  }
+`;
+
+/**
+ * One article, with its body, so the page can be rendered as real HTML.
+ *
+ * These pages used to be an iframe onto the Shopify-rendered article, which
+ * meant a crawler saw a title and an empty frame — about 46,000 words across
+ * ninety articles that Google could not read. The Storefront API does not
+ * return the theme's rendering of a page, but it does return `contentHtml`,
+ * which is the part that carries the meaning.
+ */
+export async function getArticle(
+  handle: string,
+  blog = "news"
+): Promise<FullArticle | null> {
+  const data = await shopifyFetch<ArticleResponse>({
+    query: ARTICLE_QUERY,
+    variables: { blog, handle },
+    revalidate: 300,
+  });
+  const article = data.blog?.articleByHandle;
+  if (!article) return null;
+  // authorV2 arrives as an object; the rest of the app wants a plain name.
+  const author = (article as unknown as { authorV2?: { name?: string } }).authorV2?.name ?? null;
+  return { ...article, author };
+}
