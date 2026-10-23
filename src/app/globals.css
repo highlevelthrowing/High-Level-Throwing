@@ -924,12 +924,20 @@ body.no-klaviyo-forms div[data-testid="klaviyo-form"]{
   display:none !important;
 }
 
-/* Hiding the form does not stop Klaviyo locking the page behind it. When its
-   pop-up "opens" it puts klaviyo-prevent-body-scrolling on <body>, which sets
-   overflow:hidden — so on a page where the form itself is hidden the visitor
-   simply loses the ability to scroll, with nothing on screen to dismiss. Give
-   the scroll back wherever we have suppressed the form. */
-body.no-klaviyo-forms.klaviyo-prevent-body-scrolling{
+/* Klaviyo locks the page when its pop-up opens: it puts
+   klaviyo-prevent-body-scrolling on <body>, which sets overflow:hidden.
+
+   This used to be undone only where we had suppressed the form, on the theory
+   that a lock behind a hidden form is a frozen page with nothing to dismiss.
+   That left every other page — the whole blog especially — scrollable for
+   fifteen seconds and then stuck, because the script is deliberately held back
+   that long. A reader partway through an article simply stopped being able to
+   move, which reads as a broken site rather than an offer.
+
+   The scroll is now given back unconditionally. The pop-up still appears and
+   still closes; the only thing lost is that the page scrolls behind it instead
+   of freezing, which is the right trade against trapping a reader. */
+body.klaviyo-prevent-body-scrolling{
   overflow:visible !important;
 }
 
