@@ -936,8 +936,15 @@ body.no-klaviyo-forms div[data-testid="klaviyo-form"]{
 
    The scroll is now given back unconditionally. The pop-up still appears and
    still closes; the only thing lost is that the page scrolls behind it instead
-   of freezing, which is the right trade against trapping a reader. */
-body.klaviyo-prevent-body-scrolling{
+   of freezing, which is the right trade against trapping a reader.
+
+   The `html` prefix is load-bearing. Klaviyo ships
+   `body.klaviyo-prevent-body-scrolling{overflow:hidden!important}` from
+   c.klaviyo.com — the same selector and also !important — and its stylesheet
+   is injected after ours, so on equal specificity theirs won every time and
+   this rule did nothing. Qualifying with `html` outranks it. Do not simplify
+   this selector back. */
+html body.klaviyo-prevent-body-scrolling{
   overflow:visible !important;
 }
 
