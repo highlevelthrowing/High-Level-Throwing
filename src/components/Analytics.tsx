@@ -59,24 +59,17 @@ function usePageViews() {
 // Viewed Product on a clinic page sat unsent in _learnq forever. The script now
 // loads everywhere and only the form is suppressed here.
 function isPopupFreePath(pathname: string): boolean {
-  // Everywhere. This was a list of pages with a Buy button on them, because a
-  // discount modal over Add to Cart blocks the purchase it is meant to
-  // encourage. It is now the whole site, for a worse reason found on an
-  // article page: Klaviyo's pop-up lays a fixed full-screen backdrop at
-  // z-index 90000 over the page, which swallows wheel and touch events, and
-  // the form itself is ~957px tall. In any viewport shorter than that the
-  // close button scrolls off the top — measured at y:-663 — so the reader can
-  // neither scroll the page nor reach the X. That is a dead end, not an offer.
+  // The home page is the one place the discount pop-up is allowed. Everywhere
+  // else it is suppressed, for two reasons found on 2026-10-23: over a Buy
+  // button it blocks the purchase it is meant to encourage, and on a phone it
+  // traps the page outright — its backdrop is fixed, full-screen and z-index
+  // 90000, so it swallows wheel and touch, while the form is ~957px tall so
+  // the close button sits above the top of the screen.
   //
-  // Suppressing the form is a class on <body>, not a missing script: Klaviyo
-  // still loads everywhere and every event still reaches it. Only the modal is
-  // hidden, and the sweep below then clears Klaviyo's scroll lock because no
-  // form is visible behind it.
-  //
-  // To bring the pop-up back on a subset of pages, return false for those
-  // paths here — but re-check the close button against a 375px-tall viewport
-  // before doing it.
-  void pathname;
+  // On the home page both of those are defused by useKlaviyoSafety below: the
+  // backdrop stops capturing input, and the form dismisses itself. A visitor
+  // sees the offer and the page keeps working either way.
+  if (pathname === "/") return false;
   return true;
 }
 
@@ -129,6 +122,126 @@ function useDeferredKlaviyo() {
   }, [pathname]);
 }
 
+
+/**
+ * How long the pop-up stays on screen before it closes itself. Austin's call:
+ * fifteen seconds — long enough to read the offer and start typing, short
+ * enough that nobody is left looking at it. The countdown is cancelled
+ * outright the moment someone touches the form, so this never interrupts a
+ * signup in progress.
+ */
+const POPUP_VISIBLE_MS = 15_000;
+
+/**
+ * Lets the pop-up show without it ever being able to trap the page.
+ *
+ * Klaviyo's modal does two things that strand a visitor. Its backdrop is
+ * fixed, full-screen and z-index 90000, so it swallows wheel and touch
+ * wherever the pointer is; and the form is around 957px tall, so on any
+ * viewport shorter than that the close button sits above the top of the
+ * screen — measured at y:-663 — leaving nothing to dismiss.
+ *
+ * So: the backdrop is made transparent to input, which keeps the page
+ * scrolling underneath while the form itself stays clickable, and the form
+ * takes itself away after a few seconds. Austin's rule is that nothing on the
+ * site may stop someone scrolling; this keeps the offer and honours that.
+ */
+function useKlaviyoSafety() {
+  const pathname = usePathname();
+
+  useEffect(() => {
+    let dismissAt: number | null = null;
+    let engaged = false;
+
+    const formSelector = '[class*="kl-private"], .klaviyo-form';
+
+    const visibleForm = () =>
+      Array.from(document.querySelectorAll<HTMLElement>(formSelector)).find((el) => {
+        const r = el.getBoundingClientRect();
+        return r.width > 120 && r.height > 120 && getComputedStyle(el).display !== "none";
+      }) ?? null;
+
+    const dismiss = () => {
+      // Klaviyo's own close button first — that records the dismissal with
+      // them, so their frequency rules keep working.
+      const close = document.querySelector<HTMLElement>(".klaviyo-close-form");
+      if (close) close.click();
+
+      // Then make sure, in case the click did not take: hide anything still
+      // standing and give the page back.
+      requestAnimationFrame(() => {
+        const still = visibleForm();
+        if (still) {
+          const root = still.closest<HTMLElement>("div[class*=\"kl-private\"]") ?? still;
+          root.style.setProperty("display", "none", "important");
+        }
+        document.body.classList.remove("klaviyo-prevent-body-scrolling");
+      });
+    };
+
+    const tick = () => {
+      const form = visibleForm();
+      if (!form) {
+        dismissAt = null;
+        return;
+      }
+
+      // Stop the backdrop eating scroll. Only the full-screen fixed layer is
+      // touched; the form keeps its own pointer events so it stays usable.
+      for (const el of document.querySelectorAll<HTMLElement>(formSelector)) {
+        const c = getComputedStyle(el);
+        const r = el.getBoundingClientRect();
+        const fullScreen =
+          c.position === "fixed" &&
+          r.width >= window.innerWidth * 0.9 &&
+          r.height >= window.innerHeight * 0.9;
+        if (fullScreen) {
+          el.style.setProperty("pointer-events", "none", "important");
+          for (const child of Array.from(el.children) as HTMLElement[]) {
+            child.style.setProperty("pointer-events", "auto", "important");
+          }
+        }
+      }
+
+      // Someone typing their address must never have the form pulled out from
+      // under them — collecting the signup is the entire point of showing it.
+      // Any focus or input inside the form cancels the countdown for good.
+      if (engaged) {
+        dismissAt = null;
+        return;
+      }
+
+      if (dismissAt === null) {
+        dismissAt = Date.now() + POPUP_VISIBLE_MS;
+      } else if (Date.now() >= dismissAt) {
+        dismiss();
+        dismissAt = null;
+      }
+    };
+
+    // Engagement is sticky: once someone has touched the form we leave it
+    // alone until they close it or submit.
+    const onEngage = (event: Event) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.closest(formSelector)) engaged = true;
+    };
+    document.addEventListener("focusin", onEngage, true);
+    document.addEventListener("input", onEngage, true);
+    document.addEventListener("pointerdown", onEngage, true);
+
+    const timer = setInterval(tick, 500);
+    const observer = new MutationObserver(tick);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      clearInterval(timer);
+      observer.disconnect();
+      document.removeEventListener("focusin", onEngage, true);
+      document.removeEventListener("input", onEngage, true);
+      document.removeEventListener("pointerdown", onEngage, true);
+    };
+  }, [pathname]);
+}
 
 /**
  * The path list above is maintained by hand and will go stale the first time a
@@ -188,6 +301,7 @@ function useBuyButtonGuard() {
 export default function Analytics() {
   usePageViews();
   useBuyButtonGuard();
+  useKlaviyoSafety();
   useDeferredKlaviyo();
 
   return (
