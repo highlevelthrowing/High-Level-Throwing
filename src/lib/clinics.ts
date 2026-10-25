@@ -59,7 +59,7 @@ const OVERRIDES: Record<
   "2026-12-05|Tracy, CA": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-tracy-ca-december-2026",
-    registerLabel: "Register",
+    registerLabel: "Athlete & Coach Registration",
   },
 };
 
