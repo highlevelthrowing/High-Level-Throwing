@@ -27,26 +27,57 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
   // button still sells a January product that no longer exists — all five 404.
   // The live products kept their older handles, so the dates in the targets
   // below are the handles' own, not this clinic's.
+  // Tracy's theme template pairs every label with the NEXT session's product.
+  // Its programs_item blocks are shifted by one: the first block has no title
+  // but carries session 1's link, so "Session 1" sits above session 2's button,
+  // and "Session 5" sits above the Coach Access pass. Someone registering for
+  // Session 1 was buying Session 2; someone picking Session 5 was buying a $125
+  // coach pass.
+  //
+  // The earlier mapping here rewrote January handles to December ones faithfully
+  // — which fixed five 404s but kept the offset, so the wrong-product bug was
+  // live on this site too.
+  //
+  // Each January handle is therefore mapped to the product its LABEL promises,
+  // not to its own number. Read the table as "the button under this label now
+  // buys this":
+  //
+  //   (no label)  -> Coach Access      first block, title is empty in the theme
+  //   Session 1   -> session 1         was session 2
+  //   Session 2   -> session 2         was session 3
+  //   Session 3   -> session 3         was session 4
+  //   Session 4   -> session 4         was session 5
+  //   Session 5   -> session 5         was Coach Access
+  //
+  // This is a patch over a broken template. The real fix is reordering the
+  // blocks in the theme editor; once that is done every entry here becomes a
+  // no-op and the whole block can be deleted.
   "high-level-throwing-clinic-tracy-ca-december-2026": [
     [
-      "hlt-clinic-tracy-ca-session-1-saturday-january-25th-9am-11am-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-2-saturday-january-25th-1130am-130pm-155-ages-8-12",
       "hlt-clinic-tracy-ca-session-1-saturday-december-6th-9am-11am-155-ages-8-12",
     ],
     [
-      "hlt-clinic-tracy-ca-session-2-saturday-january-25th-1130am-130pm-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-3-saturday-january-25th-2pm-4pm-155-ages-13",
       "hlt-clinic-tracy-ca-session-2-saturday-decembrer-6th-1130am-130pm-155-ages-8-12",
     ],
     [
-      "hlt-clinic-tracy-ca-session-3-saturday-january-25th-2pm-4pm-155-ages-13",
+      "hlt-clinic-tracy-ca-session-4-sunday-january-26th-9am-11am-155-ages-8-12",
       "hlt-clinic-tracy-ca-session-3-saturday-december-6th-2pm-4pm-155-ages-13",
     ],
     [
-      "hlt-clinic-tracy-ca-session-4-sunday-january-26th-9am-11am-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-5-sunday-january-26th-1130am-130pm-155-ages-13",
       "hlt-clinic-tracy-ca-session-4-sunday-december-7th-9am-11am-155-ages-8-12",
     ],
     [
-      "hlt-clinic-tracy-ca-session-5-sunday-january-26th-1130am-130pm-155-ages-13",
+      "hlt-clinic-tracy-dc-coach-access-100",
       "hlt-clinic-tracy-ca-session-5-sunday-december-7th-1130am-130pm-155-ages-13",
+    ],
+    // The unlabelled first block: point it at the Coach Access pass, which the
+    // theme otherwise leaves with a label and no button at all.
+    [
+      "hlt-clinic-tracy-ca-session-1-saturday-january-25th-9am-11am-155-ages-8-12",
+      "hlt-clinic-tracy-dc-coach-access-100",
     ],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
