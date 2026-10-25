@@ -218,15 +218,22 @@ function moveStrandedTracyButton(html: string): string {
   const first = blocks[0];
   const last = blocks[blocks.length - 1];
 
-  // Only act on the shape we know: a live anchor first, an empty block last.
-  if (!/<a\b/i.test(first[1]) || /<a\b/i.test(last[1])) return html;
+  // The last block is not empty — it holds an anchor with href="" and no text,
+  // which is how the theme renders a block whose button URL was never set.
+  // Checking for the anchor itself (as this first did) always matched and the
+  // whole transform silently did nothing.
+  const firstHref = first[1].match(/href="([^"]+)"/);
+  const lastHasHref = /href="[^"]+"/.test(last[1]);
+  if (!firstHref || lastHasHref) return html;
 
-  const anchor = first[1];
-  // Splice from the back so the earlier index stays valid.
+  // Give the Coach Access block the orphan's destination and its label, then
+  // blank the orphan so its row renders nothing.
+  const filledLast = last[0]
+    .replace(/href="[^"]*"/, `href="${firstHref[1]}"`)
+    .replace(/><\/a>/, ">I WANT THIS</a>");
+
   const withButton =
-    html.slice(0, last.index!) +
-    `<div class="maintxt_1">${anchor}</div>` +
-    html.slice(last.index! + last[0].length);
+    html.slice(0, last.index!) + filledLast + html.slice(last.index! + last[0].length);
 
   return (
     withButton.slice(0, first.index!) +
