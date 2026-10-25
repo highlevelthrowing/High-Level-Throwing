@@ -46,6 +46,21 @@ const OVERRIDES: Record<
     blurb: "Registration is open!",
     image: "/images/clinic-fort-lauderdale-2026.jpg",
   },
+  // Tracy's calendar entry still reads "Registration opens soon!" and carries
+  // no register link, so the clinic listed on /clinics with no way to book it.
+  // Registration is in fact open: all five sessions and the coach access pass
+  // are live products and were returning 200 when this was added.
+  //
+  // The href is deliberately our own page rather than the Shopify one. That
+  // page was copied from the January clinic, so every button on it still sells
+  // a January handle that 404s; the embed proxy rewrites those to the real
+  // December products (see PAGE_LINK_FIXES in the embed route). Sending people
+  // to Shopify directly would hand them five dead buttons.
+  "2026-12-05|Tracy, CA": {
+    blurb: "Registration is open!",
+    registerHref: "/pages/high-level-throwing-clinic-tracy-ca-december-2026",
+    registerLabel: "Register",
+  },
 };
 
 function unescapeText(value: string): string {
