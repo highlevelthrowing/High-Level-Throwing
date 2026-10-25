@@ -59,7 +59,7 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
     ],
     [
       "hlt-clinic-tracy-ca-session-3-saturday-january-25th-2pm-4pm-155-ages-13",
-      "hlt-clinic-tracy-ca-session-2-saturday-decembrer-6th-1130am-130pm-155-ages-8-12",
+      "hlt-clinic-tracy-ca-session-2-saturday-december-6th-1130am-130pm-155-ages-8-12",
     ],
     [
       "hlt-clinic-tracy-ca-session-4-sunday-january-26th-9am-11am-155-ages-8-12",
