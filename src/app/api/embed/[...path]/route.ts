@@ -192,6 +192,49 @@ const CONSENT_NOTICE = /* html */ `
 </div>
 `;
 
+
+/**
+ * Tracy's session list has one button too many at the top and one too few at
+ * the bottom.
+ *
+ * Its theme section renders a label block (`maintxt_0`) followed by a button
+ * block (`maintxt_1`) for each row. The rows are shifted: the first pair has
+ * an empty label with a live button, and the last pair has the Coach Access
+ * label with an empty button. A visitor saw a stray "I WANT THIS" floating
+ * above Session 1, and coaches had a price with nothing to click.
+ *
+ * The button is moved from the first block into the last, which lands it
+ * directly under the Coach Access label and leaves the empty pair rendering
+ * nothing. The session buttons in between are untouched — those are already
+ * paired correctly by PAGE_LINK_FIXES.
+ *
+ * Remove this once the blocks are reordered in the theme editor.
+ */
+function moveStrandedTracyButton(html: string): string {
+  const BLOCK = /<div class="maintxt_1">([\s\S]*?)<\/div>/g;
+  const blocks = [...html.matchAll(BLOCK)];
+  if (blocks.length < 2) return html;
+
+  const first = blocks[0];
+  const last = blocks[blocks.length - 1];
+
+  // Only act on the shape we know: a live anchor first, an empty block last.
+  if (!/<a\b/i.test(first[1]) || /<a\b/i.test(last[1])) return html;
+
+  const anchor = first[1];
+  // Splice from the back so the earlier index stays valid.
+  const withButton =
+    html.slice(0, last.index!) +
+    `<div class="maintxt_1">${anchor}</div>` +
+    html.slice(last.index! + last[0].length);
+
+  return (
+    withButton.slice(0, first.index!) +
+    '<div class="maintxt_1"></div>' +
+    withButton.slice(first.index! + first[0].length)
+  );
+}
+
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const segments = (path ?? []).map((s) => decodeURIComponent(s));
@@ -225,6 +268,10 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   const corrections = PAGE_TEXT_FIXES[page];
   if (corrections) {
     for (const [wrong, right] of corrections) html = html.split(wrong).join(right);
+  }
+
+  if (page === "high-level-throwing-clinic-tracy-ca-december-2026") {
+    html = moveStrandedTracyButton(html);
   }
 
   const linkFixes = PAGE_LINK_FIXES[page];
