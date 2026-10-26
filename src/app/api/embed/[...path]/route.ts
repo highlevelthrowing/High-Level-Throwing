@@ -125,6 +125,12 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
   "high-level-throwing-clinic-tracy-ca-december-2026": [
     ["December 5th & 76h 2026", "December 5th & 6th 2026"],
   ],
+  // The page says Wednesday in its intro and in the session list, and Monday
+  // on the registration row. 16 December 2026 is a Wednesday, and the product
+  // title says Wednesday, so the registration row is the odd one out.
+  "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
+    ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
+  ],
   "high-level-throwing-clinic-poland-oh-february-2027": [
     ["Poland, Ohio 2026", "Poland, Ohio 2027"],
     ["Poland , OH 2026", "Poland, OH 2027"],
