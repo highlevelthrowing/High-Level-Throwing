@@ -209,6 +209,31 @@ const CONSENT_NOTICE = /* html */ `
   /* Nothing overlays the register buttons on a registration page. */
   :root:root [id^="evm-product-sp"],
   :root:root .evm-product-sp-block{ display:none !important; }
+
+  /* Registration rows.
+
+     The theme puts 24px above each button and nothing below, so every button
+     sat flush against the NEXT session's heading and read as belonging to it.
+     On a page where each button charges $160 for a specific time slot, that
+     ambiguity is worth removing: the button now hugs the label it belongs to
+     and is separated from the one after.
+
+     The buttons were also 37px tall with 9.5px text — under the 44px minimum
+     comfortable tap target, on a page whose whole purpose is being tapped. */
+  :root:root .maindivU .maintxt_1{
+    margin-top:8px !important;
+    margin-bottom:28px !important;
+  }
+  :root:root .maindivU .maintxt_1 a{
+    min-height:44px;
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    font-size:12px;
+    letter-spacing:0.08em;
+    padding:12px 28px;
+  }
+  :root:root .maindivU .maintxt_1:empty{ display:none !important; }
 </style>
 <div id="hlt-consent-notice">
   <p><strong>Heads up:</strong> by registering you&rsquo;ll receive your clinic
