@@ -272,6 +272,11 @@ const STRANDED_FIRST_BUTTON = new Set([
   "high-level-throwing-clinic-tracy-ca-december-2026",
   "high-level-throwing-clinic-beaufort-sc-december-2026",
   "high-level-throwing-clinic-lebanon-in-2026",
+  "high-level-throwing-clinic-crystal-lake-il-2026",
+  "high-level-throwing-clinic-fort-lauderdale-fl-2026",
+  "high-level-throwing-clinic-houston-tx-november-2026",
+  "high-level-throwing-clinic-poland-oh-february-2027",
+  "high-level-throwing-clinic-fresno-ca-december-2026",
 ]);
 
 function fixStrandedClinicButton(html: string): string {
