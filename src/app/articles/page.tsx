@@ -62,7 +62,7 @@ const ARTICLES = [
     href: "/blogs/news/outfield-vs-infield-throwing-mechanics",
   },
   {
-    title: "Who Is Austin Wasserman, and What Makes High Level Throwing\u00ae the Gold Standard",
+    title: "Who Is Austin Wasserman and What Makes High Level Throwing\u00ae the Gold Standard",
     date: "October 21, 2026",
     excerpt:
       "Seven things that separate a structured throwing system from a collection of drills \u2014 and why the difference is teaching the why, not just the\u2026",
