@@ -80,6 +80,32 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
       "hlt-clinic-tracy-dc-coach-access-100",
     ],
   ],
+  // Beaufort was copied from the Lebanon, IN page and every button still sells
+  // a Lebanon or Livermore product — a visitor registering for a December
+  // clinic in South Carolina was buying a November one in Indiana. Each label
+  // is mapped to the Beaufort product it names.
+  "high-level-throwing-clinic-beaufort-sc-december-2026": [
+    [
+      "hlt-clinic-lebanon-in-session-2-saturday-november-22nd-1130am-130pm-155-ages-12-18-foundations-course",
+      "hlt-clinic-beaufort-sc-session-1-tuesday-december-29th-830am-1030am-160",
+    ],
+    [
+      "hlt-clinic-indianapolis-lebanon-in-session-1-saturday-november-7th-9am-11am-160-ages-9-12-softball",
+      "hlt-clinic-beaufort-sc-session-2-tuesday-december-29th-11am-1pm-160",
+    ],
+    [
+      "hlt-clinic-indianapolis-lebanon-in-session-1-saturday-november-7th-1130am-130pm-160-ages-9-12-softball",
+      "hlt-clinic-beaufort-sc-session-3-tuesday-december-29th-2pm-4pm-160",
+    ],
+    [
+      "hlt-clinic-indianapolis-lebanon-in-session-3-saturday-november-7th-2pm-4pm-160-ages-13-softball",
+      "hlt-clinic-beaufort-sc-session-4-tuesday-december-29th-430pm-630pm-160",
+    ],
+    [
+      "hlt-clinic-livermore-ca-coach-access",
+      "hlt-clinic-beaufort-sc-coach-access-125",
+    ],
+  ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     [
       "hlt-clinic-uxbridge-ma-2024-coach-access-100",
@@ -210,7 +236,30 @@ const CONSENT_NOTICE = /* html */ `
  *
  * Remove this once the blocks are reordered in the theme editor.
  */
-function moveStrandedTracyButton(html: string): string {
+/**
+ * Pages whose session list opens with a button that has no label.
+ *
+ * Both were copied from an earlier clinic and gained a block at the top, so
+ * the first row is an empty label with a live button. Tracy also lost the
+ * button from its last row (Coach Access had a price and nothing to click);
+ * Beaufort kept its one. Handled together:
+ *
+ *   - if the last row has a label but no link, the orphan's link is moved
+ *     there, which is what Coach Access needs;
+ *   - otherwise the orphan is simply blanked.
+ *
+ * Opt-in by page on purpose. The rule "blank the first button" would delete a
+ * real button on a correctly built page, so it only runs where the defect has
+ * actually been seen.
+ *
+ * Remove a page from this set once its blocks are fixed in the theme editor.
+ */
+const STRANDED_FIRST_BUTTON = new Set([
+  "high-level-throwing-clinic-tracy-ca-december-2026",
+  "high-level-throwing-clinic-beaufort-sc-december-2026",
+]);
+
+function fixStrandedClinicButton(html: string): string {
   const BLOCK = /<div class="maintxt_1">([\s\S]*?)<\/div>/g;
   const blocks = [...html.matchAll(BLOCK)];
   if (blocks.length < 2) return html;
@@ -218,27 +267,23 @@ function moveStrandedTracyButton(html: string): string {
   const first = blocks[0];
   const last = blocks[blocks.length - 1];
 
-  // The last block is not empty — it holds an anchor with href="" and no text,
-  // which is how the theme renders a block whose button URL was never set.
-  // Checking for the anchor itself (as this first did) always matched and the
-  // whole transform silently did nothing.
+  // An unset button renders as <a href="" ...></a>, so test the href rather
+  // than the tag — the anchor is always present either way.
   const firstHref = first[1].match(/href="([^"]+)"/);
+  if (!firstHref) return html;
   const lastHasHref = /href="[^"]+"/.test(last[1]);
-  if (!firstHref || lastHasHref) return html;
 
-  // Give the Coach Access block the orphan's destination and its label, then
-  // blank the orphan so its row renders nothing.
-  const filledLast = last[0]
-    .replace(/href="[^"]*"/, `href="${firstHref[1]}"`)
-    .replace(/><\/a>/, ">I WANT THIS</a>");
-
-  const withButton =
-    html.slice(0, last.index!) + filledLast + html.slice(last.index! + last[0].length);
-
+  let out = html;
+  if (!lastHasHref) {
+    const filled = last[0]
+      .replace(/href="[^"]*"/, `href="${firstHref[1]}"`)
+      .replace(/><\/a>/, ">I WANT THIS</a>");
+    out = out.slice(0, last.index!) + filled + out.slice(last.index! + last[0].length);
+  }
   return (
-    withButton.slice(0, first.index!) +
+    out.slice(0, first.index!) +
     '<div class="maintxt_1"></div>' +
-    withButton.slice(first.index! + first[0].length)
+    out.slice(first.index! + first[0].length)
   );
 }
 
@@ -277,8 +322,8 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
     for (const [wrong, right] of corrections) html = html.split(wrong).join(right);
   }
 
-  if (page === "high-level-throwing-clinic-tracy-ca-december-2026") {
-    html = moveStrandedTracyButton(html);
+  if (STRANDED_FIRST_BUTTON.has(page)) {
+    html = fixStrandedClinicButton(html);
   }
 
   const linkFixes = PAGE_LINK_FIXES[page];
