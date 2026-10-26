@@ -214,24 +214,13 @@ const CONSENT_NOTICE = /* html */ `
 
      The theme puts 24px above each button and nothing below, so every button
      sat flush against the NEXT session's heading and read as belonging to it.
-     On a page where each button charges $160 for a specific time slot, that
+     On a page where each button charges $160 for one specific time slot, that
      ambiguity is worth removing: the button now hugs the label it belongs to
-     and is separated from the one after.
-
-     The buttons were also 37px tall with 9.5px text — under the 44px minimum
-     comfortable tap target, on a page whose whole purpose is being tapped. */
+     and is separated from the one after. The button's own appearance is set
+     by the canonical rule further down, not here. */
   :root:root .maindivU .maintxt_1{
     margin-top:8px !important;
     margin-bottom:28px !important;
-  }
-  :root:root .maindivU .maintxt_1 a{
-    min-height:44px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    font-size:12px;
-    letter-spacing:0.08em;
-    padding:12px 28px;
   }
   :root:root .maindivU .maintxt_1:empty{ display:none !important; }
 </style>
@@ -686,10 +675,18 @@ const EMBED_THEME = /* html */ `
     color:#000000 !important;
     border:none !important;
     border-radius:999px !important;
-    padding:13px 30px !important;
+    padding:12px 28px !important;
     margin:6px 0 16px !important;
+    /* A real tap target. These were 37px tall, under the 44px minimum, on a
+       page whose only job is being tapped. */
+    min-height:44px !important;
+    display:inline-flex !important;
+    align-items:center !important;
+    justify-content:center !important;
     font-weight:800 !important;
-    font-size:0.95rem !important;
+    /* Was 0.95rem, which this theme renders at 9.5px because its root font is
+       10px — barely legible. Fixed in px so it cannot be scaled away again. */
+    font-size:13px !important;
     letter-spacing:0.5px !important;
     line-height:1.2 !important;
     text-decoration:none !important;
