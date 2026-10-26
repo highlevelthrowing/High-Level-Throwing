@@ -271,6 +271,7 @@ const CONSENT_NOTICE = /* html */ `
 const STRANDED_FIRST_BUTTON = new Set([
   "high-level-throwing-clinic-tracy-ca-december-2026",
   "high-level-throwing-clinic-beaufort-sc-december-2026",
+  "high-level-throwing-clinic-lebanon-in-2026",
 ]);
 
 function fixStrandedClinicButton(html: string): string {
@@ -318,6 +319,65 @@ function fixStrandedClinicButton(html: string): string {
   );
 }
 
+
+/**
+ * Buttons addressed by the label above them, rather than by the URL they
+ * currently carry.
+ *
+ * Lebanon needed this and handle-to-handle swapping could not do it. Its rows
+ * are shifted by one, so the correct rewrite is a rotation — session 2's link
+ * becomes session 1's, session 3's becomes session 2's, and so on. Sequential
+ * string replacement applies those in order and re-replaces values it just
+ * wrote, landing everything on the same product.
+ *
+ * Matching the label instead makes each row independent. The key is a
+ * substring of the label as it renders; the value is the handle of the product
+ * whose TITLE matches that label — not the handle that looks like it matches.
+ * Lebanon's handles are numbered differently from their titles (the product
+ * titled "Session 3" has a handle saying session-1), so the handles cannot be
+ * trusted to identify a session.
+ *
+ * A row whose label matches nothing is left alone; a button with no label
+ * above it is blanked.
+ */
+const PAGE_BUTTON_BY_LABEL: Record<string, [string, string][]> = {
+  "high-level-throwing-clinic-lebanon-in-2026": [
+    ["Session 1:", "hlt-clinic-lebanon-in-session-1-saturday-november-22nd-9am-11am-155-ages-9u-10u-11u"],
+    ["Session 2:", "hlt-clinic-lebanon-in-session-2-saturday-november-22nd-1130am-130pm-155-ages-12-18-foundations-course"],
+    ["Session 3:", "hlt-clinic-indianapolis-lebanon-in-session-1-saturday-november-7th-9am-11am-160-ages-9-12-softball"],
+    ["Session 4:", "hlt-clinic-indianapolis-lebanon-in-session-1-saturday-november-7th-1130am-130pm-160-ages-9-12-softball"],
+    ["Session 5:", "hlt-clinic-indianapolis-lebanon-in-session-3-saturday-november-7th-2pm-4pm-160-ages-13-softball"],
+    ["Session 6:", "hlt-clinic-indianapolis-lebanon-in-session-4-saturday-november-7th-5pm-7pm-160-ages-13-softball"],
+    ["Session 7:", "hlt-clinic-indianapolis-lebanon-in-session-5-sunday-november-8th-9am-11am-160-ages-9-12-softball"],
+    ["Session 8:", "hlt-clinic-indianapolis-lebanon-in-session-6-sunday-november-8th-1130am-1130pm-160-ages-13-softball"],
+    ["Session 9:", "hlt-clinic-indianapolis-lebanon-in-session-8-sunday-november-8th-2pm-4pm-160-ages-13-softball"],
+    ["Coach Access", "hlt-clinic-springfield-va-2026-coach-access-125"],
+  ],
+};
+
+const STORE_ORIGIN = "https://highlevelthrowing.com";
+const BUTTON_UTM = "?utm_source=copyToPasteBoard&utm_medium=product-links&utm_content=web";
+
+function retargetButtonsByLabel(html: string, rules: [string, string][]): string {
+  // Walk label/button pairs in document order. maintxt_0 can contain nested
+  // markup, so the label block is found by its opening tag and read up to the
+  // button block that follows it.
+  const PAIR = /<div class="maintxt_0">([\s\S]*?)<div class="maintxt_1">([\s\S]*?)<\/div>/g;
+  return html.replace(PAIR, (whole, label: string, button: string) => {
+    const text = label.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
+    const rule = rules.find(([needle]) => text.includes(needle));
+    if (!rule) return whole;
+    const href = `${STORE_ORIGIN}/products/${rule[1]}${BUTTON_UTM}`;
+    const fixed = /href="[^"]*"/.test(button)
+      ? button.replace(/href="[^"]*"/, `href="${href}"`)
+      : button;
+    const labelled = /<a\b[^>]*>\s*<\/a>/.test(fixed)
+      ? fixed.replace(/(<a\b[^>]*>)\s*(<\/a>)/, "$1I WANT THIS$2")
+      : fixed;
+    return whole.replace(button, labelled);
+  });
+}
+
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const segments = (path ?? []).map((s) => decodeURIComponent(s));
@@ -352,6 +412,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   if (corrections) {
     for (const [wrong, right] of corrections) html = html.split(wrong).join(right);
   }
+
+  const byLabel = PAGE_BUTTON_BY_LABEL[page];
+  if (byLabel) html = retargetButtonsByLabel(html, byLabel);
 
   if (STRANDED_FIRST_BUTTON.has(page)) {
     html = fixStrandedClinicButton(html);
