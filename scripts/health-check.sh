@@ -88,6 +88,20 @@ else
 fi
 
 echo
+echo "registration buttons buy what their label says"
+# Eight clinic pages were found selling the wrong session on 2026-10-26, each
+# copied from a template whose blocks are shifted by a row. Pages had taken
+# real orders that way. This compares each label against the TITLE of the
+# product it links to; handles are meaningless here (Houston's sessions sit
+# under katy-tx handles, Lebanon's "Session 3" under a session-1 handle).
+if python3 "$(dirname "$0")/clinic-button-check.py" > /tmp/hlt-buttons.txt 2>&1; then
+  pass "$(tail -1 /tmp/hlt-buttons.txt | sed 's/^ok *//')"
+else
+  fail "a registration button sells the wrong session"
+  sed 's/^/    /' /tmp/hlt-buttons.txt
+fi
+
+echo
 echo "internal links resolve"
 all=$(for p in "" shop books clinics video-assessment; do curl -s "$SITE/$p"; done)
 links=$(grep -o 'href="/[^"#?]*"' <<<"$all" | sed 's/href="//;s/"//' | sort -u | grep -v '^/$')
