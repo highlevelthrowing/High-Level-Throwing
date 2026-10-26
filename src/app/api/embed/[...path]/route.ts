@@ -341,6 +341,51 @@ function fixStrandedClinicButton(html: string): string {
  * above it is blanked.
  */
 const PAGE_BUTTON_BY_LABEL: Record<string, [string, string][]> = {
+  // Every one of these pages shifted its buttons by one row, the same defect
+  // as Lebanon, Tracy and Beaufort — they were all built from one template and
+  // all inherited it. Each key is a substring of the label as it renders; each
+  // value is the handle of the product whose TITLE matches that label.
+  //
+  // Verified by comparing against product titles, not handles. Handles here
+  // are unreliable: Lebanon's product titled "Session 3" has a handle saying
+  // session-1, Fresno's December products carry fresno-* handles under Clovis
+  // titles, and Crystal Lake's coach row sold a Houston pass.
+  "high-level-throwing-clinic-crystal-lake-il-2026": [
+    ["Coach Session", "hlt-clinic-crystal-lake-il-coach-session-1-saturday-november-21st-8am-9am-125"],
+    ["Player Session 1", "hlt-clinic-crystal-lake-il-session-1-friday-november-20th-6pm-8pm-160-ages-13-softball"],
+    ["Player Session 2", "hlt-clinic-crystal-lake-il-player-session-2-saturday-november-21st-930am-1130am-160-ages-9-12-softball"],
+    ["Player Session 3", "hlt-clinic-crystal-lake-il-player-session-3-saturday-november-21st-12pm-2pm-160-ages-9-12-softball"],
+    ["Player Session 4", "hlt-clinic-crystal-lake-il-player-session-4-saturday-november-21st-230pm-430pm-160-ages-13-softball"],
+    ["Player Session 5", "hlt-clinic-crystal-lake-il-player-session-5-saturday-november-21st-5pm-7pm-160-ages-13-softball"],
+    ["Player Session 6", "hlt-clinic-crystal-lake-il-player-session-6-sunday-november-22nd-9am-11am-160-ages-9-12-baseball"],
+    ["Player Session 7", "hlt-clinic-crystal-lake-il-player-session-7-sunday-november-22nd-1130am-130pm-160-ages-13-baseball"],
+  ],
+  "high-level-throwing-clinic-houston-tx-november-2026": [
+    ["Session 1:", "hlt-clinic-katy-tx-session-1-saturday-august-22nd-9am-11am-160-premier-aces-12"],
+    ["Session 2:", "hlt-clinic-katy-tx-session-2-saturday-august-22nd-1130am-130pm-160-tbd"],
+    ["Session 3:", "hlt-clinic-katy-tx-session-3-saturday-august-22nd-2pm-4pm-160-illusions-fastpitch-14"],
+    ["Session 4:", "hlt-clinic-katy-tx-session-4-saturday-august-22nd-5pm-7pm-160-tbd"],
+    ["Coach Access", "hlt-clinic-katy-tx-coach-access-100"],
+  ],
+  "high-level-throwing-clinic-poland-oh-february-2027": [
+    ["Session 1:", "hlt-clinic-warren-oh-session-1-friday-february-7th-6p-8pm-155-ages-13"],
+    ["Session 2:", "hlt-clinic-warren-oh-session-2-saturday-february-8th-9am-11am-155-ages-13"],
+    ["Session 3:", "hlt-clinic-warren-oh-session-3-saturday-february-8th-1130am-130pm-155-ages-9-12"],
+    ["Session 4:", "hlt-clinic-warren-oh-session-4-saturday-february-8th-2pm-4pm-155-ages-13"],
+    ["Session 5:", "hlt-clinic-warren-oh-session-5-sunday-february-9th-9am-11am-155-ages-9-12-baseball"],
+    ["Coach Access", "hlt-clinic-warren-oh-coach-access-100"],
+  ],
+  "high-level-throwing-clinic-fresno-ca-december-2026": [
+    ["Session 1:", "hlt-clinic-fresno-ca-session-1-sunday-dec-19th-9am-11am-160-ages-9-12"],
+    ["Session 2:", "hlt-clinic-fresno-ca-session-2-saturday-dec-19th-1130am-130pm-160-ages-13"],
+    ["Session 3:", "hlt-clinic-fresno-ca-session-3-saturday-dec-19th-2pm-4pm-160-ages-9-12"],
+    ["Session 4:", "hlt-clinic-fresno-ca-session-4-saturday-dec-19th-5pm-7pm-160-ages-13"],
+    ["Coach Access", "hlt-clinic-fresno-ca-2026-coach-access-125"],
+  ],
+  "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
+    ["Athlete Registration", "hlt-clinic-fort-lauderdale-fl-wednesday-december-16th-7pm-9pm-160-ages-12-softball"],
+    ["Coach Access", "hlt-clinic-fort-lauderdale-fl-coach-access-125"],
+  ],
   "high-level-throwing-clinic-lebanon-in-2026": [
     ["Session 1:", "hlt-clinic-lebanon-in-session-1-saturday-november-22nd-9am-11am-155-ages-9u-10u-11u"],
     ["Session 2:", "hlt-clinic-lebanon-in-session-2-saturday-november-22nd-1130am-130pm-155-ages-12-18-foundations-course"],
