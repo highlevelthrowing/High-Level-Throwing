@@ -274,16 +274,33 @@ function fixStrandedClinicButton(html: string): string {
   const lastHasHref = /href="[^"]+"/.test(last[1]);
 
   let out = html;
+
+  // A block can carry a link and no label: the theme stores the button's URL
+  // and its text separately, so clearing the text leaves <a href="...">
+  // </a> — a real link that renders at zero height and is invisible. Beaufort's
+  // Coach Access row was exactly this once its href was corrected. Give any
+  // such anchor the same wording as its neighbours.
+  out = out.replace(
+    /(<div class="maintxt_1">\s*<a\b[^>]*href="[^"]+?"[^>]*>)(\s*)(<\/a>)/g,
+    (_m, open: string, _gap: string, close: string) => `${open}I WANT THIS${close}`
+  );
+
   if (!lastHasHref) {
-    const filled = last[0]
+    const blocks2 = [...out.matchAll(/<div class="maintxt_1">([\s\S]*?)<\/div>/g)];
+    const last2 = blocks2[blocks2.length - 1];
+    const filled = last2[0]
       .replace(/href="[^"]*"/, `href="${firstHref[1]}"`)
-      .replace(/><\/a>/, ">I WANT THIS</a>");
-    out = out.slice(0, last.index!) + filled + out.slice(last.index! + last[0].length);
+      .replace(/>\s*<\/a>/, ">I WANT THIS</a>");
+    out = out.slice(0, last2.index!) + filled + out.slice(last2.index! + last2[0].length);
   }
+
+  // Indices from the original string are stale after the rewrites above.
+  const firstNow = out.match(/<div class="maintxt_1">[\s\S]*?<\/div>/);
+  if (!firstNow) return out;
   return (
-    out.slice(0, first.index!) +
+    out.slice(0, firstNow.index!) +
     '<div class="maintxt_1"></div>' +
-    out.slice(first.index! + first[0].length)
+    out.slice(firstNow.index! + firstNow[0].length)
   );
 }
 
