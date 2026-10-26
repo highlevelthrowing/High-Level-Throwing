@@ -275,7 +275,7 @@ const STRANDED_FIRST_BUTTON = new Set([
 ]);
 
 function fixStrandedClinicButton(html: string): string {
-  const BLOCK = /<div class="maintxt_1">([\s\S]*?)<\/div>/g;
+  const BLOCK = /<div\s+class="maintxt_1">([\s\S]*?)<\/div>/g;
   const blocks = [...html.matchAll(BLOCK)];
   if (blocks.length < 2) return html;
 
@@ -301,7 +301,7 @@ function fixStrandedClinicButton(html: string): string {
   );
 
   if (!lastHasHref) {
-    const blocks2 = [...out.matchAll(/<div class="maintxt_1">([\s\S]*?)<\/div>/g)];
+    const blocks2 = [...out.matchAll(/<div\s+class="maintxt_1">([\s\S]*?)<\/div>/g)];
     const last2 = blocks2[blocks2.length - 1];
     const filled = last2[0]
       .replace(/href="[^"]*"/, `href="${firstHref[1]}"`)
@@ -310,7 +310,7 @@ function fixStrandedClinicButton(html: string): string {
   }
 
   // Indices from the original string are stale after the rewrites above.
-  const firstNow = out.match(/<div class="maintxt_1">[\s\S]*?<\/div>/);
+  const firstNow = out.match(/<div\s+class="maintxt_1">[\s\S]*?<\/div>/);
   if (!firstNow) return out;
   return (
     out.slice(0, firstNow.index!) +
@@ -362,7 +362,11 @@ function retargetButtonsByLabel(html: string, rules: [string, string][]): string
   // Walk label/button pairs in document order. maintxt_0 can contain nested
   // markup, so the label block is found by its opening tag and read up to the
   // button block that follows it.
-  const PAIR = /<div class="maintxt_0">([\s\S]*?)<div class="maintxt_1">([\s\S]*?)<\/div>/g;
+  // The theme emits <div  class="maintxt_0"> with two spaces and
+  // <div class="maintxt_1"> with one, so the whitespace has to be loose. A
+  // single-space pattern here matched nothing at all and the rewrite silently
+  // did nothing.
+  const PAIR = /<div\s+class="maintxt_0">([\s\S]*?)<div\s+class="maintxt_1">([\s\S]*?)<\/div>/g;
   return html.replace(PAIR, (whole, label: string, button: string) => {
     const text = label.replace(/<[^>]+>/g, " ").replace(/&nbsp;/g, " ").replace(/\s+/g, " ").trim();
     const rule = rules.find(([needle]) => text.includes(needle));
