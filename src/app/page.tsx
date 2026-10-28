@@ -196,7 +196,7 @@ export default async function Home() {
       <section className="hero section-photo section-photo--banner">
         <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">
-          Welcome to High Level Throwing<em style={{ color: "#fff" }}>®</em>
+          High Level Throwing<em style={{ color: "#fff" }}>®</em>
         </h1>
         <p>Everything you need to build the complete Throwing Athlete.</p>
       </section>
