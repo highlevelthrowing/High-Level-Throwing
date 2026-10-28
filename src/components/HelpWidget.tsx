@@ -69,21 +69,15 @@ const FAQS: { q: string; a: string; href?: string; cta?: string }[] = [
   },
 ];
 
+/**
+ * The panel used to open itself a few seconds into a visit, once per session.
+ * It no longer does: it opens only when someone presses "How can we help?".
+ *
+ * This key is kept because the panel still records that it has been seen when
+ * a visitor opens it, and a stored value from the old behaviour stays valid.
+ */
 const SEEN_KEY = "hlt-help-seen";
 // Klaviyo's discount overlay fires on entry. Opening on top of it means two
-// panels competing, so wait until that has had its moment.
-const AUTO_OPEN_MS = 7000;
-
-/** Pages with a Buy button: the launcher stays, but nothing opens itself over
- *  a purchase. The panel is nearly full width on a phone and would cover Add to
- *  Cart outright. */
-function blocksPurchase(pathname: string): boolean {
-  return (
-    pathname.startsWith("/products/") ||
-    pathname.startsWith("/cart") ||
-    pathname.startsWith("/pages/")
-  );
-}
 
 /**
  * Registration pages get no widget at all, not just no auto-open. Every answer
@@ -109,24 +103,6 @@ export default function HelpWidget() {
   const [active, setActive] = useState<number | null>(null);
   const panelRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    if (blocksPurchase(pathname)) return;
-    let seen = true;
-    try {
-      seen = sessionStorage.getItem(SEEN_KEY) === "1";
-    } catch {
-      // private window or storage blocked: behave as though it has been seen
-      // rather than reopening on every navigation
-    }
-    if (seen) return;
-    const t = setTimeout(() => {
-      setOpen(true);
-      try {
-        sessionStorage.setItem(SEEN_KEY, "1");
-      } catch {}
-    }, AUTO_OPEN_MS);
-    return () => clearTimeout(t);
-  }, [pathname]);
 
   useEffect(() => {
     if (!open) return;
