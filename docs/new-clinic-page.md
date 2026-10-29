@@ -76,3 +76,20 @@ handles, Poland's February 2027 under `warren-oh`, Fresno's December products
 under `fresno-*` with Clovis titles, and Lebanon's product *titled* "Session
 3" has a handle saying `session-1`. Reading pages by handle is what hid a
 site-wide wrong-session bug.
+
+## Set the product Category
+
+Shopify assigns a Category to a new product by guessing from the title, and it
+only gets it right sometimes — of five Littleton products created together,
+one was categorised and four came back `null`. The field drives tax rates and
+cross-channel search, so it is worth setting explicitly:
+
+```
+Sporting Goods > Athletics > Baseball & Softball
+gid://shopify/TaxonomyCategory/sg-1-2
+```
+
+Every clinic product should carry it. `clinic-button-check.py` cannot verify
+this — it runs on the Storefront API, which does not expose `category` at all;
+that field is Admin-only. Check it in the Shopify admin, or with an Admin API
+query, when you create the products.
