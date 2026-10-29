@@ -242,6 +242,48 @@ const CONSENT_NOTICE = /* html */ `
     margin-bottom:28px !important;
   }
   :root:root .maindivU .maintxt_1:empty{ display:none !important; }
+
+  /* Two sessions per row on a phone.
+
+     A ten-session page ran 1694px — just over two screens of scrolling to
+     see what is on offer. Measured at 375px: a label is 81px tall across the
+     full column and 135px at half width, so two per row still comes out well
+     ahead, five rows instead of ten.
+
+     The column was also only 285px of a 375px screen, the other 90px being
+     three nested paddings. Reclaiming most of that is what keeps the labels
+     readable once they are half as wide. */
+  @media (max-width: 767px){
+    :root:root .xpage{ padding-left:8px !important; padding-right:8px !important; }
+    :root:root .left-right{ padding-left:0 !important; padding-right:0 !important; }
+    :root:root body.gradient{ padding-left:8px !important; padding-right:8px !important; }
+
+    :root:root .maindivU{
+      display:grid !important;
+      grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
+      gap:10px 10px !important;
+      align-items:start !important;
+    }
+    /* Anything that is not a session row keeps the full width. */
+    :root:root .maindivU > *:not(.hlt-session){ grid-column:1 / -1 !important; }
+
+    :root:root .hlt-session{
+      display:flex !important;
+      flex-direction:column !important;
+      justify-content:space-between !important;
+      height:100% !important;
+    }
+    /* Inside a cell the rhythm is tighter than the full-width version. */
+    :root:root .hlt-session .maintxt_0{ margin:0 0 6px !important; }
+    :root:root .hlt-session .maintxt_1{ margin:0 !important; }
+    :root:root .hlt-session .maintxt_1 a{
+      width:100% !important;
+      padding-left:8px !important;
+      padding-right:8px !important;
+      font-size:12px !important;
+      letter-spacing:0.04em !important;
+    }
+  }
 </style>
 <div id="hlt-consent-notice">
   <p><strong>Heads up:</strong> by registering you&rsquo;ll receive your clinic
@@ -462,6 +504,23 @@ function retargetButtonsByLabel(html: string, rules: [string, string][]): string
   });
 }
 
+
+/**
+ * Wraps each session row — its label and the button under it — in one element.
+ *
+ * The theme emits them as flat siblings, so a two-column grid on the parent
+ * would put a label in one column and its own button in the other. Pairing
+ * them first lets the grid place whole sessions side by side instead.
+ *
+ * Runs after the button rewrites above, which match the unwrapped divs.
+ */
+function pairSessionRows(html: string): string {
+  return html.replace(
+    /(<div\s+class="maintxt_0">[\s\S]*?<\/div>)\s*(<div\s+class="maintxt_1">[\s\S]*?<\/div>)/g,
+    (_m, label: string, button: string) => `<div class="hlt-session">${label}${button}</div>`
+  );
+}
+
 export async function GET(_request: Request, { params }: { params: Promise<{ path: string[] }> }) {
   const { path } = await params;
   const segments = (path ?? []).map((s) => decodeURIComponent(s));
@@ -503,6 +562,9 @@ export async function GET(_request: Request, { params }: { params: Promise<{ pat
   if (STRANDED_FIRST_BUTTON.has(page)) {
     html = fixStrandedClinicButton(html);
   }
+
+  // Last, so every rewrite above still sees the flat structure it matches.
+  html = pairSessionRows(html);
 
   const linkFixes = PAGE_LINK_FIXES[page];
   if (linkFixes) {
