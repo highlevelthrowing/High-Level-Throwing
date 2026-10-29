@@ -550,7 +550,19 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   grid-template-columns:repeat(3,1fr);
 }
 @media (max-width:1000px){ .clinic-grid{grid-template-columns:repeat(2,1fr);} }
-@media (max-width:640px){ .clinic-grid{grid-template-columns:1fr;} }
+/* Two to a row on a phone as well. Single column meant scrolling past one
+   clinic at a time to find your city; side by side, the whole schedule is a
+   glance. The cards are mostly square artwork and a short title, so they take
+   the narrower column without the text running away.
+   Padding and gap tighten so each card still has room at 375px. */
+@media (max-width:640px){
+  .clinic-grid{grid-template-columns:repeat(2,1fr);gap:12px;}
+  .clinic-card-body{padding:12px;gap:6px;}
+  .clinic-card-title{font-size:0.92rem;line-height:1.25;}
+  .clinic-card-blurb{font-size:0.78rem;}
+  .clinic-card-action{padding-top:10px;}
+  .clinic-card-action .btn{padding:11px 8px;font-size:0.68rem;letter-spacing:0.02em;}
+}
 
 .clinic-card{
   display:flex;flex-direction:column;overflow:hidden;

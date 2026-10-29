@@ -253,47 +253,19 @@ const CONSENT_NOTICE = /* html */ `
      has to go too or it holds an empty cell open in the grid. */
   :root:root .hlt-session:not(:has(a[href])){ display:none !important; }
 
-  /* Two sessions per row on a phone.
+  /* The session column was only 285px of a 375px screen, the other 90px being
+     three nested paddings. Reclaiming most of it gives the labels room to
+     breathe and shortens the list without changing the layout.
 
-     A ten-session page ran 1694px — just over two screens of scrolling to
-     see what is on offer. Measured at 375px: a label is 81px tall across the
-     full column and 135px at half width, so two per row still comes out well
-     ahead, five rows instead of ten.
-
-     The column was also only 285px of a 375px screen, the other 90px being
-     three nested paddings. Reclaiming most of that is what keeps the labels
-     readable once they are half as wide. */
+     Registration rows stay one per row on purpose: these are purchase
+     controls, and two $160 buttons side by side on a phone is how someone
+     taps the wrong session. */
   @media (max-width: 767px){
     :root:root .xpage{ padding-left:8px !important; padding-right:8px !important; }
     :root:root .left-right{ padding-left:0 !important; padding-right:0 !important; }
     :root:root body.gradient{ padding-left:8px !important; padding-right:8px !important; }
-
-    :root:root .maindivU{
-      display:grid !important;
-      grid-template-columns:repeat(2, minmax(0, 1fr)) !important;
-      gap:10px 10px !important;
-      align-items:start !important;
-    }
-    /* Anything that is not a session row keeps the full width. */
-    :root:root .maindivU > *:not(.hlt-session){ grid-column:1 / -1 !important; }
-
-    :root:root .hlt-session{
-      display:flex !important;
-      flex-direction:column !important;
-      justify-content:space-between !important;
-      height:100% !important;
-    }
-    /* Inside a cell the rhythm is tighter than the full-width version. */
-    :root:root .hlt-session .maintxt_0{ margin:0 0 6px !important; }
-    :root:root .hlt-session .maintxt_1{ margin:0 !important; }
-    :root:root .hlt-session .maintxt_1 a{
-      width:100% !important;
-      padding-left:8px !important;
-      padding-right:8px !important;
-      font-size:12px !important;
-      letter-spacing:0.04em !important;
-    }
   }
+
 </style>
 <div id="hlt-consent-notice">
   <p><strong>Heads up:</strong> by registering you&rsquo;ll receive your clinic
