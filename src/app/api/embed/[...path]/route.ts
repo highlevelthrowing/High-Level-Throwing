@@ -242,6 +242,9 @@ const CONSENT_NOTICE = /* html */ `
     margin-bottom:28px !important;
   }
   :root:root .maindivU .maintxt_1:empty{ display:none !important; }
+  /* The blanked first row is wrapped like any other session, so the wrapper
+     has to go too or it holds an empty cell open in the grid. */
+  :root:root .hlt-session:not(:has(a[href])){ display:none !important; }
 
   /* Two sessions per row on a phone.
 
