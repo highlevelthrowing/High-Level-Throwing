@@ -155,6 +155,7 @@ def main():
         print(f"  Add this handle to STRANDED_FIRST_BUTTON in the embed route to hide it.\n")
     if not problems and not orphans:
         print("  Nothing to do — every button already sells what its label says.\n")
+        category_reminder()
         return 0
 
     print("  Paste into PAGE_BUTTON_BY_LABEL in src/app/api/embed/[...path]/route.ts:\n")
@@ -166,7 +167,31 @@ def main():
         print(f'    // ["{key}", "{h_}"],')
     print("  ],\n")
     print("  Then: npx next build && git push, and re-run scripts/clinic-button-check.py\n")
+    category_reminder()
     return 0
+
+
+CATEGORY = "Sporting Goods > Athletics > Baseball & Softball"
+CATEGORY_ID = "gid://shopify/TaxonomyCategory/sg-1-2"
+
+
+def category_reminder():
+    """Nothing automated can check this, so it gets said out loud every run.
+
+    Shopify guesses a new product's Category from its title and frequently
+    leaves it unset — of five Littleton products created together, one was
+    categorised and four came back null. It drives tax rates and
+    cross-channel search.
+
+    clinic-button-check.py cannot verify it: that script runs on the
+    Storefront API, which does not expose `category` at all. It is Admin-only.
+    """
+    print("  Also set the Category on every product you created:")
+    print(f"      {CATEGORY}")
+    print(f"      {CATEGORY_ID}")
+    print("  Shopify guesses it from the title and often leaves it empty, and")
+    print("  no script here can check it — the Storefront API does not expose")
+    print("  the field. Confirm it in the admin, or with an Admin API query.\n")
 
 
 if __name__ == "__main__":
