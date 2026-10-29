@@ -128,6 +128,12 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
   // The page says Wednesday in its intro and in the session list, and Monday
   // on the registration row. 16 December 2026 is a Wednesday, and the product
   // title says Wednesday, so the registration row is the odd one out.
+  // The clinic moved to 12 December 2026, which the Tockify calendar already
+  // says. The page was still advertising the January date in its heading and
+  // on all four session rows; one replacement covers every occurrence.
+  "high-level-throwing-clinic-littleton-co-2026": [
+    ["Saturday, January 24th", "Saturday, December 12th"],
+  ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
   ],
@@ -283,6 +289,7 @@ const STRANDED_FIRST_BUTTON = new Set([
   "high-level-throwing-clinic-houston-tx-november-2026",
   "high-level-throwing-clinic-poland-oh-february-2027",
   "high-level-throwing-clinic-fresno-ca-december-2026",
+  "high-level-throwing-clinic-littleton-co-2026",
 ]);
 
 function fixStrandedClinicButton(html: string): string {
@@ -361,6 +368,16 @@ const PAGE_BUTTON_BY_LABEL: Record<string, [string, string][]> = {
   // are unreliable: Lebanon's product titled "Session 3" has a handle saying
   // session-1, Fresno's December products carry fresno-* handles under Clovis
   // titles, and Crystal Lake's coach row sold a Houston pass.
+  // Littleton was copied from a Denver page: its four session buttons sold
+  // Denver sessions and its coach row sold Livermore, CA's pass. It has its
+  // own products now, created for the December 12th date.
+  "high-level-throwing-clinic-littleton-co-2026": [
+    ["Session 1:", "hlt-clinic-littleton-co-session-1-saturday-december-12th-9am-11am-155"],
+    ["Session 2:", "hlt-clinic-littleton-co-session-2-saturday-december-12th-1130am-130pm-155"],
+    ["Session 3:", "hlt-clinic-littleton-co-session-3-saturday-december-12th-2pm-4pm-155"],
+    ["Session 4:", "hlt-clinic-littleton-co-session-4-saturday-december-12th-5pm-7pm-155"],
+    ["Coach Access", "hlt-clinic-littleton-co-coach-access-100"],
+  ],
   "high-level-throwing-clinic-crystal-lake-il-2026": [
     ["Coach Session", "hlt-clinic-crystal-lake-il-coach-session-1-saturday-november-21st-8am-9am-125"],
     ["Player Session 1", "hlt-clinic-crystal-lake-il-session-1-friday-november-20th-6pm-8pm-160-ages-13-softball"],

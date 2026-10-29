@@ -59,6 +59,13 @@ const OVERRIDES: Record<
   // Same as Tracy: the calendar still reads "Registration opens soon!" and
   // carries no link, while all four sessions and the coach pass are live.
   // The href is our own page — the Shopify one sells Lebanon products.
+  // Calendar has the right date but still reads "Registration opens soon!"
+  // and carries no link, so the card showed with nothing to click.
+  "2026-12-12|Littleton, CO": {
+    blurb: "Registration is open!",
+    registerHref: "/pages/high-level-throwing-clinic-littleton-co-2026",
+    registerLabel: "Athlete & Coach Registration",
+  },
   "2026-12-29|Beaufort, SC": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-beaufort-sc-december-2026",
