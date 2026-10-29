@@ -133,6 +133,10 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
   // on all four session rows; one replacement covers every occurrence.
   "high-level-throwing-clinic-littleton-co-2026": [
     ["Saturday, January 24th", "Saturday, December 12th"],
+    // Priced to match the other 2026/27 clinics rather than the older $155
+    // the copied page carried.
+    ["$155", "$160"],
+    ["$100", "$125"],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
