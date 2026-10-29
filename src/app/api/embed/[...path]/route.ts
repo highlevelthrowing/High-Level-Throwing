@@ -137,6 +137,9 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     // the copied page carried.
     ["$155", "$160"],
     ["$100", "$125"],
+    // The heading said only the year. Matching "Littleton, CO 2026" exactly
+    // leaves the venue's "Littleton, CO 80122" postcode alone.
+    ["Littleton, CO 2026", "Littleton, CO December 12th 2026"],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
