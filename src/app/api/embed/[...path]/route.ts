@@ -140,6 +140,13 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     // The heading said only the year. Matching "Littleton, CO 2026" exactly
     // leaves the venue's "Littleton, CO 80122" postcode alone.
     ["Littleton, CO 2026", "Littleton, CO December 12th 2026"],
+    // The session list italicises the month, so the date arrives as
+    // "Saturday, <em>January</em> 24th" and the plain-string replacement above
+    // slides straight past it. Matching the markup catches all four rows.
+    ["<em>January</em> 24th", "<em>December</em> 12th"],
+    ["<em>January</em>&nbsp;24th", "<em>December</em>&nbsp;12th"],
+    // 18 places per session, matching the products.
+    ["limit each session to 16 players", "limit each session to 18 players"],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
