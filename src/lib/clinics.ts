@@ -37,7 +37,7 @@ const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com",
  */
 const OVERRIDES: Record<
   string,
-  { blurb?: string; image?: string; registerHref?: string; registerLabel?: string }
+  { title?: string; blurb?: string; image?: string; registerHref?: string; registerLabel?: string }
 > = {
   // Registration is open and the calendar now carries the button, but its
   // preview text still reads "Registration opens soon!" beside it, and its
@@ -62,6 +62,10 @@ const OVERRIDES: Record<
   // Calendar has the right date but still reads "Registration opens soon!"
   // and carries no link, so the card showed with nothing to click.
   "2026-12-12|Littleton, CO": {
+    // Named for its venue, the CO Bombers facility in Denver. The calendar
+    // still says Littleton, the old address; renaming it there would let this
+    // line go.
+    title: "Denver, CO",
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-littleton-co-2026",
     registerLabel: "Athlete & Coach Registration",
@@ -203,7 +207,7 @@ export async function getClinics(): Promise<Clinic[]> {
 
     clinics.push({
       id: field(block, "UID")?.value.trim() || `${when.start}-${summary.value}`,
-      title,
+      title: override?.title ?? title,
       start: when.start,
       date,
       end,

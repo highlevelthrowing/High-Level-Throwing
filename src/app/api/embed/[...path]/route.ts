@@ -139,7 +139,12 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     ["$100", "$125"],
     // The heading said only the year. Matching "Littleton, CO 2026" exactly
     // leaves the venue's "Littleton, CO 80122" postcode alone.
-    ["Littleton, CO 2026", "Littleton, CO December 12th 2026"],
+    // The clinic is named for its venue, which is the CO Bombers facility in
+    // Denver — Littleton was the old address. Covers the heading, tab title
+    // and share cards, which all carry the same string.
+    ["Littleton, CO 2026", "Denver, CO December 12th 2026"],
+    // The intro sentence names the city on its own.
+    ["Clinic in Littleton, CO on Saturday", "Clinic in Denver, CO on Saturday"],
     // The session list italicises the month, so the date arrives as
     // "Saturday, <em>January</em> 24th" and the plain-string replacement above
     // slides straight past it. Matching the markup catches all four rows.
