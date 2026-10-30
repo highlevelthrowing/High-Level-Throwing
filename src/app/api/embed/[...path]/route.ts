@@ -152,6 +152,12 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     // list and the button label below it are covered.
     ["1130AM-130PM (Ages 13+)", "1130AM-130PM (Ages 9-12)"],
     ["1130AM-130PM \u2013 $160 (Ages 13+)", "1130AM-130PM \u2013 $160 (Ages 9-12)"],
+    // Venue moved to the CO Bombers facility in Denver. The three address
+    // lines are separate paragraphs in the theme, so each is replaced on its
+    // own; the leading space on the city line is the theme's, not a typo.
+    ["<p>5280 Clubhouse</p>", "<p>CO Bombers Training Facility</p>"],
+    ["<p>8141 S. Grant Way</p>", "<p>1550 West Evans Suite C</p>"],
+    ["<p> Littleton, CO 80122</p>", "<p>Denver, CO 80223</p>"],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
