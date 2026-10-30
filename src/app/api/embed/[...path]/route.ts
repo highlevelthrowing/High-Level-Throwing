@@ -147,6 +147,11 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     ["<em>January</em>&nbsp;24th", "<em>December</em>&nbsp;12th"],
     // 18 places per session, matching the products.
     ["limit each session to 16 players", "limit each session to 18 players"],
+    // Session 2 moves to the same age group as Session 1. Keyed on its own
+    // start time so Sessions 3 and 4 keep their 13+ grouping; both the intro
+    // list and the button label below it are covered.
+    ["1130AM-130PM (Ages 13+)", "1130AM-130PM (Ages 9-12)"],
+    ["1130AM-130PM \u2013 $160 (Ages 13+)", "1130AM-130PM \u2013 $160 (Ages 9-12)"],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
