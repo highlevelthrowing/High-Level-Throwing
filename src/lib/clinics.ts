@@ -34,6 +34,13 @@ const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com",
  * Stop-gaps for clinics whose Tockify entry has not caught up with reality.
  * Keyed by `YYYY-MM-DD|Title` as the schedule renders them. Delete an entry
  * once the calendar says the right thing on its own.
+ *
+ * The key is the calendar's own wording, so renaming an event in Tockify
+ * breaks its entry here the moment it is saved — the card quietly loses
+ * whatever the override gave it, and nothing errors, because a key that
+ * matches nothing simply does nothing. The December 2026 Colorado clinic did
+ * exactly this when it went from "Littleton, CO" to "Denver, CO". Check the
+ * feed's SUMMARY before trusting a key.
  */
 const OVERRIDES: Record<
   string,
@@ -59,17 +66,6 @@ const OVERRIDES: Record<
   // Same as Tracy: the calendar still reads "Registration opens soon!" and
   // carries no link, while all four sessions and the coach pass are live.
   // The href is our own page — the Shopify one sells Lebanon products.
-  // Calendar has the right date but still reads "Registration opens soon!"
-  // and carries no link, so the card showed with nothing to click.
-  // Keyed on the calendar's own wording. It said "Littleton, CO" when this was
-  // added and now says "Denver, CO"; the moment it changed, this entry stopped
-  // matching and the card lost its register button without anything erroring.
-  // Check the feed's SUMMARY before trusting a key here.
-  "2026-12-12|Denver, CO": {
-    blurb: "Registration is open!",
-    registerHref: "/pages/high-level-throwing-clinic-littleton-co-2026",
-    registerLabel: "Athlete & Coach Registration",
-  },
   "2026-12-29|Beaufort, SC": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-beaufort-sc-december-2026",
