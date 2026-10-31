@@ -26,6 +26,8 @@ export type Clinic = {
   registerLabel: string;
   /** True when registerHref leaves this site. */
   external: boolean;
+  /** Every product this clinic sells is unavailable. */
+  soldOut: boolean;
 };
 
 const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com", "high-level-throwing.myshopify.com"]);
@@ -218,6 +220,7 @@ export async function getClinics(): Promise<Clinic[]> {
       allDay: when.allDay,
       blurb: override?.blurb ?? blurb,
       image: override?.image ?? image,
+      soldOut: false,
       ...resolveRegistration(block),
       ...(override?.registerHref
         ? { registerHref: override.registerHref, registerLabel: override.registerLabel ?? "Register", external: false }

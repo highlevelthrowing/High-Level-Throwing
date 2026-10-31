@@ -1,11 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 import { formatClinicDate, getClinics } from "@/lib/clinics";
+import { isClinicSoldOut } from "@/lib/clinic-products";
 import JsonLd from "@/components/JsonLd";
 import { SITE_URL } from "@/lib/site";
 
 export default async function ClinicSchedule() {
-  const clinics = await getClinics();
+  const schedule = await getClinics();
+
+  // Asked for so a full clinic says so here rather than sending someone to a
+  // page of unavailable buttons. Checked per clinic because each sells its own
+  // products; all resolve together so one slow lookup does not hold up the rest.
+  const clinics = await Promise.all(
+    schedule.map(async (clinic) => {
+      const page = clinic.registerHref?.startsWith("/pages/")
+        ? clinic.registerHref.slice("/pages/".length)
+        : null;
+      return page ? { ...clinic, soldOut: await isClinicSoldOut(page) } : clinic;
+    })
+  );
 
   if (clinics.length === 0) {
     return (
@@ -75,7 +88,13 @@ export default async function ClinicSchedule() {
 
             {clinic.registerHref !== null && (
               <div className="clinic-card-action">
-                {clinic.external ? (
+                {clinic.soldOut ? (
+                  // Still a link: someone may want the details, or a coach
+                  // pass that sold out after they were told about it.
+                  <Link className="btn btn-soldout" href={clinic.registerHref}>
+                    Sold out
+                  </Link>
+                ) : clinic.external ? (
                   <a className="btn btn-primary" href={clinic.registerHref} target="_blank" rel="noopener">
                     {clinic.registerLabel}
                   </a>

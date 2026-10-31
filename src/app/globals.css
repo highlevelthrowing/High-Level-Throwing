@@ -1115,3 +1115,14 @@ html body.klaviyo-prevent-body-scrolling{
   .article-page{padding:30px 16px 54px;}
   .article-body{font-size:1.01rem;line-height:1.7;}
 }
+
+/* A clinic with nothing left to sell. Muted rather than lime so it reads as
+   closed at a glance next to the cards that are still open, and still a link
+   because the page keeps the details and any pass that is left. */
+.btn-soldout{
+  display:inline-block;text-align:center;
+  background:transparent;color:rgba(255,255,255,0.55);
+  border:1px solid var(--border);
+  cursor:default;
+}
+.btn-soldout:hover{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);}
