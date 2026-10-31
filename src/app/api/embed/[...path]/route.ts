@@ -436,7 +436,7 @@ const PAGE_BUTTON_BY_LABEL: Record<string, [string, string][]> = {
     ["Session 1:", "hlt-clinic-littleton-co-session-1-saturday-december-12th-9am-11am-155"],
     ["Session 2:", "hlt-clinic-littleton-co-session-2-saturday-december-12th-1130am-130pm-155"],
     ["Session 3:", "hlt-clinic-littleton-co-session-3-saturday-december-12th-2pm-4pm-155"],
-    ["Session 4:", "hlt-clinic-littleton-co-session-4-saturday-december-12th-5pm-7pm-155"],
+    ["Session 4:", "hlt-clinic-littleton-co-session-4-saturday-december-12th-430pm-630pm-155"],
     ["Coach Access", "hlt-clinic-littleton-co-coach-access-100"],
   ],
   "high-level-throwing-clinic-crystal-lake-il-2026": [
