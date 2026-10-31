@@ -167,6 +167,13 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     // Session 4 moves earlier. "5PM-7PM" appears only on this session, in the
     // intro list and on its button, so one replacement covers both.
     ["5PM-7PM", "430PM-630PM"],
+    // The flyer on the theme is from April 2024 and still shows the old
+    // partner. Swapped for this clinic's own artwork until the section's
+    // image setting is changed in the theme editor.
+    [
+      "//high-level-throwing.myshopify.com/cdn/shop/files/Screen_Shot_2024-04-15_at_9.15.32_PM.png?v=1713230154",
+      "https://www.highlevelthrowing.com/images/clinic-denver-2026.jpg",
+    ],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
