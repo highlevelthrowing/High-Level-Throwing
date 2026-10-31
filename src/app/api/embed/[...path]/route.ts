@@ -167,6 +167,13 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
   ],
+  // Session 5's button said 13+ while the list above it said 8-12, and the
+  // product is titled "Ages 8U-12U" — the button was the odd one out. Keyed on
+  // FOUNDATIONS so Session 9, also 2PM-4PM but genuinely 13+ and ADVANCED, is
+  // left alone.
+  "high-level-throwing-clinic-lebanon-in-2026": [
+    ["2PM-4PM (Ages 13+) - FOUNDATIONS", "2PM-4PM (Ages 8-12) - FOUNDATIONS"],
+  ],
   "high-level-throwing-clinic-poland-oh-february-2027": [
     ["Poland, Ohio 2026", "Poland, Ohio 2027"],
     ["Poland , OH 2026", "Poland, OH 2027"],
