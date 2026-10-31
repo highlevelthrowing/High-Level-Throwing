@@ -163,6 +163,9 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
     ["<p>5280 Clubhouse</p>", "<p>CO Bombers Training Facility</p>"],
     ["<p>8141 S. Grant Way</p>", "<p>1550 West Evans Suite C</p>"],
     ["<p> Littleton, CO 80122</p>", "<p>Denver, CO 80223</p>"],
+    // Session 4 moves earlier. "5PM-7PM" appears only on this session, in the
+    // intro list and on its button, so one replacement covers both.
+    ["5PM-7PM", "430PM-630PM"],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
