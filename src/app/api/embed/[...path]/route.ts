@@ -175,13 +175,6 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
       "//high-level-throwing.myshopify.com/cdn/shop/files/Bomber_Circle_Logo_Carolina_Black.webp?v=1764098696",
       "https://www.highlevelthrowing.com/images/clinic-denver-2026.jpg",
     ],
-    // The template's second image slot showed an April 2024 screenshot — wrong
-    // partner, wrong date — and duplicated the flyer once that was swapped in.
-    // The whole tag goes rather than its source, so nothing is left to render.
-    [
-      "<img src=\"//high-level-throwing.myshopify.com/cdn/shop/files/Screen_Shot_2024-04-15_at_9.15.32_PM.png?v=1713230154\"  loading=\"lazy\">",
-      "",
-    ],
   ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     ["Athlete Registration: Monday, December 16th", "Athlete Registration: Wednesday, December 16th"],
