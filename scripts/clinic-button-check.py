@@ -72,6 +72,36 @@ def session_number(text):
     return found.group(1) if found else None
 
 
+def age_floor(text):
+    """The youngest age a label or title admits, or None if it says nothing.
+
+    Normalises the several ways the same group gets written: "Ages 8-12",
+    "Ages 8U-12U", "Ages 9-12 Softball", "Ages 13+", "Ages 13-18". Only the
+    lower bound is compared — "13+" and "13-18" mean the same thing here,
+    while 8 against 13 is a different session.
+    """
+    found = re.search(r"Ages?\s*(\d{1,2})\s*U?\s*(?:-|\+|to|&ndash;)", text or "", re.I)
+    if found:
+        return int(found.group(1))
+    found = re.search(r"Ages?\s*(\d{1,2})\s*U?\b", text or "", re.I)
+    return int(found.group(1)) if found else None
+
+
+def start_time(text):
+    """The session's start time, normalised to compare 930AM with 9:30AM."""
+    found = re.search(r"@\s*(\d{1,4}):?(\d{2})?\s*([AP]M)", text or "", re.I)
+    if not found:
+        return None
+    digits, maybe_minutes, meridiem = found.groups()
+    if maybe_minutes:
+        hour, minutes = digits, maybe_minutes
+    elif len(digits) >= 3:
+        hour, minutes = digits[:-2], digits[-2:]
+    else:
+        hour, minutes = digits, "00"
+    return f"{int(hour)}:{minutes}{meridiem.upper()}"
+
+
 def main():
     pages = clinic_pages()
     if not pages:
@@ -103,6 +133,21 @@ def main():
             ln, tn = session_number(label), session_number(title)
             if ln and tn and ln != tn:
                 failures.append((page, label, f"buys {title}"))
+                continue
+
+            # A right-numbered session can still contradict its product. Lebanon
+            # Session 5 read "Ages 13+" on the button while the product was
+            # titled "Ages 8U-12U" and the list above it said 8-12 — the number
+            # matched, so this check passed it. Compare what the label actually
+            # promises a buyer.
+            la, ta = age_floor(label), age_floor(title)
+            if la is not None and ta is not None and la != ta:
+                failures.append((page, label, f"says ages {la}+, product is ages {ta}+ — {title}"))
+                continue
+
+            lt, tt = start_time(label), start_time(title)
+            if lt and tt and lt != tt:
+                failures.append((page, label, f"says {lt}, product is {tt} — {title}"))
 
     print(f"clinic registration buttons: {checked} across {len(pages)} pages")
     if not failures:

@@ -173,6 +173,10 @@ const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
   // left alone.
   "high-level-throwing-clinic-lebanon-in-2026": [
     ["2PM-4PM (Ages 13+) - FOUNDATIONS", "2PM-4PM (Ages 8-12) - FOUNDATIONS"],
+    // Session 7's button said 9-12 while the list said 8-12 and the product is
+    // titled 8U-12U. Two against one, and an eight-year-old reading the button
+    // would think the session was closed to them.
+    ["9AM-11AM (Ages 9-12) - FOUNDATIONS", "9AM-11AM (Ages 8-12) - FOUNDATIONS"],
   ],
   "high-level-throwing-clinic-poland-oh-february-2027": [
     ["Poland, Ohio 2026", "Poland, Ohio 2027"],
