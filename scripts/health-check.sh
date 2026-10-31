@@ -10,6 +10,14 @@
 # Exits non-zero if anything fails, so it can gate a deploy.
 
 set -uo pipefail
+
+# clinic-button-check.py needs SHOPIFY_STORE_DOMAIN and the Admin token. Without
+# them it raises KeyError and the wrapper reports a false FAIL — which it did
+# every run until 2026-10-31. Load .env.local so the check can actually run.
+if [ -z "${SHOPIFY_STORE_DOMAIN:-}" ] && [ -f "$(dirname "$0")/../.env.local" ]; then
+  set -a; . "$(dirname "$0")/../.env.local" >/dev/null 2>&1; set +a
+fi
+
 SITE="${SITE:-https://www.highlevelthrowing.com}"
 fails=0
 pass(){ printf '  \033[32mok\033[0m   %s\n' "$1"; }
@@ -96,6 +104,11 @@ echo "registration buttons buy what their label says"
 # under katy-tx handles, Lebanon's "Session 3" under a session-1 handle).
 if python3 "$(dirname "$0")/clinic-button-check.py" > /tmp/hlt-buttons.txt 2>&1; then
   pass "$(tail -1 /tmp/hlt-buttons.txt | sed 's/^ok *//')"
+elif grep -q "KeyError\|Traceback" /tmp/hlt-buttons.txt; then
+  # The check could not run (missing creds, network). That is not the same as a
+  # button selling the wrong session — say so instead of crying wolf.
+  fail "clinic-button check could not run — see below; this is NOT a wrong-session failure"
+  sed 's/^/    /' /tmp/hlt-buttons.txt
 else
   fail "a registration button sells the wrong session"
   sed 's/^/    /' /tmp/hlt-buttons.txt
