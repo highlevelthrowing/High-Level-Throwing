@@ -1,3 +1,5 @@
+import { nativeClinicProducts } from "./native-clinics";
+
 /**
  * Buttons addressed by the label above them, rather than by the URL they
  * currently carry.
@@ -89,10 +91,17 @@ export const PAGE_BUTTON_BY_LABEL: Record<string, [string, string][]> = {
 };
 
 
-/** Every product a clinic page sells, in the order its buttons appear. */
+/**
+ * Every product a clinic page sells, in the order its buttons appear.
+ *
+ * Covers both kinds of clinic page: the embedded ones, whose buttons are
+ * rewritten by handle above, and the ones this site renders itself, which
+ * carry their products in src/lib/native-clinics.ts.
+ */
 export function productsForClinicPage(pageHandle: string): string[] {
   const rules = PAGE_BUTTON_BY_LABEL[pageHandle];
-  return rules ? rules.map(([, handle]) => handle) : [];
+  if (rules) return rules.map(([, handle]) => handle);
+  return nativeClinicProducts(pageHandle);
 }
 
 type AvailabilityResponse = Record<string, { availableForSale: boolean } | null>;

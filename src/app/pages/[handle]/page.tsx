@@ -4,6 +4,8 @@ import { getPage } from "@/lib/shopify/pages";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import SimpleEmbed from "@/components/SimpleEmbed";
 import ClinicWaitlist from "@/components/ClinicWaitlist";
+import ClinicRegistration from "@/components/ClinicRegistration";
+import { nativeClinic } from "@/lib/native-clinics";
 
 export async function generateMetadata({
   params,
@@ -12,7 +14,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   if (!isShopifyConfigured()) return { title: "High Level Throwing®" };
   const { handle } = await params;
-  const page = await getPage(decodeURIComponent(handle)).catch(() => null);
+  const decoded = decodeURIComponent(handle);
+  const native = nativeClinic(decoded);
+  if (native) {
+    const title = `High Level Throwing® Clinic - ${native.city} ${native.dayAndDate.split(", ")[1]} ${native.year}`;
+    return {
+      title,
+      description:
+        `High Level Throwing® clinic in ${native.city} on ${native.dayAndDate}, ${native.year}. ` +
+        `Four softball throwing sessions at ${native.venue.name}, run by Austin Wasserman.`,
+      alternates: { canonical: `https://www.highlevelthrowing.com/pages/${native.handle}` },
+    };
+  }
+  const page = await getPage(decoded).catch(() => null);
   return { title: page?.title ?? "High Level Throwing®" };
 }
 
@@ -46,9 +60,18 @@ export default async function ShopifyHostedPage({
     if (!page) notFound();
   }
 
+  // A clinic whose Shopify page has no clinic theme template renders as an
+  // empty frame. Those are built here instead, from the record that also
+  // supplies their product links.
+  const native = nativeClinic(decoded);
+
   return (
     <>
-      <SimpleEmbed embedKey={handle} iframeTitle="High Level Throwing" height={2400} />
+      {native ? (
+        <ClinicRegistration clinic={native} />
+      ) : (
+        <SimpleEmbed embedKey={handle} iframeTitle="High Level Throwing" height={2400} />
+      )}
       {isClinicRegistrationPage(handle) && (
         <section id="clinic-waitlist" className="waitlist-break">
           <ClinicWaitlist />

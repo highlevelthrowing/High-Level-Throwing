@@ -76,6 +76,14 @@ const OVERRIDES: Record<
     registerHref: "/pages/high-level-throwing-clinic-littleton-co-2026",
     registerLabel: "Athlete & Coach Registration",
   },
+  // Calendar reads "Registration opens soon!" with no link while all four
+  // sessions and the coach pass are live. Key checked against the feed's
+  // SUMMARY, which reads "New Albany, IN".
+  "2027-02-14|New Albany, IN": {
+    blurb: "Registration is open!",
+    registerHref: "/pages/high-level-throwing-clinic-new-albany-in-feburary-2027",
+    registerLabel: "Athlete & Coach Registration",
+  },
   "2026-12-29|Beaufort, SC": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-beaufort-sc-december-2026",

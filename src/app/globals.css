@@ -1126,3 +1126,53 @@ html body.klaviyo-prevent-body-scrolling{
   cursor:default;
 }
 .btn-soldout:hover{border-color:rgba(255,255,255,0.3);color:rgba(255,255,255,0.7);}
+
+/* ---------------------------------------------------------------------------
+   Clinic registration pages built here rather than embedded (see
+   src/lib/native-clinics.ts). Matched to the theme's clinic pages so a visitor
+   moving between clinics sees one site: same order, same wording, same pill.
+   One session per row on a phone — these are purchase controls, and two $160
+   buttons side by side is how someone taps the wrong one.
+--------------------------------------------------------------------------- */
+.clinic-reg{max-width:900px;margin:0 auto;padding:40px 20px 72px;}
+.clinic-reg h1{
+  font-size:clamp(1.6rem,4.2vw,2.5rem);font-weight:900;line-height:1.15;
+  letter-spacing:-0.02em;color:var(--neon-green);margin:0 0 26px;
+}
+.clinic-reg h1 em{font-style:normal;color:#fff;}
+.clinic-reg-intro p{color:rgba(255,255,255,0.86);line-height:1.7;margin:0 0 1.1em;}
+.clinic-reg-intro strong{color:#fff;}
+.clinic-reg-intro ul{margin:0 0 1.3em;padding-left:1.3em;}
+.clinic-reg-intro li{color:rgba(255,255,255,0.86);line-height:1.65;margin:0 0 0.5em;}
+.clinic-reg-intro li::marker{color:var(--accent);}
+
+.clinic-reg-details{
+  margin:28px 0;padding:18px 20px;border-radius:14px;
+  background:var(--card);border:1px solid var(--border);
+}
+.clinic-reg-details p{margin:0;color:rgba(255,255,255,0.8);font-size:0.94rem;line-height:1.65;}
+.clinic-reg-details strong{color:var(--lime);}
+
+.clinic-reg-sessions{margin:30px 0 40px;}
+.clinic-reg-row{padding:0 0 26px;}
+.clinic-reg-label{
+  color:#fff;font-weight:700;line-height:1.5;margin:0 0 8px;font-size:1rem;
+}
+.clinic-reg-row .btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;}
+
+.clinic-reg-venue{
+  display:grid;grid-template-columns:1fr 1fr;gap:30px;
+  padding-top:30px;border-top:1px solid var(--border);
+}
+.clinic-reg-venue h2{font-size:1.2rem;font-weight:900;color:var(--neon-green);margin:0 0 10px;}
+.clinic-reg-venue h3{font-size:0.95rem;font-weight:800;color:var(--lime);letter-spacing:0.08em;margin:0 0 10px;}
+.clinic-reg-venue p{margin:0 0 4px;color:rgba(255,255,255,0.8);}
+.clinic-reg-venue ul{margin:0;padding-left:1.2em;}
+.clinic-reg-venue li{color:rgba(255,255,255,0.8);margin:0 0 5px;line-height:1.5;}
+.clinic-reg-venue li::marker{color:var(--accent);}
+
+@media (max-width:640px){
+  .clinic-reg{padding:28px 16px 54px;}
+  .clinic-reg-label{font-size:0.95rem;}
+  .clinic-reg-venue{grid-template-columns:1fr;gap:24px;}
+}
