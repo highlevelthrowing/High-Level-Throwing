@@ -81,7 +81,7 @@ const OVERRIDES: Record<
   // SUMMARY, which reads "New Albany, IN".
   "2027-02-14|New Albany, IN": {
     blurb: "Registration is open!",
-    registerHref: "/pages/high-level-throwing-clinic-new-albany-in-feburary-2027",
+    registerHref: "/pages/high-level-throwing-clinic-new-albany-in-february-2027",
     registerLabel: "Athlete & Coach Registration",
   },
   "2026-12-29|Beaufort, SC": {

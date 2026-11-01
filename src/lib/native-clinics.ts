@@ -43,7 +43,7 @@ export type NativeClinic = {
 
 export const NATIVE_CLINICS: NativeClinic[] = [
   {
-    handle: "high-level-throwing-clinic-new-albany-in-feburary-2027",
+    handle: "high-level-throwing-clinic-new-albany-in-february-2027",
     city: "New Albany, IN",
     dayAndDate: "Sunday, February 14th",
     year: "2027",
