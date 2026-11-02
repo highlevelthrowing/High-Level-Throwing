@@ -19,11 +19,23 @@ export type ClinicSession = {
   name: string;
   /** "9AM-11AM" — kept in the store's own style rather than normalised. */
   time: string;
+  /**
+   * The day this session runs, for clinics spanning more than one date.
+   * Falls back to the clinic's own `dayAndDate` when every session shares a day.
+   */
+  day?: string;
   /** "Ages 9-12". */
   ages: string;
   price: string;
   /** The product this button buys. Must be the product whose TITLE matches. */
   product: string;
+  /**
+   * A session that is listed but cannot be registered for — a private team
+   * booking, say. It renders with a "Sold out" pill in place of the button.
+   */
+  closed?: boolean;
+  /** Replaces the price on the label, e.g. "PRIVATE TEAM SESSION". */
+  note?: string;
 };
 
 export type NativeClinic = {
@@ -36,6 +48,11 @@ export type NativeClinic = {
   /** Plain YYYY-MM-DD, for the schedule override key and structured data. */
   isoDate: string;
   venue: { name: string; street: string; cityLine: string };
+  /**
+   * The host facility's artwork, shown beside the venue block. Omitted for
+   * clinics that don't have host logo artwork yet.
+   */
+  venueLogo?: { src: string; alt: string; width: number; height: number };
   sport: string;
   sessions: ClinicSession[];
   coach: { label: string; price: string; product: string };
