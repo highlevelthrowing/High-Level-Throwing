@@ -20,8 +20,8 @@ export default function Clinics() {
       <section className="hero">
         <div className="eyebrow">For Baseball & Softball Teams, Organizations and Training Facilities</div>
         <h1>
-          Bring our Nationally Recognized High Level Throwing® Softball &amp; Baseball{" "}
-          <em style={{ color: "var(--lime)" }}>Throwing Clinics</em> to your Athletes and Coaches!
+          Bring our Nationally Recognized Baseball &amp; Softball High Level Throwing®{" "}
+          <em style={{ color: "var(--lime)" }}>Clinics</em> to your Athletes and Coaches!
         </h1>
         <p>
           Foundational and Advanced in-person softball and baseball throwing clinics delivered directly to your Rec

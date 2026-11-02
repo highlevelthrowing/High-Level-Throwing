@@ -36,28 +36,28 @@ const ARTICLES = [
     href: "/blogs/news/clutch-factor-assessment-now-takes-spoken-answers",
   },
   {
-    title: "Where Should I Start My Throwing Development Journey? A High Level Throwing\u00ae Approach",
+    title: "Softball Training: Where Should You Start Your Throwing Development Journey?",
     date: "October 21, 2026",
     excerpt:
-      "The first question is not how hard you throw. It is where development begins \u2014 understanding how the body moves, how the parts work together, and how an efficient sequence is\u2026",
+      "Softball training doesn't begin with how hard you throw. It begins with understanding how the body moves, how the parts work together, and how an efficient sequence is\u2026",
     // A line of athletes patterning the movement — the article's answer to
     // "where do I start" is movement before velocity.
     image: "/images/hlt-start-patterning.jpg",
     href: "/blogs/news/where-should-i-start-my-throwing-development-journey",
   },
   {
-    title: "1 Year of High Level Throwing\u00ae: 54 MPH to 68 MPH Athlete Spotlight",
+    title: "Softball Training Results: 1 Year of High Level Throwing\u00ae \u2014 54 MPH to 68 MPH Athlete Spotlight",
     date: "October 21, 2026",
     excerpt:
-      "Alex added 14 mph in a single year \u2014 remote training, ten months of program work, then two clinics. From not very recruitable to on par with D1 college\u2026",
+      "Softball training works when it's structured. Alex added 14 mph in a single year \u2014 remote training, ten months of program work, then two clinics. From not very recruitable to on par with D1 college\u2026",
     image: "/images/hlt-velocity-cover.jpg",
     href: "/blogs/news/one-year-of-high-level-throwing-54mph-to-68mph-athlete-spotlight",
   },
   {
-    title: "Outfield vs. Infield Throwing Mechanics",
+    title: "Softball Throwing Drills by Position: Outfield vs. Infield Mechanics",
     date: "October 21, 2026",
     excerpt:
-      "An outfielder's long arm pathway and an infielder's compact action are both correct. Which one is right depends on the play \u2014 not on a single arm shape every athlete is pushed\u2026",
+      "Softball throwing drills aren't one-size-fits-all. An outfielder's long arm pathway and an infielder's compact action are both correct \u2014 not a single arm shape every athlete is pushed\u2026",
     image: "/images/hlt-of-if-cover.jpg",
     href: "/blogs/news/outfield-vs-infield-throwing-mechanics",
   },
@@ -70,7 +70,7 @@ const ARTICLES = [
     href: "/blogs/news/who-is-austin-wasserman-high-level-throwing-gold-standard",
   },
   {
-    title: "The Role of the Scapula in Baseball and Softball Throwing",
+    title: "Softball Arm Care: The Role of the Scapula in Baseball and Softball Throwing",
     date: "October 7, 2026",
     excerpt:
       "The shoulder blade is the platform the throwing arm moves from. Why scapular movement sits at the centre of an efficient sequence — and why the scap pull is...",
@@ -86,7 +86,7 @@ const ARTICLES = [
     href: "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
   },
   {
-    title: "The High Level Throwing® Breakdown: Understanding the Throw From the Ground Up",
+    title: "Softball Training From the Ground Up: The High Level Throwing® Breakdown",
     date: "October 7, 2026",
     excerpt:
       "A throw is a sequence — lower half, trunk, scapula and arm contributing in order. Breaking it down is what lets an athlete understand why they move, not just...",
@@ -94,7 +94,7 @@ const ARTICLES = [
     href: "/blogs/news/the-high-level-throwing-breakdown-understanding-the-throw-from-the-ground-up",
   },
   {
-    title: "In Season Throwing: Take Care of Your Arm While You Compete",
+    title: "In-Season Softball Arm Care: Take Care of Your Arm While You Compete",
     date: "October 6, 2026",
     excerpt:
       "Games, travel and repeated high-intent throws all add stress. The season is not the time to stop developing — it is the time to maintain movement, arm health and the ability to throw with...",
@@ -102,7 +102,7 @@ const ARTICLES = [
     href: "/blogs/news/in-season-throwing-take-care-of-your-arm-while-you-compete",
   },
   {
-    title: "Throwing Development Should Be in the Yearly Budget",
+    title: "Softball & Baseball Training Should Be in the Yearly Budget",
     date: "October 5, 2026",
     excerpt:
       "We budget for uniforms, tournament fees, travel and strength training. Throwing development is still treated as an extra — and for a skill every position on the field uses every day, that...",
@@ -134,7 +134,7 @@ const ARTICLES = [
     href: "/blogs/news/college-coaches-know-hlt-will-you-be-ready",
   },
   {
-    title: "Are We Playing More Than We're Developing?",
+    title: "Softball Training vs. Competing: Are We Playing More Than We're Developing?",
     date: "September 28, 2026",
     excerpt:
       "Youth softball has never offered more chances to compete. But games are not the same thing as development — an athlete can play hundreds of innings and still reinforce inefficient throwing...",
@@ -160,7 +160,7 @@ const ARTICLES = [
     href: "/blogs/news/high-level-throwing%C2%AE-x-supercollider-how-data-ai-are-shaping-sport",
   },
   {
-    title: "High Level Throwing x USA Softball - Top Softball Athletes Gather in OKC for 2026 HPP Top Performer's Camp",
+    title: "Softball Training Camp Recap: HLT x USA Softball — Top Athletes Gather in OKC for 2026 HPP Top Performer's Camp",
     date: "June 26, 2026",
     excerpt:
       "OKLAHOMA CITY — The USA Softball High Performance Program (HPP) Top Performers Camp is underway as athletes from across the country arrive in Oklahoma City for four days of elite training...",
