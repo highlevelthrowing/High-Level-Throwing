@@ -78,10 +78,10 @@ const ARTICLES = [
     href: "/blogs/news/the-role-of-the-scapula-in-baseball-and-softball-throwing",
   },
   {
-    title: "What Is Arm Care Exactly? And Why Arm Care Is More Than Taking Care of the Arm",
+    title: "Softball & Baseball Arm Care: What It Actually Means",
     date: "October 7, 2026",
     excerpt:
-      "Arm care isn't a few bands after practice. It's preparation, movement, sequencing, workload and recovery — and it starts long before the ball leaves...",
+      "Softball arm care isn't a few bands after practice. It's preparation, movement, sequencing, workload and recovery — and it starts long before the ball leaves...",
     image: "/images/ac2-bandguide.jpg",
     href: "/blogs/news/what-is-arm-care-exactly-and-why-arm-care-is-more-than-taking-care-of-the-arm",
   },
@@ -110,18 +110,18 @@ const ARTICLES = [
     href: "/blogs/news/throwing-development-should-be-in-the-yearly-budget",
   },
   {
-    title: "Why Some Common Throwing Drills Create More Problems Than They Solve",
+    title: "Softball Throwing Drills: Why Some Common Ones Create More Problems Than They Solve",
     date: "October 2, 2026",
     excerpt:
-      "If a drill looks like part of the throwing motion, it must be helping — right? Wrist flicks, L-drills and isolated arm-action work can teach patterns an athlete later has to...",
+      "Not every softball throwing drill helps. Wrist flicks, L-drills and isolated arm-action work can teach patterns an athlete later has to...",
     image: "/images/article-wrist-flick-elbow-pain.jpg",
     href: "/blogs/news/why-some-common-throwing-drills-create-more-problems-than-they-solve",
   },
   {
-    title: "Before You Specialize the Pitcher, Teach the Athlete to Throw",
+    title: "Softball Training Before Specialization: Teach the Athlete to Throw First",
     date: "October 2, 2026",
     excerpt:
-      "A softball pitcher should learn how to be an athlete before she becomes a specialized pitcher. The windmill and the overhand throw are two different movement patterns — and one does not...",
+      "Real softball training starts before pitching specialization. A softball pitcher should learn how to be an athlete before she becomes a specialized pitcher — the windmill and the overhand throw are two different...",
     image: "/images/hlt-throw-guide.jpg",
     href: "/blogs/news/before-you-specialize-the-pitcher-teach-the-athlete-to-throw",
   },

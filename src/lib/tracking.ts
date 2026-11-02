@@ -61,6 +61,33 @@ export function trackAddToCart(item: Item) {
   });
 }
 
+/**
+ * Clinic registrations and the newsletter signup are the lead events this site
+ * generates outside of a purchase. Neither platform can optimize ad delivery
+ * toward them without this — view/add-to-cart alone isn't the thing being
+ * advertised.
+ */
+export function trackLead(params: {
+  leadType: string;
+  label?: string;
+  value?: number;
+  currency?: string;
+}) {
+  const { leadType, label, value, currency = "USD" } = params;
+
+  meta("Lead", {
+    content_name: label ?? leadType,
+    content_category: leadType,
+    ...(value !== undefined ? { value, currency } : {}),
+  });
+
+  google("generate_lead", {
+    lead_type: leadType,
+    ...(label ? { lead_label: label } : {}),
+    ...(value !== undefined ? { value, currency } : {}),
+  });
+}
+
 export function trackBeginCheckout(items: Item[], total: number, currency: string) {
   meta("InitiateCheckout", {
     content_ids: items.map((i) => i.id),

@@ -7,7 +7,11 @@ import VideoEmbed from "@/components/VideoEmbed";
 import TestimonialSlider from "@/components/TestimonialSlider";
 
 export const metadata: Metadata = {
-  title: "Clinics & On-Site Sessions",
+  title: "Softball & Baseball Throwing Clinics",
+  description:
+    "Book High Level Throwing® softball throwing clinics and baseball clinics for your rec league, travel org, " +
+    "or training facility. Foundational and advanced in-person softball and baseball throwing clinics covering " +
+    "arm care, mechanics, and velocity training.",
 };
 
 export default function Clinics() {
@@ -16,12 +20,12 @@ export default function Clinics() {
       <section className="hero">
         <div className="eyebrow">For Baseball & Softball Teams, Organizations and Training Facilities</div>
         <h1>
-          Bring our Nationally Recognized High Level Throwing® <em style={{ color: "var(--lime)" }}>Clinics</em> to
-          your Athletes and Coaches!
+          Bring our Nationally Recognized High Level Throwing® Softball &amp; Baseball{" "}
+          <em style={{ color: "var(--lime)" }}>Throwing Clinics</em> to your Athletes and Coaches!
         </h1>
         <p>
-          Foundational and Advanced in-person clinics delivered directly to your Rec League, Travel Organization, or
-          Training Facility.
+          Foundational and Advanced in-person softball and baseball throwing clinics delivered directly to your Rec
+          League, Travel Organization, or Training Facility.
         </p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href="/contact">
@@ -117,8 +121,8 @@ export default function Clinics() {
               build HLT into your program.
             </p>
             <ul className="feature-list">
-              <li>Foundational Sessions — arm care and overhand throwing fundamentals</li>
-              <li>Advanced Sessions — deeper mechanics and position based training</li>
+              <li>Foundational Sessions — softball throwing drills, arm care, and overhand throwing fundamentals</li>
+              <li>Advanced Sessions — deeper mechanics, softball throwing drills, and position based training</li>
               <li>Built for Rec Leagues, Travel Orgs & Training Facilities</li>
               <li>Baseball and softball athletes and coaches, all ages</li>
               <li>

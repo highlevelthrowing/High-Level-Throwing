@@ -1,8 +1,9 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { useFormStatus } from "react-dom";
 import { subscribe, type SubscribeState } from "@/app/actions/subscribe";
+import { trackLead } from "@/lib/tracking";
 
 const INITIAL: SubscribeState = { status: "idle" };
 
@@ -30,6 +31,13 @@ export default function EmailCapture({
   cta?: string;
 }) {
   const [state, formAction] = useActionState(subscribe, INITIAL);
+
+  useEffect(() => {
+    if (state.status === "ok") {
+      trackLead({ leadType: "newsletter_signup", label: source });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.status]);
 
   if (state.status === "ok") {
     return (
