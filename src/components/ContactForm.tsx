@@ -154,6 +154,18 @@ export default function ContactForm() {
         <textarea id="comment" name="comment" rows={6} />
       </div>
 
+      {/*
+        Unticked by default, and worded as the offer rather than as consent
+        boilerplate. A pre-ticked box is not consent, and an enquiry on its own
+        is not permission to market to someone.
+      */}
+      <div className="contact-field contact-optin">
+        <label htmlFor="emailOptIn">
+          <input type="checkbox" id="emailOptIn" name="emailOptIn" value="yes" />
+          <span>Email me throwing drills, clinic dates and new releases.</span>
+        </label>
+      </div>
+
       {/* Bots fill every field; people never see this one. */}
       <div aria-hidden="true" style={{ position: "absolute", left: "-9999px" }}>
         <label htmlFor="company">Company</label>

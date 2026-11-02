@@ -40,6 +40,33 @@ async function klaviyo(path: string, body: unknown) {
 }
 
 /**
+ * Klaviyo answers 2xx on success and a JSON:API error document otherwise.
+ * Awaiting the fetch without reading the status treats both the same, so a
+ * rejected signup is indistinguishable from an accepted one: the visitor is
+ * told "You're in." and the address is gone, with nothing written anywhere.
+ * That is precisely the shape of failure that hid the Shopify checkout consent
+ * leak for months — a path that always reports success while doing nothing.
+ *
+ * So log loudly, but still show the visitor success: asking someone to retype
+ * their address does not get it back, and the log line carries everything
+ * needed to replay the signup by hand.
+ */
+async function send(path: string, body: unknown, email: string): Promise<boolean> {
+  try {
+    const res = await klaviyo(path, body);
+    if (res.ok) return true;
+    const detail = await res.text().catch(() => "");
+    console.error(
+      `klaviyo-capture: ${path} rejected ${res.status} for ${email} — ${detail.slice(0, 300)}`
+    );
+    return false;
+  } catch (err) {
+    console.error(`klaviyo-capture: ${path} threw for ${email} —`, err);
+    return false;
+  }
+}
+
+/**
  * Records the signup as an event so a flow can trigger off it, and — when a
  * list is configured — subscribes the profile to that list. Both calls are
  * best-effort: a Klaviyo outage shows the visitor a success state rather than
@@ -65,8 +92,11 @@ export async function subscribe(
   if (location) properties.requested_location = location;
   if (role) properties.role = role;
 
-  try {
-    await klaviyo("events", {
+  const list = listFor(source);
+
+  await send(
+    "events",
+    {
       data: {
         type: "event",
         attributes: {
@@ -75,20 +105,30 @@ export async function subscribe(
           profile: { data: { type: "profile", attributes: { email, properties } } },
         },
       },
-    });
+    },
+    email
+  );
 
-    await klaviyo("subscriptions", {
+  const subscribed = await send(
+    "subscriptions",
+    {
       data: {
         type: "subscription",
         attributes: {
           custom_source: source,
           profile: { data: { type: "profile", attributes: { email, properties } } },
         },
-        relationships: { list: { data: { type: "list", id: listFor(source) } } },
+        relationships: { list: { data: { type: "list", id: list } } },
       },
-    });
-  } catch {
-    // Captured addresses are worth more than a perfect error path.
+    },
+    email
+  );
+
+  // The event alone leaves a profile that no campaign can reach, so this is the
+  // line that means an address was actually lost. One distinct prefix so it can
+  // be alerted on, and every field needed to re-add the person by hand.
+  if (!subscribed) {
+    console.error(`klaviyo-capture: SIGNUP NOT SUBSCRIBED email=${email} source=${source} list=${list}`);
   }
 
   return { status: "ok" };

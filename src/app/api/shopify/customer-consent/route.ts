@@ -46,6 +46,38 @@ function signatureValid(rawBody: string, header: string | null, secret: string):
   return crypto.timingSafeEqual(expected, received);
 }
 
+/**
+ * The fallback proof, for webhooks registered through the Admin API.
+ *
+ * HMAC is the better mechanism and stays the preferred one, but it is only
+ * usable for webhooks created in the admin UI, where Shopify shows you the
+ * signing secret. Webhooks created through the Admin API are signed with the
+ * *calling app's* client secret, which the registering app cannot read back —
+ * so a signature check would reject every delivery, Shopify would retry and
+ * then disable the webhook, and the whole path would look wired while silently
+ * doing nothing.
+ *
+ * So those carry a high-entropy token in the callback URL instead. This is
+ * weaker, and worth being precise about why: the URL *is* the credential, so
+ * anyone who obtains it can subscribe arbitrary addresses to the newsletter.
+ * It is accepted here because the token never appears in git or client code,
+ * the blast radius is a list subscription rather than data disclosure, and the
+ * alternative is continuing to drop the consent of roughly a third of paying
+ * customers.
+ *
+ * To upgrade: register the webhooks in the admin UI, set SHOPIFY_WEBHOOK_SECRET
+ * to the secret shown there, and remove SHOPIFY_WEBHOOK_TOKEN. HMAC is tried
+ * first, so that swap needs no code change.
+ */
+function tokenValid(request: Request, expected: string): boolean {
+  const supplied = new URL(request.url).searchParams.get("token");
+  if (!supplied) return false;
+  const a = Buffer.from(supplied, "utf8");
+  const b = Buffer.from(expected, "utf8");
+  if (a.length !== b.length) return false;
+  return crypto.timingSafeEqual(a, b);
+}
+
 type ShopifyCustomer = {
   email?: string | null;
   email_marketing_consent?: {
@@ -107,12 +139,15 @@ async function subscribeInKlaviyo(email: string, consentedAt: string, apiKey: st
 
 export async function POST(request: Request) {
   const secret = process.env.SHOPIFY_WEBHOOK_SECRET;
+  const token = process.env.SHOPIFY_WEBHOOK_TOKEN;
   const apiKey = process.env.KLAVIYO_PRIVATE_KEY;
 
   // Misconfiguration is a 500, not a silent 200. A webhook that always says OK
   // while doing nothing is how the original leak stayed invisible for months.
-  if (!secret || !apiKey) {
-    console.error("customer-consent: missing SHOPIFY_WEBHOOK_SECRET or KLAVIYO_PRIVATE_KEY");
+  if ((!secret && !token) || !apiKey) {
+    console.error(
+      "customer-consent: need KLAVIYO_PRIVATE_KEY plus one of SHOPIFY_WEBHOOK_SECRET / SHOPIFY_WEBHOOK_TOKEN"
+    );
     return new Response("not configured", { status: 500 });
   }
 
@@ -120,8 +155,14 @@ export async function POST(request: Request) {
   // text and parse afterwards — request.json() would discard the original.
   const raw = await request.text();
 
-  if (!signatureValid(raw, request.headers.get("x-shopify-hmac-sha256"), secret)) {
-    return new Response("bad signature", { status: 401 });
+  // HMAC first: when both are configured the stronger proof decides, and a
+  // genuine signature means the URL token is not needed at all.
+  const authentic =
+    (secret != null && signatureValid(raw, request.headers.get("x-shopify-hmac-sha256"), secret)) ||
+    (token != null && tokenValid(request, token));
+
+  if (!authentic) {
+    return new Response("unauthorized", { status: 401 });
   }
 
   let customer: ShopifyCustomer;
