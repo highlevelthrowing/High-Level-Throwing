@@ -157,11 +157,14 @@ export async function POST(request: Request) {
 
   // HMAC first: when both are configured the stronger proof decides, and a
   // genuine signature means the URL token is not needed at all.
-  const authentic =
-    (secret != null && signatureValid(raw, request.headers.get("x-shopify-hmac-sha256"), secret)) ||
-    (token != null && tokenValid(request, token));
+  const proof =
+    secret != null && signatureValid(raw, request.headers.get("x-shopify-hmac-sha256"), secret)
+      ? "hmac"
+      : token != null && tokenValid(request, token)
+        ? "token"
+        : null;
 
-  if (!authentic) {
+  if (!proof) {
     return new Response("unauthorized", { status: 401 });
   }
 
@@ -180,6 +183,10 @@ export async function POST(request: Request) {
   // overturn, and "not_subscribed" is simply someone who left the box alone.
   // Both return 200 so Shopify does not retry a webhook we deliberately ignored.
   if (!email || state !== "subscribed") {
+    // Logged as well as returned: Shopify's own "send test notification" uses a
+    // sample customer that is not opted in, so this is the line that proves a
+    // newly wired webhook is actually reaching us.
+    console.log(`customer-consent: skipped ${email || "(no email)"} state=${state ?? "none"} via=${proof}`);
     return Response.json({ ok: true, skipped: state ?? "no-consent" });
   }
 
@@ -196,6 +203,16 @@ export async function POST(request: Request) {
     console.error("customer-consent: klaviyo rejected", res.status, body.slice(0, 300));
     return new Response("klaviyo error", { status: 502 });
   }
+
+  // Log the successes too, not only the failures. Logging only errors makes a
+  // working webhook indistinguishable from one that was never wired up — there
+  // is no way to tell "no deliveries" from "no problems", which is the same
+  // blind spot that let the original consent leak run for months. `via` records
+  // which proof of origin was accepted, so retiring the URL token is a question
+  // of reading the logs rather than guessing.
+  console.log(
+    `customer-consent: subscribed ${email} consented_at=${consentedAt} via=${proof}`
+  );
 
   return Response.json({ ok: true, email, consentedAt });
 }
