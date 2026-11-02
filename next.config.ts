@@ -65,8 +65,31 @@ const nextConfig: NextConfig = {
       )
     );
 
+    /**
+     * Clinic pages whose Shopify handle was corrected after the page had gone
+     * out. Shopify's own redirect answers only on the myshopify domain, so
+     * without this the old address returns 200 here under a canonical pointing
+     * at itself — a duplicate of the live page, and it renders the embedded
+     * version rather than the matched one, so anyone holding the old link gets
+     * the wrong layout.
+     *
+     * Permanent: the handle is not coming back.
+     */
+    const RENAMED_PAGES: [string, string][] = [
+      [
+        "high-level-throwing-clinic-new-albany-in-feburary-2027",
+        "high-level-throwing-clinic-new-albany-in-february-2027",
+      ],
+    ];
+    const renamedPages = RENAMED_PAGES.map(([from, to]) => ({
+      source: `/pages/${from}`,
+      destination: `/pages/${to}`,
+      permanent: true,
+    }));
+
     return [
       ...renamedProducts,
+      ...renamedPages,
       // /pages/:handle is handled in-app by app/pages/[handle] so Shopify-authored
       // pages (clinics especially) render inside this site rather than sending
       // visitors off to the Shopify store.
@@ -77,6 +100,13 @@ const nextConfig: NextConfig = {
         destination: "/video-assessment",
         permanent: false,
       },
+      // The clinic schedule is served natively at /clinics (see
+      // app/pages/[handle]'s isClinicRegistrationPage comment). /pages/clinics
+      // and /pages/sample-clinics fall through to the Shopify SimpleEmbed
+      // iframe instead of that, which is the old site — including in Google's
+      // indexed result — so send both straight to the new page.
+      { source: "/pages/clinics", destination: "/clinics", permanent: true },
+      { source: "/pages/sample-clinics", destination: "/clinics", permanent: true },
       // Everything else Shopify owns that this domain used to answer for, and
       // that customer emails, marketing links and ads still point at:
       //   /orders/<token>   order status page in every confirmation email
