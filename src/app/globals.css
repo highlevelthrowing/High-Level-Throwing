@@ -1138,50 +1138,70 @@ html body.klaviyo-prevent-body-scrolling{
 
 /* ---------------------------------------------------------------------------
    Clinic registration pages built here rather than embedded (see
-   src/lib/native-clinics.ts). Matched to the theme's clinic pages so a visitor
-   moving between clinics sees one site: same order, same wording, same pill.
-   One session per row on a phone — these are purchase controls, and two $160
+   src/lib/native-clinics.ts). Every value below was measured off the rendered
+   theme page rather than read off the template JSON: black ground, white body
+   copy at 16px, a 52px weight-400 title aligned left, lime pills with 13px
+   weight-800 black labels, the host logo at 300px and the instructor portrait
+   at full width. A screenshot taken mid-load showed this page as black text on
+   white and sent an earlier pass the wrong way — trust the computed styles.
+
+   One session per row on a phone: these are purchase controls, and two $160
    buttons side by side is how someone taps the wrong one.
 --------------------------------------------------------------------------- */
-.clinic-reg{max-width:900px;margin:0 auto;padding:40px 20px 72px;}
+.clinic-reg{background:#000;color:#fff;padding:0;}
+.clinic-reg > section{max-width:1112px;margin:0 auto;padding:0 20px;}
 .clinic-reg h1{
-  font-size:clamp(1.6rem,4.2vw,2.5rem);font-weight:900;line-height:1.15;
-  letter-spacing:-0.02em;color:var(--neon-green);margin:0 0 26px;
+  font-size:clamp(2rem,4.2vw,52px);font-weight:400;line-height:1.1;
+  color:#fff;text-align:left;margin:0 0 28px;padding-top:44px;
 }
-.clinic-reg h1 em{font-style:normal;color:#fff;}
-.clinic-reg-intro p{color:rgba(255,255,255,0.86);line-height:1.7;margin:0 0 1.1em;}
-.clinic-reg-intro strong{color:#fff;}
+.clinic-reg-intro{padding-bottom:10px;}
+.clinic-reg-intro p{color:#fff;line-height:1.7;margin:0 0 1.1em;font-size:16px;text-align:left;}
 .clinic-reg-intro ul{margin:0 0 1.3em;padding-left:1.3em;}
-.clinic-reg-intro li{color:rgba(255,255,255,0.86);line-height:1.65;margin:0 0 0.5em;}
-.clinic-reg-intro li::marker{color:var(--accent);}
+.clinic-reg-intro li{color:#fff;line-height:1.7;margin:0 0 0.5em;font-size:16px;}
 
-.clinic-reg-details{
-  margin:28px 0;padding:18px 20px;border-radius:14px;
-  background:var(--card);border:1px solid var(--border);
+.clinic-reg > section.clinic-reg-venue{
+  display:grid;grid-template-columns:1fr auto;gap:40px;align-items:start;
+  margin-top:60px;padding-top:50px;border-top:3px solid var(--lime,#c6ff2e);
 }
-.clinic-reg-details p{margin:0;color:rgba(255,255,255,0.8);font-size:0.94rem;line-height:1.65;}
-.clinic-reg-details strong{color:var(--lime);}
-
-.clinic-reg-sessions{margin:30px 0 40px;}
-.clinic-reg-row{padding:0 0 26px;}
-.clinic-reg-label{
-  color:#fff;font-weight:700;line-height:1.5;margin:0 0 8px;font-size:1rem;
+.clinic-reg-venue p{margin:0 0 4px;color:#fff;line-height:1.7;font-size:16px;}
+.clinic-reg-address{
+  font-size:27px !important;font-weight:800;line-height:1.3;color:#fff;
+  margin:0 0 4px !important;letter-spacing:-0.01em;text-align:center;
 }
-.clinic-reg-row .btn{min-height:44px;display:inline-flex;align-items:center;justify-content:center;}
-
-.clinic-reg-venue{
-  display:grid;grid-template-columns:1fr 1fr;gap:30px;
-  padding-top:30px;border-top:1px solid var(--border);
-}
-.clinic-reg-venue h2{font-size:1.2rem;font-weight:900;color:var(--neon-green);margin:0 0 10px;}
-.clinic-reg-venue h3{font-size:0.95rem;font-weight:800;color:var(--lime);letter-spacing:0.08em;margin:0 0 10px;}
-.clinic-reg-venue p{margin:0 0 4px;color:rgba(255,255,255,0.8);}
+.clinic-reg-venue-name{color:var(--lime,#c6ff2e) !important;margin-bottom:10px !important;}
+.clinic-reg-format-title{margin:24px 0 8px !important;}
 .clinic-reg-venue ul{margin:0;padding-left:1.2em;}
-.clinic-reg-venue li{color:rgba(255,255,255,0.8);margin:0 0 5px;line-height:1.5;}
-.clinic-reg-venue li::marker{color:var(--accent);}
+.clinic-reg-venue li{color:#fff;margin:0 0 5px;line-height:1.6;font-size:16px;}
+.clinic-reg-venue-img{width:300px;height:auto;justify-self:center;}
+
+.clinic-reg > section.clinic-reg-instructor{
+  display:grid;grid-template-columns:minmax(0,614px) 1fr;gap:40px;align-items:start;
+  margin-top:60px;padding-top:50px;border-top:3px solid var(--lime,#c6ff2e);
+}
+.clinic-reg-instructor-img{width:100%;height:auto;}
+.clinic-reg-instructor h2{font-size:30px;font-weight:800;color:#2cbc13;margin:0 0 16px;}
+.clinic-reg-instructor p{color:#fff;line-height:1.75;margin:0 0 1.1em;font-size:16px;}
+
+.clinic-reg > section.clinic-reg-sessions{margin-top:60px;padding-top:50px;padding-bottom:70px;border-top:3px solid var(--lime,#c6ff2e);}
+.clinic-reg-details{
+  margin:0 0 30px;color:#fff;font-size:16px;line-height:1.7;
+}
+.clinic-reg-row{padding:0 0 26px;}
+.clinic-reg-label{color:#fff;font-weight:400;line-height:1.6;margin:0 0 10px;font-size:16px;}
+.clinic-reg-row .btn{
+  min-height:44px;display:inline-flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:800;
+}
 
 @media (max-width:640px){
-  .clinic-reg{padding:28px 16px 54px;}
-  .clinic-reg-label{font-size:0.95rem;}
-  .clinic-reg-venue{grid-template-columns:1fr;gap:24px;}
+  .clinic-reg h1{padding-top:30px;margin-bottom:22px;}
+  .clinic-reg > section.clinic-reg-venue,
+  .clinic-reg > section.clinic-reg-instructor,
+  .clinic-reg > section.clinic-reg-sessions{margin-top:40px;padding-top:34px;}
+  .clinic-reg > section.clinic-reg-venue{grid-template-columns:1fr;gap:26px;}
+  .clinic-reg-venue-img{width:220px;justify-self:start;}
+  .clinic-reg-address{font-size:22px !important;}
+  .clinic-reg > section.clinic-reg-instructor{grid-template-columns:1fr;gap:22px;}
+  .clinic-reg-instructor-img{max-width:300px;}
+  .clinic-reg > section.clinic-reg-sessions{padding-bottom:48px;}
 }

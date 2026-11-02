@@ -17,12 +17,13 @@ export async function generateMetadata({
   const decoded = decodeURIComponent(handle);
   const native = nativeClinic(decoded);
   if (native) {
-    const title = `High Level Throwing® Clinic - ${native.city} ${native.dayAndDate.split(", ")[1]} ${native.year}`;
+    const title = `High Level Throwing Clinic - ${native.city} ${native.year}`;
     return {
       title,
       description:
         `High Level Throwing® clinic in ${native.city} on ${native.dayAndDate}, ${native.year}. ` +
-        `Four softball throwing sessions at ${native.venue.name}, run by Austin Wasserman.`,
+        `${native.sessions.length} softball throwing sessions at ${native.venue.street}, ` +
+        `${native.venue.cityLine}, run by Austin Wasserman.`,
       alternates: { canonical: `https://www.highlevelthrowing.com/pages/${native.handle}` },
     };
   }

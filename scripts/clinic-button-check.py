@@ -140,12 +140,25 @@ def main():
             # titled "Ages 8U-12U" and the list above it said 8-12 — the number
             # matched, so this check passed it. Compare what the label actually
             # promises a buyer.
+            # An age group on one side and silence on the other is a
+            # mismatch, not something to skip. Requiring BOTH to be present
+            # before comparing is how a Warminster product that had lost its
+            # "(Ages 13+)" passed this check while the button advertised one:
+            # the buyer is promised an age group the product never confirms.
             la, ta = age_floor(label), age_floor(title)
+            if (la is None) != (ta is None):
+                said = f"ages {la}+" if la is not None else "no age group"
+                has = f"ages {ta}+" if ta is not None else "no age group"
+                failures.append((page, label, f"says {said}, product has {has} — {title}"))
+                continue
             if la is not None and ta is not None and la != ta:
                 failures.append((page, label, f"says ages {la}+, product is ages {ta}+ — {title}"))
                 continue
 
             lt, tt = start_time(label), start_time(title)
+            if bool(lt) != bool(tt):
+                failures.append((page, label, f"says {lt or 'no time'}, product has {tt or 'no time'} — {title}"))
+                continue
             if lt and tt and lt != tt:
                 failures.append((page, label, f"says {lt}, product is {tt} — {title}"))
 

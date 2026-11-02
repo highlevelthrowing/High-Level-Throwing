@@ -123,6 +123,31 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
 };
 
 const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
+  // Session 1 is the baseball session; the rest of the day is softball, so the
+  // attire line has to name both. Both replacements hit the intro list and the
+  // button label, which carry the same wording.
+  "high-level-throwing-clinic-beaufort-sc-december-2026": [
+    [
+      "Session 1: Tuesday, December 29th @ 830AM-1030AM (Ages 9-12)",
+      "Session 1: Tuesday, December 29th @ 830AM-1030AM (Ages 9-12) - BASEBALL",
+    ],
+    [
+      "Session 2: Tuesday, December 29th @ 11AM-1PM (Ages 9-12)",
+      "Session 2: Tuesday, December 29th @ 11AM-1PM (Ages 9-12) - SOFTBALL",
+    ],
+    [
+      "Session 3: Tuesday, December 29th @ 2PM-4PM (Ages 13-18)",
+      "Session 3: Tuesday, December 29th @ 2PM-4PM (Ages 13-18) - SOFTBALL",
+    ],
+    [
+      "Session 4: Tuesday, December 29th @ 430PM-630PM (Ages 13-18)",
+      "Session 4: Tuesday, December 29th @ 430PM-630PM (Ages 13-18) - SOFTBALL",
+    ],
+    [
+      "Please wear softball training apparel or uniform.",
+      "Please wear baseball and softball attire.",
+    ],
+  ],
   "high-level-throwing-clinic-tracy-ca-december-2026": [
     ["December 5th & 76h 2026", "December 5th & 6th 2026"],
   ],
@@ -765,6 +790,25 @@ const EMBED_THEME = /* html */ `
      which out-rank plain element selectors. Repeating :root costs nothing
      visually and puts these ahead of them. */
   :root:root html, :root:root body { background:var(--hlt-bg) !important; color:var(--hlt-text) !important; }
+
+  /* One lime rule between sections, matching the clinic pages this site
+     renders natively (3px, 60px of air above, 50px below). The adjacent
+     sibling selector keeps it off the first section, so the page opens on its
+     title rather than a line. */
+  /* The clinic templates open with an empty main-page section (height 0), so
+     a plain adjacent-sibling rule drew a line above the title. Skip any
+     section that follows it. */
+  :root:root .shopify-section:not([id$="__main"]) + .shopify-section {
+    border-top:3px solid var(--hlt-lime) !important;
+    margin-top:60px !important;
+    padding-top:50px !important;
+  }
+  @media (max-width:640px){
+    :root:root .shopify-section:not([id$="__main"]) + .shopify-section {
+      margin-top:40px !important;
+      padding-top:34px !important;
+    }
+  }
 
   /* The theme paints white panels behind the copy. Strip every background so
      the page reads on this site's black, leaving real media and buttons alone. */

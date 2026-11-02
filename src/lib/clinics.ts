@@ -79,6 +79,14 @@ const OVERRIDES: Record<
   // Calendar reads "Registration opens soon!" with no link while all four
   // sessions and the coach pass are live. Key checked against the feed's
   // SUMMARY, which reads "New Albany, IN".
+  // Key checked against the feed's SUMMARY, which reads "Warminster, PA".
+  // Seven sessions across Jan 22-24; the two private team sessions are listed
+  // closed, so only five plus the coach pass are sold.
+  "2027-01-22|Warminster, PA": {
+    blurb: "Registration is open!",
+    registerHref: "/pages/high-level-throwing-clinic-warminster-pa-january-2027",
+    registerLabel: "Athlete & Coach Registration",
+  },
   "2027-02-14|New Albany, IN": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-new-albany-in-february-2027",

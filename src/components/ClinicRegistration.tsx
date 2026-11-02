@@ -119,16 +119,14 @@ export default function ClinicRegistration({ clinic }: { clinic: NativeClinic })
             ))}
           </ul>
         </div>
-        {clinic.venueLogo && (
-          <Image
-            className="clinic-reg-venue-img"
-            src={clinic.venueLogo.src}
-            alt={clinic.venueLogo.alt}
-            width={clinic.venueLogo.width}
-            height={clinic.venueLogo.height}
-            priority
-          />
-        )}
+        <Image
+          className="clinic-reg-venue-img"
+          src={clinic.venueLogo.src}
+          alt={clinic.venueLogo.alt}
+          width={clinic.venueLogo.width}
+          height={clinic.venueLogo.height}
+          priority
+        />
       </section>
 
       <section className="clinic-reg-instructor">
