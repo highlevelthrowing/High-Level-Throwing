@@ -78,6 +78,21 @@ function tokenValid(request: Request, expected: string): boolean {
   return crypto.timingSafeEqual(a, b);
 }
 
+/**
+ * Shopify is mid-migration on how a customer's email is represented, so the
+ * webhook payload can arrive in either of two shapes and both have to be read.
+ *
+ * The older one puts `email` at the top level with consent in
+ * `email_marketing_consent`. The newer one nests everything under
+ * `default_email_address` — the same move the Admin GraphQL API made when it
+ * deprecated `Customer.email` in favour of `defaultEmailAddress.emailAddress`,
+ * which now hard-rejects queries using the old field.
+ *
+ * Reading only the old shape is what broke this route between 2026-11-02 and
+ * 2026-11-03: every delivery found no email, answered `skipped: no-consent`
+ * with a 200, and Shopify recorded a success. Six customers who ticked the box
+ * at checkout never reached Klaviyo, and nothing anywhere said so.
+ */
 type ShopifyCustomer = {
   email?: string | null;
   email_marketing_consent?: {
@@ -85,7 +100,27 @@ type ShopifyCustomer = {
     consent_updated_at?: string | null;
     opt_in_level?: string | null;
   } | null;
+  default_email_address?: {
+    email_address?: string | null;
+    marketing_state?: string | null;
+    marketing_updated_at?: string | null;
+    marketing_opt_in_level?: string | null;
+  } | null;
 };
+
+/** Email and consent, whichever shape Shopify used. Old shape wins when both appear. */
+function readConsent(c: ShopifyCustomer): {
+  email: string;
+  state: string | null;
+  consentedAt: string | null;
+} {
+  const nested = c.default_email_address ?? null;
+  const email = (c.email ?? nested?.email_address ?? "").trim();
+  const state = c.email_marketing_consent?.state ?? nested?.marketing_state ?? null;
+  const consentedAt =
+    c.email_marketing_consent?.consent_updated_at ?? nested?.marketing_updated_at ?? null;
+  return { email, state: state ? state.toLowerCase() : null, consentedAt };
+}
 
 /**
  * The consent already happened — at Shopify's checkout, at the timestamp
@@ -175,24 +210,32 @@ export async function POST(request: Request) {
     return new Response("bad payload", { status: 400 });
   }
 
-  const email = customer.email?.trim();
-  const consent = customer.email_marketing_consent;
-  const state = consent?.state?.toLowerCase();
+  const { email, state, consentedAt: shopifyConsentedAt } = readConsent(customer);
+
+  // No email in EITHER shape means Shopify has changed the payload again. That
+  // is the silent-failure case, so log the top-level keys: without them the
+  // next migration looks identical to a quiet day with no opt-ins.
+  if (!email) {
+    console.error(
+      `customer-consent: NO EMAIL IN PAYLOAD via=${proof} keys=${Object.keys(customer).join(",")}`
+    );
+    return Response.json({ ok: true, skipped: "no-email" });
+  }
 
   // Only act on an actual opt-in. "unsubscribed" is a decision we never
   // overturn, and "not_subscribed" is simply someone who left the box alone.
   // Both return 200 so Shopify does not retry a webhook we deliberately ignored.
-  if (!email || state !== "subscribed") {
+  if (state !== "subscribed") {
     // Logged as well as returned: Shopify's own "send test notification" uses a
     // sample customer that is not opted in, so this is the line that proves a
     // newly wired webhook is actually reaching us.
-    console.log(`customer-consent: skipped ${email || "(no email)"} state=${state ?? "none"} via=${proof}`);
+    console.log(`customer-consent: skipped ${email} state=${state ?? "none"} via=${proof}`);
     return Response.json({ ok: true, skipped: state ?? "no-consent" });
   }
 
   // Carry Shopify's own timestamp so the consent record says when they really
   // opted in, not when this route happened to run.
-  const consentedAt = consent?.consent_updated_at ?? new Date().toISOString();
+  const consentedAt = shopifyConsentedAt ?? new Date().toISOString();
 
   const res = await subscribeInKlaviyo(email, consentedAt, apiKey);
 
