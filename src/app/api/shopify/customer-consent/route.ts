@@ -293,11 +293,27 @@ export async function POST(request: Request) {
   const res = await subscribeInKlaviyo(email, consentedAt, apiKey);
 
   if (!res.ok) {
-    // Non-200 tells Shopify to retry, which is what we want: a Klaviyo blip
-    // should not cost a subscriber.
     const body = await res.text().catch(() => "");
     console.error("customer-consent: klaviyo rejected", res.status, body.slice(0, 300));
-    return new Response("klaviyo error", { status: 502 });
+
+    /**
+     * Only ask Shopify to retry when retrying could actually work.
+     *
+     * A 5xx or a 429 is a blip — retrying is exactly right, and a Klaviyo
+     * outage should never cost a subscriber. Any other 4xx is a verdict on the
+     * request itself, so the same payload will be refused forever; answering
+     * non-200 just buys an infinite retry loop against a permanent rejection.
+     *
+     * The common one is benign: "backdated consent date is after current
+     * subscription date", which means the profile is already subscribed from a
+     * later timestamp. Nothing is lost — the person is subscribed — so take the
+     * 200 and move on.
+     */
+    const worthRetrying = res.status >= 500 || res.status === 429;
+    if (worthRetrying) {
+      return new Response("klaviyo error", { status: 502 });
+    }
+    return Response.json({ ok: true, klaviyo_rejected: res.status });
   }
 
   // Log the successes too, not only the failures. Logging only errors makes a
