@@ -22,8 +22,11 @@ export async function generateMetadata({
       title,
       description:
         `High Level Throwing® clinic in ${native.city} on ${native.dayAndDate}, ${native.year}. ` +
-        `${native.sessions.length} softball throwing sessions at ${native.venue.street}, ` +
-        `${native.venue.cityLine}, run by Austin Wasserman.`,
+        `${native.sessions.length} softball throwing sessions` +
+        // A clinic whose venue is still being confirmed has no street to give,
+        // and the description must not publish an address the page has dropped.
+        (native.venue.street ? ` at ${native.venue.street}, ${native.venue.cityLine}` : "") +
+        `, run by Austin Wasserman.`,
       alternates: { canonical: `https://www.highlevelthrowing.com/pages/${native.handle}` },
     };
   }
