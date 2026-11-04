@@ -273,7 +273,22 @@ export async function POST(request: Request) {
 
   // Carry Shopify's own timestamp so the consent record says when they really
   // opted in, not when this route happened to run.
-  const consentedAt = shopifyConsentedAt ?? new Date().toISOString();
+  /**
+   * Klaviyo rejects a historical import whose consented_at is not safely in the
+   * past — "Historical email subscription does not have a valid consented_at
+   * timestamp" — and the consent-topic payload does not always carry one. The
+   * old fallback of `new Date()` produced exactly that rejection on every
+   * delivery on 2026-11-04, because "now" is not historical.
+   *
+   * So fall back to a minute ago, and treat an unparseable or future timestamp
+   * from Shopify the same way. A minute's imprecision on a consent record is
+   * immaterial; losing the subscriber over a 400 is not.
+   */
+  const parsed = shopifyConsentedAt ? Date.parse(shopifyConsentedAt) : NaN;
+  const aMinuteAgo = Date.now() - 60_000;
+  const consentedAt = new Date(
+    Number.isNaN(parsed) || parsed > aMinuteAgo ? aMinuteAgo : parsed
+  ).toISOString();
 
   const res = await subscribeInKlaviyo(email, consentedAt, apiKey);
 
