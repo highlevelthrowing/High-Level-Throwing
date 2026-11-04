@@ -106,16 +106,37 @@ type ShopifyCustomer = {
     marketing_updated_at?: string | null;
     marketing_opt_in_level?: string | null;
   } | null;
+  /** The consent-topic payload names the address this way, with no `email`. */
+  email_address?: string | null;
 };
 
-/** Email and consent, whichever shape Shopify used. Old shape wins when both appear. */
+/**
+ * Email and consent, from whichever shape this delivery used.
+ *
+ * Three exist, because `customers/create` and `customers/update` **no longer
+ * carry marketing consent at all**. Confirmed from a real delivery on
+ * 2026-11-04, whose payload held only:
+ *
+ *   id, created_at, updated_at, first_name, last_name, state, note,
+ *   verified_email, multipass_identifier, tax_exempt, email, phone,
+ *   currency, addresses, tax_exemptions, admin_graphql_api_id
+ *
+ * No `email_marketing_consent`, no `default_email_address`. Consent moved to
+ * its own topic, `customers/email_marketing_consent/update`, which is the one
+ * this route actually needs subscribing.
+ *
+ * ⚠️ That payload's top-level `state` is the customer's ACCOUNT state
+ * (enabled/disabled), **not** marketing consent. Reading it as consent would
+ * subscribe every enabled customer regardless of what they chose. It is
+ * deliberately never read here.
+ */
 function readConsent(c: ShopifyCustomer): {
   email: string;
   state: string | null;
   consentedAt: string | null;
 } {
   const nested = c.default_email_address ?? null;
-  const email = (c.email ?? nested?.email_address ?? "").trim();
+  const email = (c.email ?? c.email_address ?? nested?.email_address ?? "").trim();
   const state = c.email_marketing_consent?.state ?? nested?.marketing_state ?? null;
   const consentedAt =
     c.email_marketing_consent?.consent_updated_at ?? nested?.marketing_updated_at ?? null;
