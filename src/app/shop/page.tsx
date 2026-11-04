@@ -6,9 +6,15 @@ import { getProducts, SHOP_EQUIPMENT_QUERY } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import QuickAddButton from "@/components/QuickAddButton";
+import ProductListJsonLd from "@/components/ProductListJsonLd";
 
 export const metadata: Metadata = {
-  title: "Shop",
+  title: "Throwing Equipment & Training Gear",
+  description:
+    "High Level Throwing® equipment and training tools — Lightning Bands, " +
+    "plyo ball sets, training guides and clinic registrations for softball " +
+    "and baseball athletes.",
+  alternates: { canonical: "https://www.highlevelthrowing.com/shop" },
 };
 
 // Shopify returns these by best-seller, which buried the baseball plyo set at
@@ -34,6 +40,7 @@ export default async function ShopPage() {
 
   return (
     <section>
+      <ProductListJsonLd products={products} name="High Level Throwing® Equipment & Training Tools" path="/shop" />
       <div className="section-head">
         <div className="section-tag">Gear &amp; Training Tools</div>
         <h1>Shop High Level Throwing</h1>

@@ -73,6 +73,10 @@ const OVERRIDES: Record<
   // nothing to click. Key verified against the feed's SUMMARY on 2026-10-31.
   "2026-12-12|Denver, CO": {
     blurb: "Registration is open!",
+    // The Tockify event still carries the old white flyer; this is the current
+    // one. Overriding here beats waiting on the calendar, and the clinic page
+    // serves the same file.
+    image: "/images/clinic-denver-2026.jpg",
     registerHref: "/pages/high-level-throwing-clinic-littleton-co-2026",
     registerLabel: "Athlete & Coach Registration",
   },
@@ -82,6 +86,12 @@ const OVERRIDES: Record<
   // Key checked against the feed's SUMMARY, which reads "Warminster, PA".
   // Seven sessions across Jan 22-24; the two private team sessions are listed
   // closed, so only five plus the coach pass are sold.
+  // Feed reads "Newtown, PA" and spans Nov 14-16; one open session is sold.
+  "2026-11-14|Newtown, PA": {
+    blurb: "Registration is open!",
+    registerHref: "/pages/high-level-throwing-clinic-newtown-pa-november-2026",
+    registerLabel: "Athlete & Coach Registration",
+  },
   "2027-01-22|Warminster, PA": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-warminster-pa-january-2027",

@@ -1156,8 +1156,19 @@ html body.klaviyo-prevent-body-scrolling{
 }
 .clinic-reg-intro{padding-bottom:10px;}
 .clinic-reg-intro p{color:#fff;line-height:1.7;margin:0 0 1.1em;font-size:16px;text-align:left;}
-.clinic-reg-intro ul{margin:0 0 1.3em;padding-left:1.3em;}
-.clinic-reg-intro li{color:#fff;line-height:1.7;margin:0 0 0.5em;font-size:16px;}
+/* The session list is what a buyer scans for, so it gets picked out of the
+   body copy: a lime rule down the side, heavier type and lime markers. */
+.clinic-reg-intro ul{
+  margin:0 0 1.4em;padding:16px 18px 16px 34px;
+  border-left:3px solid var(--lime,#c6ff2e);
+  background:rgba(198,255,46,0.06);
+  border-radius:0 6px 6px 0;
+}
+.clinic-reg-intro li{
+  color:#fff;line-height:1.7;margin:0 0 0.55em;font-size:17px;font-weight:600;
+}
+.clinic-reg-intro li:last-child{margin-bottom:0;}
+.clinic-reg-intro li::marker{color:var(--lime,#c6ff2e);}
 
 .clinic-reg > section.clinic-reg-venue{
   display:grid;grid-template-columns:1fr auto;gap:40px;align-items:start;

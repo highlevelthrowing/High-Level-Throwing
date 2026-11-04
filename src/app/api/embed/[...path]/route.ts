@@ -791,6 +791,29 @@ const EMBED_THEME = /* html */ `
      visually and puts these ahead of them. */
   :root:root html, :root:root body { background:var(--hlt-bg) !important; color:var(--hlt-text) !important; }
 
+  /* The session list is what a buyer scans for, so it is picked out of the
+     body copy exactly as the natively rendered clinic pages do it: a lime rule
+     down the side, a faint lime wash, heavier type and lime markers. Scoped to
+     the intro section's own wrapper (.CustomclassName1p, shared by every
+     clinic template) so the FORMAT and registration lists are left alone. */
+  :root:root body .CustomclassName1p ul {
+    margin:0 0 1.4em !important;
+    padding:16px 18px 16px 34px !important;
+    border-left:3px solid var(--hlt-lime) !important;
+    background-color:rgba(198,255,46,0.06) !important;
+    border-radius:0 6px 6px 0 !important;
+    list-style:disc !important;
+  }
+  :root:root body .CustomclassName1p ul li {
+    color:#fff !important;
+    font-size:17px !important;
+    font-weight:600 !important;
+    line-height:1.7 !important;
+    margin:0 0 0.55em !important;
+  }
+  :root:root body .CustomclassName1p ul li:last-child { margin-bottom:0 !important; }
+  :root:root body .CustomclassName1p ul li::marker { color:var(--hlt-lime) !important; }
+
   /* One lime rule between sections, matching the clinic pages this site
      renders natively (3px, 60px of air above, 50px below). The adjacent
      sibling selector keeps it off the first section, so the page opens on its

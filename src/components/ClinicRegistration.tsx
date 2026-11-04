@@ -1,5 +1,7 @@
 import Image from "next/image";
 import type { ClinicSession, NativeClinic } from "@/lib/native-clinics";
+import { nativeClinicProducts } from "@/lib/native-clinics";
+import { soldOutProducts } from "@/lib/clinic-products";
 import ClinicRegisterLink from "./ClinicRegisterLink";
 
 /**
@@ -30,7 +32,85 @@ const FORMAT = [
   "Win Prizes!",
 ];
 
-export default function ClinicRegistration({ clinic }: { clinic: NativeClinic }) {
+
+/**
+ * Event markup for a clinic, so a search result can carry the date, the venue
+ * and whether a session is still buyable rather than just a blue link.
+ *
+ * One Event per clinic with an offer per session. Availability comes from the
+ * same live lookup the buttons use, so a filled session is advertised as sold
+ * out instead of drawing clicks that cannot convert.
+ *
+ * This renders a JSON-LD <script>, which browsers parse as data and never
+ * execute — it cannot interfere with the analytics and pixels on the page.
+ */
+function ClinicJsonLd({
+  clinic,
+  rows,
+}: {
+  clinic: NativeClinic;
+  rows: { label: string; product?: string; closed: boolean; price?: string }[];
+}) {
+  const SITE = "https://www.highlevelthrowing.com";
+  const address = {
+    "@type": "PostalAddress",
+    ...(clinic.venue.street ? { streetAddress: clinic.venue.street } : {}),
+    addressLocality: clinic.city.split(",")[0].trim(),
+    addressRegion: clinic.city.split(",")[1]?.trim(),
+    addressCountry: "US",
+  };
+
+  const data = {
+    "@context": "https://schema.org",
+    "@type": "SportsEvent",
+    name: `High Level Throwing Clinic - ${clinic.city} ${clinic.year}`,
+    startDate: clinic.isoDate,
+    ...(clinic.endIsoDate ? { endDate: clinic.endIsoDate } : { endDate: clinic.isoDate }),
+    eventStatus: "https://schema.org/EventScheduled",
+    eventAttendanceMode: "https://schema.org/OfflineEventAttendanceMode",
+    sport: "Softball",
+    image: [clinic.venueLogo.src.startsWith("http") ? clinic.venueLogo.src : SITE + clinic.venueLogo.src],
+    description:
+      `High Level Throwing® clinic in ${clinic.city} on ${clinic.dayAndDate}, ${clinic.year}. ` +
+      `${clinic.sessions.length} throwing sessions` +
+      (clinic.venue.name ? ` at ${clinic.venue.name}` : "") +
+      ".",
+    location: {
+      "@type": "Place",
+      name: clinic.venue.name ?? clinic.city,
+      address,
+    },
+    organizer: { "@type": "Organization", name: "High Level Throwing®", url: SITE },
+    performer: { "@type": "Person", name: "Austin Wasserman" },
+    offers: rows
+      .filter((r) => r.product)
+      .map((r) => ({
+        "@type": "Offer",
+        name: r.label,
+        url: `${SITE}/products/${r.product}`,
+        // From the record, not scraped off the label — a coach pass has no
+        // price in its wording and was being advertised at the session price.
+        price: (r.price ?? "").replace(/[^0-9.]/g, "") || undefined,
+        priceCurrency: "USD",
+        availability: r.closed
+          ? "https://schema.org/SoldOut"
+          : "https://schema.org/InStock",
+      })),
+  };
+
+  return (
+    <script
+      type="application/ld+json"
+      // Built from this site's own clinic records; no visitor input reaches it.
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(data) }}
+    />
+  );
+}
+
+export default async function ClinicRegistration({ clinic }: { clinic: NativeClinic }) {
+  // Read live so a session that fills says so, and says the opposite again the
+  // moment spots are added back.
+  const soldOut = await soldOutProducts(nativeClinicProducts(clinic.handle));
   /**
    * One label per row, built from the same record as the product it links to
    * so the two cannot drift apart. Price, ages and the note are each optional:
@@ -43,7 +123,8 @@ export default function ClinicRegistration({ clinic }: { clinic: NativeClinic })
     if (s.note) parts.push(`– ${s.note}`);
     else if (s.price) parts.push(`– ${s.price}`);
     if (s.ages) parts.push(`(${s.ages})`);
-    parts.push(`- ${clinic.sport}`);
+    const sport = s.sport ?? clinic.sport;
+    if (sport) parts.push(`- ${sport}`);
     return parts.join(" ");
   };
 
@@ -52,18 +133,27 @@ export default function ClinicRegistration({ clinic }: { clinic: NativeClinic })
       key: s.product ?? `${s.name}-${s.time}`,
       label: sessionLabel(s),
       product: s.product,
-      closed: Boolean(s.closed),
+      price: s.price,
+      closed: Boolean(s.closed) || (!!s.product && soldOut.has(s.product)),
     })),
-    {
-      key: clinic.coach.product,
-      label: `${clinic.coach.label} - ${clinic.coach.price}`,
-      product: clinic.coach.product,
-      closed: false,
-    },
+    // A clinic whose coach pass is not sold separately points `coach` at a
+    // session product; listing it again would sell the same thing twice.
+    ...(clinic.sessions.some((s) => s.product === clinic.coach.product)
+      ? []
+      : [
+          {
+            key: clinic.coach.product,
+            label: `${clinic.coach.label} - ${clinic.coach.price}`,
+            product: clinic.coach.product,
+            price: clinic.coach.price,
+            closed: soldOut.has(clinic.coach.product),
+          },
+        ]),
   ];
 
   return (
     <div className="clinic-reg">
+      <ClinicJsonLd clinic={clinic} rows={rows} />
       <section className="clinic-reg-intro">
         <h1>
           High Level Throwing Clinic - {clinic.city} {clinic.year}
@@ -79,24 +169,28 @@ export default function ClinicRegistration({ clinic }: { clinic: NativeClinic })
           We are excited to bring you some informative throwing sessions!
         </p>
         <p>
-          This clinic will be run by Owner/Founder, Austin Wasserman with sessions focusing on the
-          Foundations &amp; Advanced Concepts of High Level Throwing® for Softball Athletes!
+          {clinic.partner ? `We teamed up with ${clinic.partner} to bring you some informative throwing sessions! ` : ""}
+          {/* Not every clinic is Austin and not every clinic is softball-only:
+              Tracy is led by Sarah O'Brien, Crystal Lake covers baseball and
+              softball. A clinic that says so carries its own sentence. */}
+          {clinic.instructorLine ??
+            `This clinic will be run by Owner/Founder, Austin Wasserman with sessions focusing on the Foundations & Advanced Concepts of High Level Throwing®${clinic.partner ? "." : " for Softball Athletes!"}`}
         </p>
         <ul>
           {clinic.sessions.map((s) => (
             <li key={s.product ?? `${s.name}-${s.time}`}>
               {s.name}: {s.day ?? clinic.dayAndDate} @ {s.time}
               {s.note ? ` – ${s.note}` : ""}
-              {s.ages ? ` (${s.ages})` : ""} - {clinic.sport}
+              {s.ages ? ` (${s.ages})` : ""}
+              {s.sport ?? clinic.sport ? ` - ${s.sport ?? clinic.sport}` : ""}
             </li>
           ))}
           <li>Coach Access: Choose any session to attend and learn!</li>
         </ul>
         <p>
           <em>
-            *We limit each session to 18 players! Athletes should wear softball training apparel or
-            uniform. Each athlete will receive a FREE High Level Throwing® Getting Started Training
-            Guide sent via email!
+            {clinic.attireNote ??
+              "*We limit each session to 18 players! Athletes should wear softball training apparel or uniform. Each athlete will receive a FREE High Level Throwing® Getting Started Training Guide sent via email!"}
           </em>
         </p>
       </section>
@@ -106,7 +200,7 @@ export default function ClinicRegistration({ clinic }: { clinic: NativeClinic })
           {clinic.venue.name && (
             <p className="clinic-reg-address clinic-reg-venue-name">{clinic.venue.name}</p>
           )}
-          <p className="clinic-reg-address">{clinic.venue.street}</p>
+          {clinic.venue.street && <p className="clinic-reg-address">{clinic.venue.street}</p>}
           <p className="clinic-reg-address">{clinic.venue.cityLine}</p>
           <p className="clinic-reg-format-title">
             <em>
@@ -114,7 +208,7 @@ export default function ClinicRegistration({ clinic }: { clinic: NativeClinic })
             </em>
           </p>
           <ul>
-            {FORMAT.map((line) => (
+            {(clinic.format ?? FORMAT).map((line) => (
               <li key={line}>{line}</li>
             ))}
           </ul>

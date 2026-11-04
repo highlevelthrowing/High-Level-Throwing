@@ -33,9 +33,43 @@ def clinic_pages():
     return sorted(set(re.findall(r"/pages/(high-level-throwing-clinic-[a-z0-9-]+)", page)))
 
 
+# A natively rendered clinic page pairs its label and button inside one row.
+NATIVE_ROW = re.compile(
+    r'<div class="clinic-reg-row[^"]*"[^>]*>(.*?)</div>\s*</div>|'
+    r'<p class="clinic-reg-label">(.*?)</p>\s*(?:<a[^>]*href="(/products/[a-z0-9-]+)")?',
+    re.S,
+)
+
+
 def rows(handle):
-    url = f"{SITE}/api/embed/{handle}"
-    doc = urllib.request.urlopen(url, timeout=40).read().decode("utf-8", "replace")
+    """Every label and the product its button buys, read from the live page.
+
+    Clinic pages render two ways. The ten rebuilt in November are real HTML on
+    this site; the rest are still the Shopify theme shown through /api/embed.
+    This used to read the embed for every handle, so after the rebuild it was
+    checking pages no visitor sees — stale copy that happily disagreed with the
+    live page while the check reported "ok". Read the real page first and fall
+    back to the embed only when the page is still an iframe.
+    """
+    page = urllib.request.urlopen(f"{SITE}/pages/{handle}", timeout=40).read().decode("utf-8", "replace")
+    if "clinic-reg-row" in page:
+        for block in re.findall(r'<div class="clinic-reg-row.*?(?=<div class="clinic-reg-row|</section>)', page, re.S):
+            lm = re.search(r'<p class="clinic-reg-label">(.*?)</p>', block, re.S)
+            if not lm:
+                continue
+            label = re.sub(r"\s+", " ", H.unescape(re.sub(r"<[^>]+>", " ", lm.group(1)))).strip()
+            # A row showing the sold-out pill has no product on purpose — a
+            # private team session, or one that has filled. It is listed so the
+            # schedule reads correctly, and there is nothing to mis-sell.
+            if "btn-soldout" in block:
+                continue
+            href = re.search(r'href="/products/([a-z0-9-]+)"', block)
+            if not label and not href:
+                continue
+            yield label, (href.group(1) if href else "")
+        return
+
+    doc = urllib.request.urlopen(f"{SITE}/api/embed/{handle}", timeout=40).read().decode("utf-8", "replace")
     for m in PAIR.finditer(doc):
         label = re.sub(r"\s+", " ", H.unescape(re.sub(r"<[^>]+>", " ", m.group(1)))).strip()
         href = re.search(r"/products/([a-z0-9-]+)", m.group(2))
@@ -85,6 +119,26 @@ def age_floor(text):
         return int(found.group(1))
     found = re.search(r"Ages?\s*(\d{1,2})\s*U?\b", text or "", re.I)
     return int(found.group(1)) if found else None
+
+
+def end_time(text):
+    """The session's end time, so 4PM-6PM is not matched against 4PM-7PM.
+
+    Poland Session 5 advertised 4PM-6PM on the page while the product said
+    4PM-7PM. Comparing only the start made the two look identical, so a buyer
+    was promised an hour that the product it charged them for did not sell.
+    """
+    found = re.search(r"@\s*\d{1,4}:?\d{0,2}\s*[AP]M\s*[-\u2013]\s*(\d{1,4}):?(\d{2})?\s*([AP]M)", text or "", re.I)
+    if not found:
+        return None
+    digits, maybe_minutes, meridiem = found.groups()
+    if maybe_minutes:
+        hour, minutes = digits, maybe_minutes
+    elif len(digits) >= 3:
+        hour, minutes = digits[:-2], digits[-2:]
+    else:
+        hour, minutes = digits, "00"
+    return f"{int(hour)}:{minutes}{meridiem.upper()}"
 
 
 def start_time(text):
@@ -161,6 +215,11 @@ def main():
                 continue
             if lt and tt and lt != tt:
                 failures.append((page, label, f"says {lt}, product is {tt} — {title}"))
+                continue
+
+            le, te = end_time(label), end_time(title)
+            if le and te and le != te:
+                failures.append((page, label, f"ends {le}, product ends {te} — {title}"))
 
     print(f"clinic registration buttons: {checked} across {len(pages)} pages")
     if not failures:

@@ -92,18 +92,27 @@ export default function Clinics() {
               Confirm a clinic date and choose Foundational, Advanced, or both — based on what your athletes and
               coaches need this season.
             </p>
+            <p style={{ marginTop: 14 }}>A 1-day clinic session will allow for 4 sessions.</p>
           </div>
           <div className="step">
             <div className="step-num">2</div>
             <h3>Facility/Field & Equipment Requirements</h3>
             <p>Host provides location, bucket of softballs or baseballs and nets/screens if needed.</p>
+            <p style={{ marginTop: 14 }}>
+              If your facility has cement walls or hard surfaces to throw into, that can be useful for our lightning
+              ball plyos and specific arm care drills.
+            </p>
           </div>
           <div className="step">
             <div className="step-num">3</div>
-            <h3>We Handle the Rest</h3>
+            <h3>Marketing, Registration/Payments, Travel</h3>
             <p>
-              Once we confirm a clinic date, methods of registration/payment, we handle the rest! Newsletter, Email
-              & Social Media Marketing.
+              Once we confirm a clinic date and the methods of registration and payment, we work together to market
+              the clinic. The host is responsible for marketing to their teams and athletes.
+            </p>
+            <p style={{ marginTop: 14 }}>
+              Most organizations build this clinic cost into their annual fees, so athletes already have their arm
+              care training fee built in each year.
             </p>
             <p style={{ marginTop: 14 }}>*We book our own travel at no extra cost to you.</p>
           </div>

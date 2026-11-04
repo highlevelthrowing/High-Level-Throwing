@@ -6,9 +6,18 @@ import { getCollectionProducts } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import QuickAddButton from "@/components/QuickAddButton";
+import ProductListJsonLd from "@/components/ProductListJsonLd";
 
 export const metadata: Metadata = {
-  title: "Books",
+  title: "Softball & Baseball Throwing Books",
+  // The site-wide fallback described the business rather than this page, so
+  // every listing shared one snippet in search results and none of them said
+  // what was for sale.
+  description:
+    "High Level Throwing® training books for softball and baseball — arm care, " +
+    "throwing mechanics, velocity and pitching. Instant digital download with " +
+    "video drills and tutorials, emailed at checkout.",
+  alternates: { canonical: "https://www.highlevelthrowing.com/books" },
 };
 
 export default async function BooksPage() {
@@ -20,9 +29,10 @@ export default async function BooksPage() {
 
   return (
     <section>
+      <ProductListJsonLd products={books} name="High Level Throwing® Training Books" path="/books" />
       <div className="section-head">
         <div className="section-tag">Training Books</div>
-        <h1>Learn the System</h1>
+        <h1>Throwing &amp; Pitching Training Books</h1>
         <p>The High Level Throwing method, written down with video drills & tutorials.</p>
         <p style={{ color: "var(--lime)", fontWeight: 700, fontSize: "0.9rem" }}>
           Every book is an instant digital download — your link is emailed as soon as you check out.

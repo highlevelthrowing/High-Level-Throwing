@@ -137,3 +137,38 @@ export async function isClinicSoldOut(pageHandle: string): Promise<boolean> {
     return false;
   }
 }
+
+/**
+ * Which of these products have nothing left, keyed by handle.
+ *
+ * The clinic pages list every session whether or not it can still be bought,
+ * so a full session needs to say so on the row rather than sending someone to
+ * a product page to find out. Reading it live means a session that reopens
+ * gets its button back without anyone editing a file — the failure mode of
+ * hardcoding "sold out" is that it stays wrong after you add spots.
+ *
+ * A handle that cannot be read is reported as available: wrongly marking a
+ * session sold out turns away a paying customer, while wrongly leaving one
+ * open merely lands them on a product page that already says Sold out.
+ */
+export async function soldOutProducts(handles: string[]): Promise<Set<string>> {
+  const unique = [...new Set(handles.filter(Boolean))];
+  if (!unique.length) return new Set();
+
+  const query = `{${unique
+    .map((h, i) => `p${i}: product(handle: ${JSON.stringify(h)}) { availableForSale }`)
+    .join(" ")}}`;
+
+  try {
+    const { shopifyFetch } = await import("./shopify/client");
+    const data = await shopifyFetch<AvailabilityResponse>({ query, revalidate: 300 });
+    const out = new Set<string>();
+    unique.forEach((handle, i) => {
+      const entry = data[`p${i}`];
+      if (entry && !entry.availableForSale) out.add(handle);
+    });
+    return out;
+  } catch {
+    return new Set();
+  }
+}
