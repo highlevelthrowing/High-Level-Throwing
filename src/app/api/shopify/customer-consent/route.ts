@@ -229,6 +229,23 @@ export async function POST(request: Request) {
     // Logged as well as returned: Shopify's own "send test notification" uses a
     // sample customer that is not opted in, so this is the line that proves a
     // newly wired webhook is actually reaching us.
+    //
+    // `state=none` is different from a genuine "not_subscribed": it means the
+    // consent is somewhere this route is not looking, which is indistinguishable
+    // from a real opt-out unless the payload's own shape is recorded. Every real
+    // delivery on 2026-11-04 logged state=none while customers were SUBSCRIBED
+    // in Shopify, so dump the keys to find where consent actually lives. Keys
+    // only — never values, which carry personal data.
+    if (state == null) {
+      const nestedKeys = customer.default_email_address
+        ? Object.keys(customer.default_email_address).join(",")
+        : "(absent)";
+      console.error(
+        `customer-consent: STATE MISSING for ${email} via=${proof} ` +
+          `top=[${Object.keys(customer).join(",")}] ` +
+          `default_email_address=[${nestedKeys}]`
+      );
+    }
     console.log(`customer-consent: skipped ${email} state=${state ?? "none"} via=${proof}`);
     return Response.json({ ok: true, skipped: state ?? "no-consent" });
   }
