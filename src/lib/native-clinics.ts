@@ -120,7 +120,7 @@ export const NATIVE_CLINICS: NativeClinic[] = [
     city: "Denver, CO", dayAndDate: "Saturday, December 12th", year: "2026", isoDate: "2026-12-12",
     // Venue is moving; the new address is not confirmed yet, so the page says
     // so rather than sending anyone to the old one.
-    venue: { name: "Indoor Facility", cityLine: "New Address Coming Soon..." },
+    venue: { name: "Indoor Facility - Denver, CO", cityLine: "New Address Coming Soon..." },
     venueLogo: { src: "/images/clinic-denver-2026.jpg", alt: "High Level Throwing Clinic - Denver, CO", width: 1600, height: 1600 },
     sport: "SOFTBALL", sessions: [
       { name: "Session 1", time: "9AM-11AM", ages: "Ages 9-12", price: "$160", product: "hlt-clinic-littleton-co-session-1-saturday-december-12th-9am-11am-155" },
