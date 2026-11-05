@@ -44,6 +44,19 @@ const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com",
  * exactly this when it went from "Littleton, CO" to "Denver, CO". Check the
  * feed's SUMMARY before trusting a key.
  */
+/**
+ * Clinics in the feed that should not be listed on this site.
+ *
+ * Keyed `YYYY-MM-DD|Title` against the feed's own SUMMARY, exactly as
+ * OVERRIDES is — so renaming the Tockify event silently stops the entry
+ * matching, and it reappears. The Tockify calendar is the real source; this
+ * only hides a date here when removing it there is not wanted or not possible.
+ */
+const HIDDEN = new Set<string>([
+  // Taken off the schedule on 2026-11-05.
+  "2027-02-17|Worcester, MA",
+]);
+
 const OVERRIDES: Record<
   string,
   { blurb?: string; image?: string; registerHref?: string; registerLabel?: string }
@@ -257,7 +270,9 @@ export async function getClinics(): Promise<Clinic[]> {
   // Drop anything that has already happened, then show the soonest first.
   // Compared as plain calendar dates so a clinic stays listed on its own day.
   const today = calendarDate(new Date().toISOString(), timeZone);
-  return clinics.filter((c) => c.end >= today).sort((a, b) => a.date.localeCompare(b.date));
+  return clinics
+    .filter((c) => c.end >= today && !HIDDEN.has(`${c.date}|${c.title}`))
+    .sort((a, b) => a.date.localeCompare(b.date));
 }
 
 // All-day feed dates carry no timezone, so parse them as plain calendar dates
