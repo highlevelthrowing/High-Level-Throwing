@@ -66,7 +66,6 @@ export default function ClinicWaitlist() {
             id="cw-location"
             name="location"
             ref={locationRef}
-            placeholder="Worcester, MA"
             autoComplete="address-level2"
             required
           />
