@@ -27,6 +27,22 @@ const KLAVIYO_LIST = "S8XqhP"; // HLT Newsletter — the list every campaign tar
 const KLAVIYO_REVISION = "2026-07-15";
 
 /**
+ * How far back a `consented_at` has to sit for Klaviyo to accept it as a
+ * historical import. Measured against the live API on 2026-11-05:
+ *
+ *   1 min  -> 400    2 min  -> 400
+ *   5 min  -> 202   10 min  -> 202   1 hour -> 202   30 days -> 202
+ *
+ * The boundary is somewhere between two and five minutes, so 15 gives room
+ * without materially backdating anything. This matters for *every* real
+ * opt-in, not just odd ones: consent arriving from the checkout webhook is
+ * seconds old by definition, and the previous 60-second floor was still inside
+ * the rejection window — which is why every consent-topic delivery on
+ * 2026-11-05 came back 400 while looking correctly implemented.
+ */
+const CONSENT_BACKDATE_MS = 15 * 60_000;
+
+/**
  * Shopify signs every webhook body with the app secret. Verify before trusting
  * the payload: this endpoint writes to Klaviyo, so an unsigned caller could
  * otherwise subscribe arbitrary addresses. timingSafeEqual rather than ===,
@@ -285,9 +301,9 @@ export async function POST(request: Request) {
    * immaterial; losing the subscriber over a 400 is not.
    */
   const parsed = shopifyConsentedAt ? Date.parse(shopifyConsentedAt) : NaN;
-  const aMinuteAgo = Date.now() - 60_000;
+  const latestAcceptable = Date.now() - CONSENT_BACKDATE_MS;
   const consentedAt = new Date(
-    Number.isNaN(parsed) || parsed > aMinuteAgo ? aMinuteAgo : parsed
+    Number.isNaN(parsed) || parsed > latestAcceptable ? latestAcceptable : parsed
   ).toISOString();
 
   const res = await subscribeInKlaviyo(email, consentedAt, apiKey);
