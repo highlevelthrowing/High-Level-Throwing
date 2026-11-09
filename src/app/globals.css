@@ -1216,3 +1216,14 @@ html body.klaviyo-prevent-body-scrolling{
   .clinic-reg-instructor-img{max-width:300px;}
   .clinic-reg > section.clinic-reg-sessions{padding-bottom:48px;}
 }
+
+/* Shown only when a session has actually filled — a private team session is
+   closed but not full, and inviting someone to ask about spots there would
+   mislead them. */
+.clinic-reg-soldout-note{
+  margin:0 0 26px;padding:14px 16px;
+  border-left:3px solid var(--lime,#c6ff2e);
+  background:rgba(198,255,46,0.06);
+  color:#fff;font-size:15px;line-height:1.6;
+}
+.clinic-reg-soldout-note a{color:var(--lime,#c6ff2e);font-weight:700;text-decoration:underline;text-underline-offset:3px;}

@@ -49,7 +49,7 @@ function ClinicJsonLd({
   rows,
 }: {
   clinic: NativeClinic;
-  rows: { label: string; product?: string; closed: boolean; price?: string }[];
+  rows: { label: string; product?: string; closed: boolean; price?: string; soldOut?: boolean }[];
 }) {
   const SITE = "https://www.highlevelthrowing.com";
   const address = {
@@ -135,6 +135,7 @@ export default async function ClinicRegistration({ clinic }: { clinic: NativeCli
       product: s.product,
       price: s.price,
       closed: Boolean(s.closed) || (!!s.product && soldOut.has(s.product)),
+      soldOut: !!s.product && soldOut.has(s.product),
     })),
     // A clinic whose coach pass is not sold separately points `coach` at a
     // session product; listing it again would sell the same thing twice.
@@ -147,6 +148,7 @@ export default async function ClinicRegistration({ clinic }: { clinic: NativeCli
             product: clinic.coach.product,
             price: clinic.coach.price,
             closed: soldOut.has(clinic.coach.product),
+            soldOut: soldOut.has(clinic.coach.product),
           },
         ]),
   ];
@@ -263,6 +265,15 @@ export default async function ClinicRegistration({ clinic }: { clinic: NativeCli
           *There are NO refunds. You can transfer your spot to another athlete OR get the HLT Book
           for FREE.
         </p>
+        {rows.some((r) => r.soldOut) && (
+          <p className="clinic-reg-soldout-note">
+            A session showing <strong>Sold out</strong> has filled. Email{" "}
+            <a href="mailto:highlevelthrowinghlt@gmail.com?subject=Clinic%20waitlist%20-%20spots%20available%3F">
+              highlevelthrowinghlt@gmail.com
+            </a>{" "}
+            to see if there are any spots available!
+          </p>
+        )}
         {rows.map((row) => (
           <div className="clinic-reg-row hlt-session" key={row.key}>
             <p className="clinic-reg-label">{row.label}</p>
