@@ -265,15 +265,6 @@ export default async function ClinicRegistration({ clinic }: { clinic: NativeCli
           *There are NO refunds. You can transfer your spot to another athlete OR get the HLT Book
           for FREE.
         </p>
-        {rows.some((r) => r.soldOut) && (
-          <p className="clinic-reg-soldout-note">
-            A session showing <strong>Sold out</strong> has filled. Email{" "}
-            <a href="mailto:highlevelthrowinghlt@gmail.com?subject=Clinic%20waitlist%20-%20spots%20available%3F">
-              highlevelthrowinghlt@gmail.com
-            </a>{" "}
-            to see if there are any spots available!
-          </p>
-        )}
         {rows.map((row) => (
           <div className="clinic-reg-row hlt-session" key={row.key}>
             <p className="clinic-reg-label">{row.label}</p>
@@ -292,6 +283,15 @@ export default async function ClinicRegistration({ clinic }: { clinic: NativeCli
             )}
           </div>
         ))}
+        {rows.some((r) => r.soldOut) && (
+          <p className="clinic-reg-soldout-note">
+            A session showing <strong>Sold out</strong> has filled. Email{" "}
+            <a href="mailto:highlevelthrowinghlt@gmail.com?subject=Clinic%20waitlist%20-%20spots%20available%3F">
+              highlevelthrowinghlt@gmail.com
+            </a>{" "}
+            to see if there are any spots available!
+          </p>
+        )}
       </section>
     </div>
   );
