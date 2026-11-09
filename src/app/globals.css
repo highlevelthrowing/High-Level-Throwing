@@ -1216,12 +1216,3 @@ html body.klaviyo-prevent-body-scrolling{
   .clinic-reg-instructor-img{max-width:300px;}
   .clinic-reg > section.clinic-reg-sessions{padding-bottom:48px;}
 }
-
-/* The waitlist form captures a city; this offers the other route for someone
-   who would rather just reach out. Lime so it reads as the action it is. */
-.clinic-waitlist-contact{margin:-0.4em 0 1.1em;}
-.clinic-waitlist-contact a{
-  color:var(--lime,#c6ff2e);font-weight:700;text-decoration:underline;
-  text-underline-offset:3px;
-}
-.clinic-waitlist-contact a:hover{opacity:0.85;}

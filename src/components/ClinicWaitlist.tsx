@@ -1,7 +1,6 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
-import Link from "next/link";
 import { useFormStatus } from "react-dom";
 import { subscribe, type SubscribeState } from "@/app/actions/subscribe";
 
@@ -56,9 +55,6 @@ export default function ClinicWaitlist() {
       <p>
         Tell us where you are and we&apos;ll let you know the moment one is scheduled in your area. Every request
         helps decide where we travel next.
-      </p>
-      <p className="clinic-waitlist-contact">
-        Already have a clinic in mind? <Link href="/contact">Contact us to join the waitlist!</Link>
       </p>
       <form className="clinic-waitlist-form" action={formAction}>
         <input type="hidden" name="source" value="Clinic waitlist" />
