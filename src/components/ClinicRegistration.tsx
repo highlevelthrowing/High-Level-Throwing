@@ -289,7 +289,7 @@ export default async function ClinicRegistration({ clinic }: { clinic: NativeCli
             <a href="mailto:highlevelthrowinghlt@gmail.com?subject=Clinic%20waitlist%20-%20spots%20available%3F">
               highlevelthrowinghlt@gmail.com
             </a>{" "}
-            to see if there are any spots available!
+            to join the waitlist and see if there are any spots now available!
           </p>
         )}
       </section>
