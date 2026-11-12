@@ -195,6 +195,30 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .card-link{display:inline-flex;align-items:center;gap:6px;font-weight:700;font-size:0.88rem;color:var(--text);}
 .card-link:hover{color:var(--accent);}
 
+/* Filled variant, used only by the three offering cards on the home page --
+   every other .card-link (/showcase, /college-consulting, /articles) stays a
+   plain text link. Each pill takes its own card's accent, matching the tag
+   above it.
+
+   Black text on all three rather than the white the pink tag uses: white on
+   #ff2ecb is 3.23:1, which fails AA at this size. Black gives 6.5:1 on pink,
+   8.3:1 on the green and 9.8:1 on the blue, and keeps the row consistent. */
+.card-link--filled{
+  padding:11px 20px;border-radius:999px;font-weight:800;
+  /* Sized to its own text. Without fit-content the inline-flex box inherits
+     the card's width and the label wraps inside the pill -- invisible while
+     this was a plain text link, obvious once it has a background. */
+  width:fit-content;white-space:nowrap;
+  transition:filter .15s, transform .15s;
+}
+.card-link--filled:hover{filter:brightness(1.07);transform:translateY(-1px);}
+.card-link--pink{background:var(--pink);color:var(--navy);}
+.card-link--pink:hover{color:var(--navy);}
+.card-link--lime{background:#2cbc13;color:var(--navy);}
+.card-link--lime:hover{color:var(--navy);}
+.card-link--sky{background:var(--sky);color:var(--navy);}
+.card-link--sky:hover{color:var(--navy);}
+
 /* FEATURE SPLIT */
 .split{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:1180px;margin:0 auto;}
 .split.reverse .col-media{order:2;}

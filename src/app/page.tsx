@@ -265,11 +265,16 @@ export default async function Home() {
                 </div>
               )}
               {service.href.startsWith("/") ? (
-                <Link className="card-link" href={service.href}>
+                <Link className={`card-link card-link--filled card-link--${service.accent}`} href={service.href}>
                   {service.cta} →
                 </Link>
               ) : (
-                <a className="card-link" href={service.href} target="_blank" rel="noopener">
+                <a
+                  className={`card-link card-link--filled card-link--${service.accent}`}
+                  href={service.href}
+                  target="_blank"
+                  rel="noopener"
+                >
                   {service.cta} →
                 </a>
               )}
@@ -336,7 +341,7 @@ export default async function Home() {
         <div className="section-head">
           <div className="section-tag">Full Integration</div>
           <h2>Organization, Facility or Team Integration of High Level Throwing®</h2>
-          <p>Three pieces you can add to your program — choose one, or build all three into your annual fees.</p>
+          <p>Three pieces you can add to your entire program — choose one, or build all three into your annual fees.</p>
         </div>
 
         <div className="tier-grid">
