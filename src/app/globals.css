@@ -706,6 +706,18 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
     linear-gradient(to bottom, rgba(0,0,0,0.58), rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.72)),
     url('/images/hero-banner.jpg');
 }
+/* On a phone the hero is close to square while the photo is wide, so
+   background-size:cover crops most of the frame away — the athletes end up
+   half out of view. Contain shows the whole photo; the black behind it is the
+   page's own background, so the letterboxing reads as intentional. */
+@media (max-width:640px){
+  .hero.section-photo--banner::after{
+    background-size:contain;
+    background-position:center top;
+  }
+  .hero{ padding:120px 20px 90px; }
+}
+
 .section-photo--baseball::after{
   background-image:
     linear-gradient(to bottom, rgba(0,0,0,0.72), rgba(0,0,0,0.55) 45%, rgba(0,0,0,0.86)),
