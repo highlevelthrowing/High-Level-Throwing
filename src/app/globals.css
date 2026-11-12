@@ -83,7 +83,9 @@ h1,h2,h3{color:var(--neon-green);}
 /* HERO */
 .hero{
   position:relative;
-  padding:120px 24px 100px;
+  /* Taller than a copy block needs: the extra height is what lets the
+     athletes behind the wash actually be seen. */
+  padding:170px 24px 170px;
   text-align:center;
   background:
     radial-gradient(circle at 20% 20%, rgba(198,255,46,0.12), transparent 40%),
@@ -701,7 +703,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
      behind the copy as texture rather than competing with it. */
   background-position:28% 4%;
   background-image:
-    linear-gradient(to bottom, rgba(0,0,0,0.82), rgba(0,0,0,0.74) 45%, rgba(0,0,0,0.88)),
+    linear-gradient(to bottom, rgba(0,0,0,0.58), rgba(0,0,0,0.42) 45%, rgba(0,0,0,0.72)),
     url('/images/hero-banner.jpg');
 }
 .section-photo--baseball::after{
@@ -1230,18 +1232,6 @@ html body.klaviyo-prevent-body-scrolling{
 }
 .clinic-reg-soldout-note a{color:var(--lime,#c6ff2e);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
 
-/* ---------------------------------------------------------------------------
-   Two home page sections run on white so the page breaks into bands a reader
-   can navigate rather than one continuous dark scroll. The rest of the site is
-   dark, so these state every colour explicitly: text, headings, body copy and
-   the cards inside them all have to flip, or they inherit light-on-light and
-   disappear.
---------------------------------------------------------------------------- */
-#services,
-#integration {
-  background: #fff;
-  color: #171515;
-}
 #services .section-tag,
 #integration .section-tag { color: #5b6b2e; }
 #services h2, #integration h2,
