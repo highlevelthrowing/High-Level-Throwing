@@ -217,7 +217,7 @@ export default async function Home() {
                   className="pillar-icon"
                   aria-hidden="true"
                 >
-                  <circle cx="20" cy="20" r="20" fill="#f5c518" />
+                  <circle cx="20" cy="20" r="20" fill="#38bdf8" />
                   <path d="M22.2 8.5 12.6 21.4h6.1L17.3 31.5 27.4 18.2h-6.3z" fill="#111" />
                 </svg>
               ) : service.icon === "trending-up" ? (
