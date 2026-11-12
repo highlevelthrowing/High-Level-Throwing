@@ -299,7 +299,9 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 .cta-final h2{font-size:clamp(1.9rem,4vw,2.8rem);font-weight:900;margin-bottom:18px;}
 .cta-final p{color:var(--muted);max-width:580px;margin:0 auto 34px;font-size:1.05rem;}
 
-.site-footer{padding:56px 24px 40px;text-align:center;color:var(--muted);font-size:0.85rem;border-top:1px solid var(--border);}
+/* A lighter black than the page, so the footer reads as its own band
+   without forcing every link and label in it to be recoloured. */
+.site-footer{padding:56px 24px 40px;text-align:center;color:var(--muted);font-size:0.85rem;border-top:1px solid var(--border);background:#141414;}
 .site-footer a{color:var(--lime);font-weight:700;}
 .site-footer .foot-tagline{font-weight:800;color:var(--text);margin-bottom:8px;}
 
@@ -1227,3 +1229,37 @@ html body.klaviyo-prevent-body-scrolling{
   color:#fff;font-size:15px;line-height:1.6;
 }
 .clinic-reg-soldout-note a{color:var(--lime,#c6ff2e);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
+
+/* ---------------------------------------------------------------------------
+   Two home page sections run on white so the page breaks into bands a reader
+   can navigate rather than one continuous dark scroll. The rest of the site is
+   dark, so these state every colour explicitly: text, headings, body copy and
+   the cards inside them all have to flip, or they inherit light-on-light and
+   disappear.
+--------------------------------------------------------------------------- */
+#services,
+#integration {
+  background: #fff;
+  color: #171515;
+}
+#services .section-tag,
+#integration .section-tag { color: #5b6b2e; }
+#services h2, #integration h2,
+#services h3, #integration h3 { color: #0a0a0a; }
+#services p, #integration p,
+#services li, #integration li { color: #2e2b2b; }
+#services .pillar-card,
+#integration .tier-card {
+  background: #f6f7f5;
+  border-color: rgba(0, 0, 0, 0.12);
+  color: #171515;
+}
+#services .pillar-card h3, #integration .tier-card h3 { color: #0a0a0a; }
+#services .pillar-card p, #integration .tier-card p,
+#services .pillar-card li, #integration .tier-card li { color: #3a3737; }
+/* The lime pill reads on white already; keep ghost buttons legible on it. */
+#services .btn:not(.btn-primary),
+#integration .btn:not(.btn-primary) {
+  color: #0a0a0a;
+  border-color: rgba(0, 0, 0, 0.3);
+}
