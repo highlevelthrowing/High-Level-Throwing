@@ -1231,25 +1231,3 @@ html body.klaviyo-prevent-body-scrolling{
   color:#fff;font-size:15px;line-height:1.6;
 }
 .clinic-reg-soldout-note a{color:var(--lime,#c6ff2e);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
-
-#services .section-tag,
-#integration .section-tag { color: #5b6b2e; }
-#services h2, #integration h2,
-#services h3, #integration h3 { color: #0a0a0a; }
-#services p, #integration p,
-#services li, #integration li { color: #2e2b2b; }
-#services .pillar-card,
-#integration .tier-card {
-  background: #f6f7f5;
-  border-color: rgba(0, 0, 0, 0.12);
-  color: #171515;
-}
-#services .pillar-card h3, #integration .tier-card h3 { color: #0a0a0a; }
-#services .pillar-card p, #integration .tier-card p,
-#services .pillar-card li, #integration .tier-card li { color: #3a3737; }
-/* The lime pill reads on white already; keep ghost buttons legible on it. */
-#services .btn:not(.btn-primary),
-#integration .btn:not(.btn-primary) {
-  color: #0a0a0a;
-  border-color: rgba(0, 0, 0, 0.3);
-}
