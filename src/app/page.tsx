@@ -23,7 +23,7 @@ export const metadata: Metadata = {
 const SERVICES = [
   {
     tag: "ATHLETE VIDEO ASSESSMENTS",
-    title: "Get Your HLT Score",
+    title: "Get your High Level Throwing® Score",
     body: "Submit a throwing video and get a High Level Throwing® Score, a Throwing Report, and a full mechanics breakdown. Build it into your program so coaches and athletes can monitor and track programming, gains, and arm health.",
     cta: "Start Video Assessment",
     href: "/video-assessment",
@@ -36,7 +36,9 @@ const SERVICES = [
   {
     tag: "CLINICS & WORKSHOPS",
     title: "Bring High Level Throwing® On-Site",
-    body: "Foundational and Advanced in-person clinics delivered directly to your Rec League, Travel Organization, or Training Facility.",
+    body:
+      "Foundational and Advanced in-person clinics delivered directly to your Rec League, Travel Organization, " +
+      "College Program or Training Facility.",
     cta: "Schedule a Clinic",
     href: "/clinics",
     icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
