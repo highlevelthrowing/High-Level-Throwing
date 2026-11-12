@@ -246,7 +246,7 @@ export default async function Home() {
                   />
                 )
               )}
-              <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>
+              <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : " num-green"}`}>
                 {service.tag}
               </div>
               <h3>{service.title}</h3>
