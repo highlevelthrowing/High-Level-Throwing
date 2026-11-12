@@ -710,12 +710,24 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
    background-size:cover crops most of the frame away — the athletes end up
    half out of view. Contain shows the whole photo; the black behind it is the
    page's own background, so the letterboxing reads as intentional. */
-@media (max-width:640px){
+@media (max-width:640px) and (orientation:portrait){
   .hero.section-photo--banner::after{
     background-size:contain;
     background-position:center top;
   }
   .hero{ padding:120px 20px 90px; }
+}
+
+/* Turned sideways the viewport is wide and short, which is the shape the
+   photo already is — so it fills rather than letterboxing, and the hero
+   stops being taller than the screen it sits on. Keyed to height, not
+   width, because a phone in landscape can be either side of 640px. */
+@media (max-height:520px) and (orientation:landscape){
+  .hero.section-photo--banner::after{
+    background-size:cover;
+    background-position:center 30%;
+  }
+  .hero{ padding:64px 20px 56px; }
 }
 
 .section-photo--baseball::after{
