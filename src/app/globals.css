@@ -1254,7 +1254,14 @@ html body.klaviyo-prevent-body-scrolling{
 .pillar-card h3, .tier-card h3, .tier-card .tier-name { color: #0a0a0a; }
 .pillar-card p, .tier-card p,
 .tier-card .tier-features li { color: #3a3737; }
-.tier-card .tier-meta-label { color: #5c5858; }
+/* The meta block carries its own dark overlay, built for a dark card. On a
+   white fill it has to flip too, or its label sits at 2.99:1. */
+.tier-card .tier-meta {
+  background: #f1f2ef;
+  border-color: rgba(0, 0, 0, 0.12);
+}
+.tier-card .tier-meta-label { color: #4a4646; }
+.tier-card .tier-meta strong { color: #0a0a0a; }
 .pillar-card .card-link { color: #0a0a0a; }
 .pillar-card .card-link:hover { color: #1482be; }
 
