@@ -16,7 +16,7 @@
 }
 
 *{box-sizing:border-box;}
-html{scroll-behavior:smooth;}
+html{scroll-behavior:smooth;background:#000;}
 body{
   background:var(--navy);
   color:var(--text);
@@ -79,6 +79,11 @@ h1,h2,h3{color:var(--neon-green);}
   display:flex;align-items:center;justify-content:center;padding:0 4px;
 }
 @media (max-width:820px){ .navlinks{display:none;} }
+/* A phone in landscape is wider than 820px but only ~390px tall. The desktop
+   nav needs about 1125px, so it overflowed the viewport and the browser scaled
+   the page down to fit — which reads as the site sitting inset from both
+   edges. A short viewport means a phone, whatever the width. */
+@media (max-height:520px) and (orientation:landscape){ .navlinks{display:none;} }
 
 /* HERO */
 .hero{
@@ -555,6 +560,7 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
 }
 .mobile-nav-panel a:hover{background:var(--navy-3);color:var(--lime);}
 @media (max-width:820px){ .mobile-nav{display:block;} }
+@media (max-height:520px) and (orientation:landscape){ .mobile-nav{display:block;} }
 @media (max-width:520px){ .nav-cta{display:none;} }
 
 /* CLINIC SCHEDULE (rendered from the Tockify feed) */
