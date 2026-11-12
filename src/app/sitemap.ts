@@ -3,6 +3,7 @@ import { SITE_URL } from "@/lib/site";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProducts } from "@/lib/shopify/products";
 import { getClinics } from "@/lib/clinics";
+import { getArticles } from "@/lib/shopify/articles";
 import { ARTICLE_PATHS } from "@/lib/articles";
 
 // Rebuilt daily — the clinic schedule and catalogue move often enough that a
@@ -38,10 +39,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority,
   }));
 
-  for (const path of ARTICLE_PATHS) {
+  // Pulled from the blog rather than a hand-kept list. ARTICLE_PATHS had
+  // drifted to 23 of the 98 published articles, so three quarters of the
+  // writing was absent from the sitemap -- the same drift /articles itself
+  // used to have. ARTICLE_PATHS stays as the fallback so a Shopify outage
+  // leaves a short sitemap rather than one with no articles at all.
+  const articles = await getArticles().catch(() => []);
+  const articlePaths = articles.length
+    ? articles.map((article) => ({
+        path: `/blogs/news/${encodeURIComponent(article.handle)}`,
+        lastModified: article.publishedAt ? new Date(article.publishedAt) : now,
+      }))
+    : ARTICLE_PATHS.map((path) => ({ path, lastModified: now }));
+
+  for (const { path, lastModified } of articlePaths) {
     entries.push({
       url: `${SITE_URL}${path}`,
-      lastModified: now,
+      lastModified,
       changeFrequency: "yearly",
       priority: 0.5,
     });
