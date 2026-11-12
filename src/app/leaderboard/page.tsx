@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Script from "next/script";
 
 export const metadata: Metadata = {
   title: "Velocity Leaderboard",
@@ -20,13 +21,33 @@ export default function LeaderboardPage() {
         </p>
         <p style={{ fontSize: "0.85rem", marginTop: 8 }}>*All velocity numbers have been verified.</p>
       </div>
-      <div style={{ maxWidth: 1180, margin: "0 auto", border: "1px solid var(--border)", borderRadius: 20, overflow: "hidden" }}>
-        <iframe
-          src="/api/embed/leaderboard"
-          title="Velocity Leaderboard"
-          style={{ width: "100%", height: 1600, border: "none", background: "#fff", display: "block" }}
-        />
+      {/* The widget mounts straight into this page.
+
+          It used to sit in an iframe onto the Shopify theme, so reaching the
+          table meant three sequential round trips: this page, then a 62KB
+          themed document carrying 44 scripts and 5 stylesheets, and only then
+          the widget that actually renders the rows. The theme contributed
+          nothing — the embed markup contains no table at all. Loading the
+          widget here removes two of those trips and the whole theme.
+
+          preconnect opens the connection while the rest of the page parses,
+          and the stylesheet carries the same integrity hash the theme used. */}
+      <link rel="preconnect" href="https://highlevelthrowingleaderboard.com" crossOrigin="anonymous" />
+      <link
+        rel="stylesheet"
+        href="https://highlevelthrowingleaderboard.com/embed/velocity-widget.css"
+        integrity="sha384-E5uKi6hho7tcuj7fBawCcHMnvmFGwTBdtUetQ33NwkaZ8QCQRGTxBKoZcMSHTOav"
+        crossOrigin="anonymous"
+      />
+      <div style={{ maxWidth: 1180, margin: "0 auto" }}>
+        <div id="vt-leaderboard-block" data-api-url="https://highlevelthrowingleaderboard.com" data-limit="25" />
       </div>
+      <Script
+        src="https://highlevelthrowingleaderboard.com/embed/velocity-widget.js"
+        integrity="sha384-oP6d+drwlV/IoHse3ymhE7A7F1t6/Ko4sxEktqfjUiVYCUcgVIxW7EheWT955k/0"
+        crossOrigin="anonymous"
+        strategy="afterInteractive"
+      />
     </section>
   );
 }
