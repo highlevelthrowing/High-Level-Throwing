@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Suspense } from "react";
 import "./globals.css";
 import { SITE_URL } from "@/lib/site";
@@ -7,6 +7,21 @@ import Footer from "@/components/Footer";
 import Analytics from "@/components/Analytics";
 import HelpWidget from "@/components/HelpWidget";
 import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
+
+/**
+ * viewport-fit=cover lets the page paint under the notch.
+ *
+ * Without it iOS keeps the whole document clear of the sensor housing when the
+ * phone is turned sideways, which shows up as black bars down both edges —
+ * the page appearing to sit a couple of inches in from the sides. The layout
+ * then pads itself back off the notch with env(safe-area-inset-*), so the
+ * backgrounds run edge to edge while the text stays clear of it.
+ */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
+};
 
 export const metadata: Metadata = {
   // metadataBase makes every relative canonical and OG url resolve to the live

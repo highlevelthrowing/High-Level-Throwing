@@ -1298,3 +1298,16 @@ html body.klaviyo-prevent-body-scrolling{
 .pillar-card .btn:not(.btn-primary):hover,
 .tier-card .btn:not(.btn-primary):hover { border-color: rgba(0, 0, 0, 0.6); }
 
+/* With viewport-fit=cover the page now extends under the notch, so the copy
+   has to be padded back off it by hand. Backgrounds stay edge to edge; only
+   the content inset moves. */
+@media (orientation:landscape){
+  body > header,
+  body > main > section,
+  body > footer,
+  .site-footer {
+    padding-left: max(20px, env(safe-area-inset-left));
+    padding-right: max(20px, env(safe-area-inset-right));
+  }
+}
+
