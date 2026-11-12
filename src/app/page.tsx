@@ -109,7 +109,7 @@ const INTEGRATION = [
     cta: "Start an Assessment",
     href: "/video-assessment",
     forLabel: "Built for",
-    forWho: "Individual athletes ages 9+, teams and full rosters",
+    forWho: "Individual athletes ages 9+, full team rosters and large organizations",
     accent: "pink" as const,
     features: [
       "Individual HLT Report on every athlete",
@@ -333,7 +333,7 @@ export default async function Home() {
       <section id="integration" style={{ borderBottom: "1px solid var(--border)" }}>
         <div className="section-head">
           <div className="section-tag">Full Integration</div>
-          <h2>Want Full Team, Organization or Facility Integration of High Level Throwing®?</h2>
+          <h2>Organization, Facility or Team Integration of High Level Throwing®</h2>
           <p>Three pieces you can add to your program — choose one, or build all three into your annual fees.</p>
         </div>
 

@@ -80,16 +80,56 @@ const nextConfig: NextConfig = {
         "high-level-throwing-clinic-new-albany-in-feburary-2027",
         "high-level-throwing-clinic-new-albany-in-february-2027",
       ],
+      // The ® came out of these page handles for the same reason it came out
+      // of the product handles above: the encoded form is %C2%AE at best and a
+      // malformed %AE at worst, which cannot be decoded at all. Shopify's own
+      // redirect (redirectNewHandle) answers only on the myshopify domain, so
+      // these are what keep the old addresses alive here.
+      ["high-level-throwing®-clinic-franklin-ky", "high-level-throwing-clinic-franklin-ky"],
+      ["high-level-throwing®-clinic-new-orleans-la", "high-level-throwing-clinic-new-orleans-la"],
+      ["high-level-throwing®-clinic-oakland-ca-2023", "high-level-throwing-clinic-oakland-ca-2023"],
+      ["high-level-throwing®-clinic-philadelphia-pa", "high-level-throwing-clinic-philadelphia-pa"],
+      ["high-level-throwing®-clinic-indianapolis-in", "high-level-throwing-clinic-indianapolis-in"],
+      ["high-level-throwing®-clinic-cypress-tx-2023", "high-level-throwing-clinic-cypress-tx-2023"],
+      ["high-level-throwing®-clinic-gallatin-tn", "high-level-throwing-clinic-gallatin-tn"],
+      ["high-level-throwing®-clinic-clarksville-tn", "high-level-throwing-clinic-clarksville-tn"],
+      ["high-level-throwing®-clinic-san-diego-ca", "high-level-throwing-clinic-san-diego-ca"],
+      ["high-level-throwing®-webinar", "high-level-throwing-webinar"],
+      ["high-level-throwing®-clinic-encino-ca", "high-level-throwing-clinic-encino-ca"],
+      ["high-level-throwing®-clinic-louisville-ky", "high-level-throwing-clinic-louisville-ky"],
+      ["high-level-throwing®-clinic-denver-co", "high-level-throwing-clinic-denver-co"],
+      ["high-level-throwing®-clinic-felton-de", "high-level-throwing-clinic-felton-de"],
+      ["high-level-throwing®-clinic-saratoga-ca", "high-level-throwing-clinic-saratoga-ca"],
+      ["high-level-pitching®-webinar", "high-level-pitching-webinar"],
+      ["high-level-throwing®-clinic-cypress-tx-2024", "high-level-throwing-clinic-cypress-tx-2024"],
+      ["high-level-pitching®-video-assessment", "high-level-pitching-video-assessment"],
     ];
-    const renamedPages = RENAMED_PAGES.map(([from, to]) => ({
-      source: `/pages/${from}`,
-      destination: `/pages/${to}`,
-      permanent: true,
-    }));
+    const renamedPages = RENAMED_PAGES.flatMap(([from, to]) =>
+      // Both spellings, as with the products: the bare character and the
+      // percent-encoding a browser actually sends.
+      [...new Set([`/pages/${from}`, `/pages/${encodeURIComponent(from)}`])].map(
+        (source) => ({ source, destination: `/pages/${to}`, permanent: true })
+      )
+    );
+
+    /** Articles whose handle lost its ®, same reasoning as the pages above. */
+    const RENAMED_ARTICLES: [string, string][] = [
+      ["high-level-throwing®-x-supercollider-how-data-ai-are-shaping-sport", "high-level-throwing-x-supercollider-how-data-ai-are-shaping-sport"],
+      ["taylor-pleasants-x-high-level-throwing®-florida-vibe-pro-softball", "taylor-pleasants-x-high-level-throwing-florida-vibe-pro-softball"],
+      ["softball-throwing-mechanics-changing-arm-patterns-high-level-throwing®", "softball-throwing-mechanics-changing-arm-patterns-high-level-throwing"],
+      ["high-level-throwing®-clinics-schedule-today", "high-level-throwing-clinics-schedule-today"],
+      ["you-are-here-home-high-level-throwing-baseball-softball-building-a-remote-training-platform-for-a-sustainable-future-high-level-throwing®-baseball-softball-building-a-remote-training-platform-for-a-sustainable-future-high-level-throwing®", "you-are-here-home-high-level-throwing-baseball-softball-building-a-remote-training-platform-for-a-sustainable-future-high-level-throwing-baseball-softball-building-a-remote-training-platform-for-a-sustainable-future-high-level-throwing"],
+    ];
+    const renamedArticles = RENAMED_ARTICLES.flatMap(([from, to]) =>
+      [...new Set([`/blogs/news/${from}`, `/blogs/news/${encodeURIComponent(from)}`])].map(
+        (source) => ({ source, destination: `/blogs/news/${to}`, permanent: true })
+      )
+    );
 
     return [
       ...renamedProducts,
       ...renamedPages,
+      ...renamedArticles,
       // /pages/:handle is handled in-app by app/pages/[handle] so Shopify-authored
       // pages (clinics especially) render inside this site rather than sending
       // visitors off to the Shopify store.
