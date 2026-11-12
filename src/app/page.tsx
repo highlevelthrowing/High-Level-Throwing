@@ -39,7 +39,7 @@ const SERVICES = [
     body: "Foundational and Advanced in-person clinics delivered directly to your Rec League, Travel Organization, or Training Facility.",
     cta: "Schedule a Clinic",
     href: "/clinics",
-    icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/bbal2.png?v=1695024500",
+    icon: "ball" as const,
     image: "/images/clinic-coach-teaching.jpg",
     imageAlt: "Austin Wasserman coaching a group of athletes at an on-site clinic",
     accent: "lime" as const,
@@ -234,18 +234,29 @@ export default async function Home() {
                   <polyline points="3 17 9 11 13 15 21 7" />
                   <polyline points="14 7 21 7 21 14" />
                 </svg>
-              ) : (
-                service.icon && (
-                  <Image
-                    src={service.icon}
-                    alt={`${service.title} icon`}
-                    width={40}
-                    height={40}
-                    className="pillar-icon"
-                    unoptimized
-                  />
-                )
-              )}
+              ) : service.icon === "ball" ? (
+                /* Drawn here rather than loaded as a PNG so the ball reads
+                   var(--lime) -- the exact token behind the CLINICS &
+                   WORKSHOPS pill below it. The old bbal2.png was a baked-in
+                   mid-green that could never follow the pill. */
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  className="pillar-icon"
+                  aria-hidden="true"
+                >
+                  <circle cx="20" cy="20" r="20" fill="var(--lime)" />
+                  <g fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round">
+                    <path d="M11 5.2C14.6 11 14.6 29 11 34.8" />
+                    <path d="M29 5.2C25.4 11 25.4 29 29 34.8" />
+                  </g>
+                  <g stroke="#111" strokeWidth="1.4" strokeLinecap="round">
+                    <path d="M10.5 9 14.5 11M11.7 14 15.7 16M11.7 24 15.7 26M10.5 29 14.5 31" />
+                    <path d="M29.5 9 25.5 11M28.3 14 24.3 16M28.3 24 24.3 26M29.5 29 25.5 31" />
+                  </g>
+                </svg>
+              ) : null}
               <div className={`pillar-num${service.accent === "pink" ? " num-pink" : service.accent === "sky" ? " num-blue" : ""}`}>
                 {service.tag}
               </div>
