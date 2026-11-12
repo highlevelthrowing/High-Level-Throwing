@@ -50,7 +50,7 @@ const SERVICES = [
     body: "A Lightning Ball Plyo Set paired with a digital training guide, so every athlete has the tool and the instructions to train correctly, year-round.",
     cta: "Shop Equipment",
     href: "/shop",
-    icon: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/butx1.png?v=1693164677",
+    icon: "zap",
     image: "/images/equipment-fau-team-plyos.jpg",
     imageAlt: "The FAU Softball roster holding up their Lightning Ball plyos with Austin Wasserman",
     accent: "sky" as const,
@@ -209,7 +209,18 @@ export default async function Home() {
         <div className="grid grid-3">
           {SERVICES.map((service) => (
             <div className={`pillar-card pillar-card--${service.accent}`} key={service.title}>
-              {service.icon === "trending-up" ? (
+              {service.icon === "zap" ? (
+                <svg
+                  width="40"
+                  height="40"
+                  viewBox="0 0 40 40"
+                  className="pillar-icon"
+                  aria-hidden="true"
+                >
+                  <circle cx="20" cy="20" r="20" fill="#f5c518" />
+                  <path d="M22.2 8.5 12.6 21.4h6.1L17.3 31.5 27.4 18.2h-6.3z" fill="#111" />
+                </svg>
+              ) : service.icon === "trending-up" ? (
                 <svg
                   width="40"
                   height="40"
@@ -311,7 +322,7 @@ export default async function Home() {
               ))}
             </div>
             <div style={{ textAlign: "center", marginTop: 40 }}>
-              <Link className="card-link" href="/shop">
+              <Link className="btn btn-primary" href="/shop">
                 Visit Shop →
               </Link>
             </div>
@@ -351,7 +362,7 @@ export default async function Home() {
         </div>
 
         <div style={{ textAlign: "center", marginTop: 40 }}>
-          <Link className="btn btn-outline" href="/contact">
+          <Link className="btn btn-primary" href="/contact">
             Schedule A Call
           </Link>
         </div>
