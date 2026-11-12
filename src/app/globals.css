@@ -1231,3 +1231,39 @@ html body.klaviyo-prevent-body-scrolling{
   color:#fff;font-size:15px;line-height:1.6;
 }
 .clinic-reg-soldout-note a{color:var(--lime,#c6ff2e);font-weight:700;text-decoration:underline;text-underline-offset:3px;}
+
+/* ---------------------------------------------------------------------------
+   White cards on the black home page sections.
+
+   The six variants keep their accent borders so the colour coding survives,
+   but the fills go white — which means every piece of text inside has to be
+   restated. The defaults are built for dark cards (white headings, --muted
+   body, --text links); left alone on a white fill they are invisible, which
+   is exactly what happened the first time these were lightened.
+--------------------------------------------------------------------------- */
+.pillar-card--lime, .pillar-card--pink, .pillar-card--sky,
+.tier-card--lime, .tier-card--pink, .tier-card--sky {
+  background-color: #fff;
+  background-image: none;
+  color: #171515;
+}
+.pillar-card--lime, .tier-card--lime { border-color: rgba(120, 160, 30, 0.55); }
+.pillar-card--pink, .tier-card--pink { border-color: rgba(200, 30, 155, 0.45); }
+.pillar-card--sky,  .tier-card--sky  { border-color: rgba(20, 130, 190, 0.45); }
+
+.pillar-card h3, .tier-card h3, .tier-card .tier-name { color: #0a0a0a; }
+.pillar-card p, .tier-card p,
+.tier-card .tier-features li { color: #3a3737; }
+.tier-card .tier-meta-label { color: #5c5858; }
+.pillar-card .card-link { color: #0a0a0a; }
+.pillar-card .card-link:hover { color: #1482be; }
+
+/* Ghost buttons inside a white card need a dark outline to exist at all. */
+.pillar-card .btn:not(.btn-primary),
+.tier-card .btn:not(.btn-primary) {
+  color: #0a0a0a;
+  border-color: rgba(0, 0, 0, 0.32);
+}
+.pillar-card .btn:not(.btn-primary):hover,
+.tier-card .btn:not(.btn-primary):hover { border-color: rgba(0, 0, 0, 0.6); }
+
