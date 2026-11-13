@@ -461,7 +461,12 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
    product with 11 thumbs was pushing the gallery to 892px while one with 5
    sat at 560px, which is why product pages did not match each other. */
 .pdp{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:60px;max-width:1180px;margin:0 auto;align-items:start;}
-@media (max-width:900px){ .pdp{grid-template-columns:1fr;gap:28px;} }
+/* minmax(0,1fr), not 1fr: a bare 1fr is minmax(auto,1fr), and that auto
+   minimum refuses to shrink below the column's min-content -- which the
+   440px-capped gallery sets. On a 375px phone the column stayed 440px and
+   pushed the whole product page 89px sideways. The desktop rule above already
+   guards against this the same way. */
+@media (max-width:900px){ .pdp{grid-template-columns:minmax(0,1fr);gap:28px;} }
 /* Black to match the shop grid's thumbnails — a white frame here meant the
    same image looked different once you clicked into the product. Capped so a
    wide desktop does not blow the product shot up to half the page; on phones
