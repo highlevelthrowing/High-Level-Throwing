@@ -70,6 +70,16 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* The leaderboard and tracker fetch their rows from this host. Its
+            widget files are proxied through /vt, but the API calls still cross
+            origins, so warm the connection here -- in the document head, ahead
+            of anything that uses it. The earlier preconnect lived in the
+            leaderboard page itself and was emitted *after* the tags it was
+            meant to help, which made it useless. */}
+        <link rel="preconnect" href="https://highlevelthrowingleaderboard.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://highlevelthrowingleaderboard.com" />
+      </head>
       <body className="min-h-screen flex flex-col">
         <Header />
         <main className="flex-1">{children}</main>

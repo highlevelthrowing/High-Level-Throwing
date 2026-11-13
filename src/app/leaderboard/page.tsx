@@ -30,12 +30,14 @@ export default function LeaderboardPage() {
           nothing — the embed markup contains no table at all. Loading the
           widget here removes two of those trips and the whole theme.
 
-          preconnect opens the connection while the rest of the page parses,
-          and the stylesheet carries the same integrity hash the theme used. */}
-      <link rel="preconnect" href="https://highlevelthrowingleaderboard.com" crossOrigin="anonymous" />
+          The two assets are served from /vt so they ride this page's own
+          connection instead of opening a second one; see app/vt/[file]. The
+          integrity hashes are unchanged because the bytes are passed through.
+          The API calls still cross to the widget host, so the preconnect for
+          it lives in the root layout, ahead of everything that uses it. */}
       <link
         rel="stylesheet"
-        href="https://highlevelthrowingleaderboard.com/embed/velocity-widget.css"
+        href="/vt/velocity-widget.css"
         integrity="sha384-E5uKi6hho7tcuj7fBawCcHMnvmFGwTBdtUetQ33NwkaZ8QCQRGTxBKoZcMSHTOav"
         crossOrigin="anonymous"
       />
@@ -43,7 +45,7 @@ export default function LeaderboardPage() {
         <div id="vt-leaderboard-block" data-api-url="https://highlevelthrowingleaderboard.com" data-limit="25" />
       </div>
       <Script
-        src="https://highlevelthrowingleaderboard.com/embed/velocity-widget.js"
+        src="/vt/velocity-widget.js"
         integrity="sha384-oP6d+drwlV/IoHse3ymhE7A7F1t6/Ko4sxEktqfjUiVYCUcgVIxW7EheWT955k/0"
         crossOrigin="anonymous"
         strategy="afterInteractive"
