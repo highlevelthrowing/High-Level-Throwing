@@ -8,8 +8,8 @@ import ProgramCalculator from "@/components/calculators/ProgramCalculator";
 export const metadata: Metadata = {
   title: "Team & Organization Throwing Programs",
   description:
-    "Build softball throwing development into your season — on-site clinics, " +
-    "per-athlete assessments, softball strength, movement and take-home arm care.",
+    "Build softball development into your season — on-site clinics, per-athlete " +
+    "assessments, softball throwing, strength, movement and take-home arm care.",
 };
 
 export default function Showcase() {

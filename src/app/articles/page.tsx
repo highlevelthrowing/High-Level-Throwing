@@ -7,8 +7,8 @@ import BackToTop from "@/components/BackToTop";
 export const metadata: Metadata = {
   title: "Softball Throwing & Baseball Articles",
   description:
-    "Softball throwing articles and baseball training guides — softball mechanics, " +
-    "arm care, throwing velocity, drills and college throwing development.",
+    "Softball throwing articles and baseball guides — softball development, softball " +
+    "mechanics, arm care, softball velocity, drills and college programs.",
 };
 
 const ARTICLES = [

@@ -6,8 +6,8 @@ export const metadata: Metadata = {
   // keywords live in the h1 below, where length does not matter.
   title: "Throwing Velocity Leaderboard",
   description:
-    "Verified softball throwing velocity and baseball rankings. See where athletes " +
-    "stand, earn a velocity badge, and track arm strength gains by grad year.",
+    "Verified softball velocity rankings and softball throwing results. Earn a " +
+    "velocity badge and track softball development and arm strength by grad year.",
 };
 
 export default function LeaderboardPage() {

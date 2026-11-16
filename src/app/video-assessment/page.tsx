@@ -5,8 +5,8 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Athlete Video Assessments",
   description:
-    "Send a throwing video and get your High Level Throwing® Score, a full softball " +
-    "throwing mechanics and movement breakdown, and a 12-week arm care program.",
+    "Send a throwing video and get your High Level Throwing® Score, a softball " +
+    "throwing mechanics and movement breakdown, and a 12-week softball development plan.",
 };
 
 const CDN = "https://cdn.shopify.com/s/files/1/0771/2948/2547/files";

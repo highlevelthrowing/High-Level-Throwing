@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   // competes for. Ordered so both sports read naturally and softball leads.
   title: { absolute: "High Level Throwing® | Softball Throwing & Baseball Training" },
   description:
-    "Softball throwing and baseball training — on-site clinics, video assessments, " +
-    "softball mechanics, arm care and throwing velocity development.",
+    "Softball throwing and baseball training — clinics, video assessments, softball " +
+    "development, softball mechanics, arm care and softball velocity.",
 };
 
 const SERVICES = [

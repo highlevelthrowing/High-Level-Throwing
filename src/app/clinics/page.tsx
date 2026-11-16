@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   // Was 255 characters, so search results cut it off mid-sentence.
   description:
     "Book softball throwing clinics and baseball clinics for your rec league, travel " +
-    "organization or facility — softball mechanics, arm care and velocity.",
+    "organization or facility — softball development, mechanics and velocity.",
 };
 
 export default function Clinics() {
