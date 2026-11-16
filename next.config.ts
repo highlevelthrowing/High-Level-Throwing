@@ -145,6 +145,16 @@ const nextConfig: NextConfig = {
       // and /pages/sample-clinics fall through to the Shopify SimpleEmbed
       // iframe instead of that, which is the old site — including in Google's
       // indexed result — so send both straight to the new page.
+      // The Beaufort, SC clinic was cancelled on 2026-11-16 and its Shopify page
+      // unpublished. Without this the URL still answered 200 with a ghost of the
+      // page -- the clinic's title, an empty embed and a waitlist form. Anyone
+      // holding a registration link lands on the schedule instead. Temporary,
+      // not permanent: the handle may be reused if the clinic is rebooked.
+      {
+        source: "/pages/high-level-throwing-clinic-beaufort-sc-december-2026",
+        destination: "/clinics",
+        permanent: false,
+      },
       { source: "/pages/clinics", destination: "/clinics", permanent: true },
       { source: "/pages/sample-clinics", destination: "/clinics", permanent: true },
       // Everything else Shopify owns that this domain used to answer for, and
