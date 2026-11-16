@@ -86,6 +86,14 @@ function prepare(html: string): string {
       `<span class="article-video">${tag.replace(/\s(?:width|height)="[^"]*"/gi, "")}</span>`
     )
     .replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy" ')
+    /* Four articles hotlink images from austin-wasserman-rmds.prev03.rmkr.net,
+       the old WordPress host. It resolves but refuses connections, and none of
+       the files are in the Wayback Machine, so every one of those images is a
+       permanent broken-image icon -- in one case all ten in a 1,457-word piece.
+       Drop the tags rather than render the breakage. The references stay in the
+       Shopify body, so replacing them later is a straight edit in Admin and
+       nothing here has to change back. */
+    .replace(/<img\b[^>]*\brmkr\.net\b[^>]*>/gi, "")
     // Two articles carry their own <h1> in the body, repeating the headline the
     // page already renders as its <h1> and leaving those pages with two. The
     // page heading is the document's one top-level heading; anything the body

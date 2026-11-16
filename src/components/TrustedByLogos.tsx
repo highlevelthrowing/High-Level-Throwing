@@ -13,6 +13,7 @@ const LOGOS: { src: string; alt: string; glow?: boolean; bg?: string }[] = [
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Boston_College_Eagles_logo_svg.png?v=1700598256&width=200", alt: "Boston College Eagles", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/coastal_carolina_chanticleers_2002-2015.webp?v=1762789884&width=200", alt: "Coastal Carolina Chanticleers", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/IowaState_1.png?v=1700598036&width=200", alt: "Iowa State Cyclones", glow: true },
+  { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/memphis.png?v=1697118939&width=200", alt: "Memphis Tigers", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Utah_Utes_primary_logo_svg.png?v=1700950327&width=200", alt: "University of Utah Utes", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/UNCW_54386abe-deca-4406-a143-c8c8580dbfc8.png?v=1700597909&width=200", alt: "UNC Wilmington Seahawks", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Florida_Gulf_Coast_Eagles_logo_svg.png?v=1697118553&width=200", alt: "Florida Gulf Coast Eagles", glow: true },
