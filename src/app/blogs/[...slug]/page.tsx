@@ -94,6 +94,12 @@ function prepare(html: string): string {
        Shopify body, so replacing them later is a straight edit in Admin and
        nothing here has to change back. */
     .replace(/<img\b[^>]*\brmkr\.net\b[^>]*>/gi, "")
+    /* Those images were wrapped in links to the same dead host, so removing the
+       <img> left an empty anchor pointing nowhere. Drop the emptied ones, and
+       unwrap any that still hold text so the words survive without the dead
+       link. Order matters: this has to run after the <img> removal above. */
+    .replace(/<a\b[^>]*\brmkr\.net\b[^>]*>\s*<\/a>/gi, "")
+    .replace(/<a\b[^>]*\brmkr\.net\b[^>]*>([\s\S]*?)<\/a>/gi, "$1")
     // Two articles carry their own <h1> in the body, repeating the headline the
     // page already renders as its <h1> and leaving those pages with two. The
     // page heading is the document's one top-level heading; anything the body
