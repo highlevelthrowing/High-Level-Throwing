@@ -9,11 +9,10 @@ import QuickAddButton from "@/components/QuickAddButton";
 import ProductListJsonLd from "@/components/ProductListJsonLd";
 
 export const metadata: Metadata = {
-  title: "Throwing Equipment & Training Gear",
+  title: "Softball Throwing & Strength Equipment",
   description:
-    "High Level Throwing® equipment and training tools — Lightning Bands, " +
-    "plyo ball sets, training guides and clinic registrations for softball " +
-    "and baseball athletes.",
+    "Softball throwing and strength training equipment — Lightning Bands, plyo ball " +
+    "sets, movement and arm care guides for softball and baseball athletes.",
   alternates: { canonical: "https://www.highlevelthrowing.com/shop" },
 };
 

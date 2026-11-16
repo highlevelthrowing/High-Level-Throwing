@@ -20,10 +20,13 @@ export const metadata: Metadata = {
   // The home page carried only the brand name, so the single most valuable
   // title on the site said nothing about what the business does. absolute
   // because the layout template would otherwise prepend the brand twice.
-  title: { absolute: "High Level Throwing® | Softball & Baseball Throwing Training" },
+  // "Softball & Baseball Throwing" reads as the phrase "baseball throwing" and
+  // never "softball throwing", which is the term this business actually
+  // competes for. Ordered so both sports read naturally and softball leads.
+  title: { absolute: "High Level Throwing® | Softball Throwing & Baseball Training" },
   description:
-    "Softball and baseball throwing training — on-site clinics, video assessments, " +
-    "arm care and throwing mechanics coaching from High Level Throwing®.",
+    "Softball throwing and baseball training — on-site clinics, video assessments, " +
+    "softball mechanics, arm care and throwing velocity development.",
 };
 
 const SERVICES = [

@@ -4,8 +4,8 @@ import ContactForm from "@/components/ContactForm";
 export const metadata: Metadata = {
   title: "Contact",
   description:
-    "Contact High Level Throwing® to book a softball or baseball throwing clinic, " +
-    "request a video assessment, or bring throwing development to your program.",
+    "Contact High Level Throwing® to book a softball throwing clinic or baseball " +
+    "clinic, request a video assessment, or bring throwing development on-site.",
 };
 
 export default function ContactPage() {

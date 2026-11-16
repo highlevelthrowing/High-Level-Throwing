@@ -9,14 +9,14 @@ import QuickAddButton from "@/components/QuickAddButton";
 import ProductListJsonLd from "@/components/ProductListJsonLd";
 
 export const metadata: Metadata = {
-  title: "Softball & Baseball Throwing Books",
+  title: "Softball Throwing & Strength Books",
   // The site-wide fallback described the business rather than this page, so
   // every listing shared one snippet in search results and none of them said
   // what was for sale.
   // Was 195 characters, past the point search results display.
   description:
-    "Softball and baseball throwing books — arm care, throwing mechanics, velocity " +
-    "and pitching. Instant digital download with video drills and tutorials.",
+    "Softball throwing and softball strength books — mechanics, movement, arm care, " +
+    "velocity and pitching. Instant digital download with video drills.",
   alternates: { canonical: "https://www.highlevelthrowing.com/books" },
 };
 

@@ -4,8 +4,8 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "Clinic Velocity Tracker",
   description:
-    "Submit your verified throwing velocity from a High Level Throwing® clinic and " +
-    "track arm strength gains on the softball and baseball velocity leaderboard.",
+    "Submit your verified softball throwing velocity from a High Level Throwing® " +
+    "clinic and track arm strength gains on the velocity leaderboard.",
 };
 
 export default function VelocityTrackerPage() {

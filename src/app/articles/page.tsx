@@ -5,10 +5,10 @@ import Image from "next/image";
 import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
-  title: "Softball & Baseball Training Articles",
+  title: "Softball Throwing & Baseball Articles",
   description:
-    "Softball and baseball throwing articles — arm care, throwing mechanics, " +
-    "velocity training, drills, and college throwing development partnerships.",
+    "Softball throwing articles and baseball training guides — softball mechanics, " +
+    "arm care, throwing velocity, drills and college throwing development.",
 };
 
 const ARTICLES = [
