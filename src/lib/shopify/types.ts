@@ -45,6 +45,8 @@ export type Product = {
   tags: string[];
   description: string;
   descriptionHtml: string;
+  /** Shopify's "Search engine listing" fields; null unless set in Admin. */
+  seo: { title: string | null; description: string | null } | null;
   featuredImage: ShopifyImage | null;
   images: ShopifyImage[];
   media: ProductMedia[];

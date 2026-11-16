@@ -21,24 +21,29 @@ export async function generateMetadata({
   const product = await getProductByHandle(handle);
   if (!product) return { title: "Product" };
 
-  const description = metaDescription(product.description || product.descriptionHtml);
+  // Shopify's SEO description when the Admin listing sets one, otherwise fall
+  // back to the body copy as before. Without this the hand-written listing in
+  // Admin was ignored and every page showed marketing copy cut mid-sentence.
+  const description =
+    product.seo?.description?.trim() || metaDescription(product.description || product.descriptionHtml);
+  const title = product.seo?.title?.trim() || product.title;
   const image = product.featuredImage?.url;
   const url = `${SITE_URL}/products/${encodeURIComponent(product.handle)}`;
 
   return {
-    title: product.title,
+    title,
     description,
     alternates: { canonical: url },
     openGraph: {
       type: "website",
       url,
-      title: product.title,
+      title,
       description,
       images: image ? [{ url: image, alt: product.featuredImage?.altText ?? product.title }] : undefined,
     },
     twitter: {
       card: "summary_large_image",
-      title: product.title,
+      title,
       description,
       images: image ? [image] : undefined,
     },

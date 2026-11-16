@@ -7,6 +7,13 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
     tags
     description
     descriptionHtml
+    # Shopify's own SEO fields. They were never fetched, so the dedicated
+    # "Search engine listing" box in Admin had no effect on this storefront and
+    # every product page fell back to truncated body copy.
+    seo {
+      title
+      description
+    }
     featuredImage {
       url
       altText
