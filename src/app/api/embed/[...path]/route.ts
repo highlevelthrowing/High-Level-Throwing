@@ -81,32 +81,6 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
       "hlt-clinic-tracy-dc-coach-access-100",
     ],
   ],
-  // Beaufort was copied from the Lebanon, IN page and every button still sells
-  // a Lebanon or Livermore product — a visitor registering for a December
-  // clinic in South Carolina was buying a November one in Indiana. Each label
-  // is mapped to the Beaufort product it names.
-  "high-level-throwing-clinic-beaufort-sc-december-2026": [
-    [
-      "hlt-clinic-lebanon-in-session-2-saturday-november-22nd-1130am-130pm-155-ages-12-18-foundations-course",
-      "hlt-clinic-beaufort-sc-session-1-tuesday-december-29th-830am-1030am-160",
-    ],
-    [
-      "hlt-clinic-indianapolis-lebanon-in-session-1-saturday-november-7th-9am-11am-160-ages-9-12-softball",
-      "hlt-clinic-beaufort-sc-session-2-tuesday-december-29th-11am-1pm-160",
-    ],
-    [
-      "hlt-clinic-indianapolis-lebanon-in-session-1-saturday-november-7th-1130am-130pm-160-ages-9-12-softball",
-      "hlt-clinic-beaufort-sc-session-3-tuesday-december-29th-2pm-4pm-160",
-    ],
-    [
-      "hlt-clinic-indianapolis-lebanon-in-session-3-saturday-november-7th-2pm-4pm-160-ages-13-softball",
-      "hlt-clinic-beaufort-sc-session-4-tuesday-december-29th-430pm-630pm-160",
-    ],
-    [
-      "hlt-clinic-livermore-ca-coach-access",
-      "hlt-clinic-beaufort-sc-coach-access-125",
-    ],
-  ],
   "high-level-throwing-clinic-fort-lauderdale-fl-2026": [
     [
       "hlt-clinic-uxbridge-ma-2024-coach-access-100",
@@ -123,31 +97,6 @@ const PAGE_LINK_FIXES: Record<string, [string, string][]> = {
 };
 
 const PAGE_TEXT_FIXES: Record<string, [string, string][]> = {
-  // Session 1 is the baseball session; the rest of the day is softball, so the
-  // attire line has to name both. Both replacements hit the intro list and the
-  // button label, which carry the same wording.
-  "high-level-throwing-clinic-beaufort-sc-december-2026": [
-    [
-      "Session 1: Tuesday, December 29th @ 830AM-1030AM (Ages 9-12)",
-      "Session 1: Tuesday, December 29th @ 830AM-1030AM (Ages 9-12) - BASEBALL",
-    ],
-    [
-      "Session 2: Tuesday, December 29th @ 11AM-1PM (Ages 9-12)",
-      "Session 2: Tuesday, December 29th @ 11AM-1PM (Ages 9-12) - SOFTBALL",
-    ],
-    [
-      "Session 3: Tuesday, December 29th @ 2PM-4PM (Ages 13-18)",
-      "Session 3: Tuesday, December 29th @ 2PM-4PM (Ages 13-18) - SOFTBALL",
-    ],
-    [
-      "Session 4: Tuesday, December 29th @ 430PM-630PM (Ages 13-18)",
-      "Session 4: Tuesday, December 29th @ 430PM-630PM (Ages 13-18) - SOFTBALL",
-    ],
-    [
-      "Please wear softball training apparel or uniform.",
-      "Please wear baseball and softball attire.",
-    ],
-  ],
   "high-level-throwing-clinic-tracy-ca-december-2026": [
     ["December 5th & 76h 2026", "December 5th & 6th 2026"],
   ],
@@ -360,10 +309,10 @@ const CONSENT_NOTICE = /* html */ `
 /**
  * Pages whose session list opens with a button that has no label.
  *
- * Both were copied from an earlier clinic and gained a block at the top, so
+ * These were copied from an earlier clinic and gained a block at the top, so
  * the first row is an empty label with a live button. Tracy also lost the
- * button from its last row (Coach Access had a price and nothing to click);
- * Beaufort kept its one. Handled together:
+ * button from its last row (Coach Access had a price and nothing to click),
+ * where others kept theirs. Handled together:
  *
  *   - if the last row has a label but no link, the orphan's link is moved
  *     there, which is what Coach Access needs;
@@ -377,7 +326,6 @@ const CONSENT_NOTICE = /* html */ `
  */
 const STRANDED_FIRST_BUTTON = new Set([
   "high-level-throwing-clinic-tracy-ca-december-2026",
-  "high-level-throwing-clinic-beaufort-sc-december-2026",
   "high-level-throwing-clinic-lebanon-in-2026",
   "high-level-throwing-clinic-crystal-lake-il-2026",
   "high-level-throwing-clinic-fort-lauderdale-fl-2026",
@@ -405,7 +353,7 @@ function fixStrandedClinicButton(html: string): string {
 
   // A block can carry a link and no label: the theme stores the button's URL
   // and its text separately, so clearing the text leaves <a href="...">
-  // </a> — a real link that renders at zero height and is invisible. Beaufort's
+  // </a> — a real link that renders at zero height and is invisible. One page's
   // Coach Access row was exactly this once its href was corrected. Give any
   // such anchor the same wording as its neighbours.
   out = out.replace(

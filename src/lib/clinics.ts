@@ -55,6 +55,9 @@ const OUR_HOSTS = new Set(["highlevelthrowing.com", "www.highlevelthrowing.com",
 const HIDDEN = new Set<string>([
   // Taken off the schedule on 2026-11-05.
   "2027-02-17|Worcester, MA",
+  // Cancelled 2026-11-16. Austin is refunding every registration; the five
+  // session products are DRAFT in Shopify so nothing can be bought.
+  "2026-12-29|Beaufort, SC",
 ]);
 
 const OVERRIDES: Record<
@@ -113,11 +116,6 @@ const OVERRIDES: Record<
   "2027-02-14|New Albany, IN": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-new-albany-in-february-2027",
-    registerLabel: "Athlete & Coach Registration",
-  },
-  "2026-12-29|Beaufort, SC": {
-    blurb: "Registration is open!",
-    registerHref: "/pages/high-level-throwing-clinic-beaufort-sc-december-2026",
     registerLabel: "Athlete & Coach Registration",
   },
   "2026-12-05|Tracy, CA": {

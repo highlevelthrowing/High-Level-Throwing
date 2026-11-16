@@ -43,9 +43,9 @@ export type ClinicSession = {
   /** Replaces the price on the label, e.g. "PRIVATE TEAM SESSION". */
   note?: string;
   /**
-   * Overrides the clinic's sport for this session. Beaufort runs one baseball
-   * session and three softball ones, and the label a buyer reads has to say
-   * which — it is the only thing distinguishing them at the same venue.
+   * Overrides the clinic's sport for this session. A clinic that runs both
+   * baseball and softball sessions needs each label to say which — at the same
+   * venue and age range it is the only thing telling them apart.
    */
   sport?: string;
 };
@@ -190,73 +190,7 @@ export const NATIVE_CLINICS: NativeClinic[] = [
     ],
     coach: { label: "Coach Session", price: "$125", product: "hlt-clinic-crystal-lake-il-coach-session-1-saturday-november-21st-8am-9am-125" },
   },
-  {
-    handle: "high-level-throwing-clinic-beaufort-sc-december-2026",
-    city: "Beaufort, SC",
-    dayAndDate: "Tuesday, December 29th",
-    year: "2026",
-    isoDate: "2026-12-29",
-    venue: {
-      name: "The Hangar - Indoor Training Facility",
-      street: "711 Bowling Lane",
-      cityLine: "Beaufort, SC 29902",
-    },
-    venueLogo: {
-      src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/unnamed-2.png?v=1792980197",
-      alt: "The Hangar - Beaufort, SC",
-      width: 1536,
-      height: 1024,
-    },
-    partner: "The Hangar Training Facility",
-    attireNote:
-      "*We limit each session to 18 players! Athletes should arrive 10-15 minutes before the session. Please wear baseball and softball attire. Turfs/Training Shoes & your GLOVE. Each athlete will receive a FREE High Level Throwing® Getting Started Training Guide sent via email!",
-    // This page lists "Arm Care + HLT Patterns" without the med ball.
-    format: [
-      "Introduction + Discussion",
-      "Dynamic Warm Up + Prep Drills",
-      "Arm Care + HLT Patterns",
-      "Drills & Progressions",
-      "Overhand Throwing Velocity Testing",
-    ],
-    sport: "SOFTBALL",
-    sessions: [
-      {
-        name: "Session 1",
-        time: "830AM-1030AM",
-        ages: "Ages 9-12",
-        price: "$160",
-        sport: "BASEBALL",
-        product: "hlt-clinic-beaufort-sc-session-1-tuesday-december-29th-830am-1030am-160",
-      },
-      {
-        name: "Session 2",
-        time: "11AM-1PM",
-        ages: "Ages 9-12",
-        price: "$160",
-        product: "hlt-clinic-beaufort-sc-session-2-tuesday-december-29th-11am-1pm-160",
-      },
-      {
-        name: "Session 3",
-        time: "2PM-4PM",
-        ages: "Ages 13-18",
-        price: "$160",
-        product: "hlt-clinic-beaufort-sc-session-3-tuesday-december-29th-2pm-4pm-160",
-      },
-      {
-        name: "Session 4",
-        time: "430PM-630PM",
-        ages: "Ages 13-18",
-        price: "$160",
-        product: "hlt-clinic-beaufort-sc-session-4-tuesday-december-29th-430pm-630pm-160",
-      },
-    ],
-    coach: {
-      label: "Coach Access - Choose Any Session to Attend!",
-      price: "$125",
-      product: "hlt-clinic-beaufort-sc-coach-access-125",
-    },
-  },
-  {
+{
     handle: "high-level-throwing-clinic-newtown-pa-november-2026",
     city: "Newtown, PA",
     dayAndDate: "Sunday, November 15th",
