@@ -107,14 +107,26 @@ export async function generateMetadata({
   }
 
   const url = `${SITE}/blogs/${segments.map(encodeURIComponent).join("/")}`;
+
+  /* Nine articles are a video embed and nothing else, so every step of the
+     chain below came back empty and they shipped with no meta description at
+     all. Fall back to one built from the headline: still unique per article,
+     and it at least says what the piece is about. */
+  const title = stripShopSuffix(article.seo?.title?.trim() || article.title);
+  const fromBody =
+    article.seo?.description?.trim() || article.excerpt?.trim() || toText(article.contentHtml, 180);
   const description =
-    article.seo?.description?.trim() ||
-    article.excerpt?.trim() ||
-    toText(article.contentHtml, 180);
-  const image = article.image?.url;
+    fromBody.length >= 50
+      ? fromBody
+      : `${title} — softball and baseball throwing development, arm care and mechanics from High Level Throwing®.`;
+
+  /* Seven articles have no image of their own. Rather than omit og:image and
+     let them share as an untyped grey card, fall back to the site image the
+     home page already uses. */
+  const image = article.image?.url ?? `${SITE}/opengraph-image`;
 
   return {
-    title: stripShopSuffix(article.seo?.title?.trim() || article.title),
+    title,
     description,
     alternates: { canonical: url },
     openGraph: {
@@ -124,13 +136,13 @@ export async function generateMetadata({
       description,
       publishedTime: article.publishedAt,
       authors: article.author ? [article.author] : undefined,
-      images: image ? [{ url: image }] : undefined,
+      images: [{ url: image }],
     },
     twitter: {
-      card: image ? "summary_large_image" : "summary",
+      card: "summary_large_image",
       title: stripShopSuffix(article.title),
       description,
-      images: image ? [image] : undefined,
+      images: [image],
     },
   };
 }
