@@ -3,6 +3,9 @@ import ContactForm from "@/components/ContactForm";
 
 export const metadata: Metadata = {
   title: "Contact",
+  description:
+    "Contact High Level Throwing® to book a softball or baseball throwing clinic, " +
+    "request a video assessment, or bring throwing development to your program.",
 };
 
 export default function ContactPage() {
@@ -10,7 +13,7 @@ export default function ContactPage() {
     <section>
       <div className="section-head">
         <div className="section-tag">Contact</div>
-        <h2>Get In Touch</h2>
+        <h1>Get In Touch</h1>
         <p>Our team is here to help you improve your Strength, Throwing &amp; Pitching Performance!</p>
       </div>
 

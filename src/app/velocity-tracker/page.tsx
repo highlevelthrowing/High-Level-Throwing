@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Velocity Tracker",
+  title: "Clinic Velocity Tracker",
+  description:
+    "Submit your verified throwing velocity from a High Level Throwing® clinic and " +
+    "track arm strength gains on the softball and baseball velocity leaderboard.",
 };
 
 export default function VelocityTrackerPage() {
@@ -10,7 +13,7 @@ export default function VelocityTrackerPage() {
     <section>
       <div className="section-head">
         <div className="section-tag">Velocity Tracker</div>
-        <h2>Clinic Velocity Tracker</h2>
+        <h1>Clinic Velocity Tracker</h1>
       </div>
       {/* Mounted directly rather than framed, for the same reason as
           /leaderboard: the embed document was 68KB of Shopify theme carrying

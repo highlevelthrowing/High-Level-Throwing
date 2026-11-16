@@ -50,7 +50,7 @@ export default async function CartPage() {
     <section>
       <div className="section-head" style={{ marginBottom: 32 }}>
         <div className="section-tag">Your Cart</div>
-        <h2>Review &amp; Checkout</h2>
+        <h1>Review &amp; Checkout</h1>
       </div>
       <div style={{ maxWidth: 720, margin: "0 auto" }}>
         {cart.lines.map((line) => (

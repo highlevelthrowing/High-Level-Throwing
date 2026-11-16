@@ -6,7 +6,10 @@ import TeamGrid from "@/components/TeamGrid";
 import VideoEmbed from "@/components/VideoEmbed";
 
 export const metadata: Metadata = {
-  title: "About",
+  title: "About Austin Wasserman",
+  description:
+    "Austin Wasserman and High Level Throwing® — the throwing mechanics and arm care " +
+    "system used by college softball and baseball programs nationwide.",
 };
 
 export default function AboutPage() {

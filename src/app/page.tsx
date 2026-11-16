@@ -17,7 +17,13 @@ const FEATURED_BUNDLE_HANDLES = [
 ];
 
 export const metadata: Metadata = {
-  title: "High Level Throwing®",
+  // The home page carried only the brand name, so the single most valuable
+  // title on the site said nothing about what the business does. absolute
+  // because the layout template would otherwise prepend the brand twice.
+  title: { absolute: "High Level Throwing® | Softball & Baseball Throwing Training" },
+  description:
+    "Softball and baseball throwing training — on-site clinics, video assessments, " +
+    "arm care and throwing mechanics coaching from High Level Throwing®.",
 };
 
 const SERVICES = [

@@ -8,10 +8,10 @@ import TestimonialSlider from "@/components/TestimonialSlider";
 
 export const metadata: Metadata = {
   title: "Softball & Baseball Throwing Clinics",
+  // Was 255 characters, so search results cut it off mid-sentence.
   description:
-    "Book High Level Throwing® softball throwing clinics and baseball clinics for your rec league, travel org, " +
-    "or training facility. Foundational and advanced in-person softball and baseball throwing clinics covering " +
-    "arm care, mechanics, and velocity training.",
+    "Book High Level Throwing® softball and baseball throwing clinics for your rec " +
+    "league, travel organization or facility — arm care, mechanics and velocity.",
 };
 
 export default function Clinics() {

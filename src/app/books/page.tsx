@@ -13,10 +13,10 @@ export const metadata: Metadata = {
   // The site-wide fallback described the business rather than this page, so
   // every listing shared one snippet in search results and none of them said
   // what was for sale.
+  // Was 195 characters, past the point search results display.
   description:
-    "High Level Throwing® training books for softball and baseball — arm care, " +
-    "throwing mechanics, velocity and pitching. Instant digital download with " +
-    "video drills and tutorials, emailed at checkout.",
+    "Softball and baseball throwing books — arm care, throwing mechanics, velocity " +
+    "and pitching. Instant digital download with video drills and tutorials.",
   alternates: { canonical: "https://www.highlevelthrowing.com/books" },
 };
 

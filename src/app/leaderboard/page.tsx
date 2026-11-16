@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 export const metadata: Metadata = {
-  title: "Velocity Leaderboard",
+  // Kept under ~60 characters so the full title shows in results; the sport
+  // keywords live in the h1 below, where length does not matter.
+  title: "Throwing Velocity Leaderboard",
+  description:
+    "Verified softball and baseball throwing velocity rankings. See where athletes " +
+    "stand, earn a velocity badge, and track arm strength gains by grad year.",
 };
 
 export default function LeaderboardPage() {
@@ -10,7 +15,7 @@ export default function LeaderboardPage() {
     <section>
       <div className="section-head">
         <div className="section-tag">Velocity Leaderboard</div>
-        <h2>Join the HLT Leaderboard</h2>
+        <h1>Join the Softball &amp; Baseball Velocity Leaderboard</h1>
         <p>
           Join the HLT Leaderboard and compete against athletes around the world! Earn your VELOCITY BADGE and
           showcase them in your recruiting profiles! Do you have the strongest arm on the field?

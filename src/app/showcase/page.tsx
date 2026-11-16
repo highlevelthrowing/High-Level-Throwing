@@ -6,7 +6,10 @@ import TeamGrid from "@/components/TeamGrid";
 import ProgramCalculator from "@/components/calculators/ProgramCalculator";
 
 export const metadata: Metadata = {
-  title: "Program Partnership",
+  title: "Team & Organization Throwing Programs",
+  description:
+    "Build softball and baseball throwing development into your season — on-site " +
+    "clinics, per-athlete video assessments, and take-home arm care training.",
 };
 
 export default function Showcase() {

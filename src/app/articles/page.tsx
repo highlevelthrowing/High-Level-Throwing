@@ -5,7 +5,10 @@ import Image from "next/image";
 import BackToTop from "@/components/BackToTop";
 
 export const metadata: Metadata = {
-  title: "Articles",
+  title: "Softball & Baseball Training Articles",
+  description:
+    "Softball and baseball throwing articles — arm care, throwing mechanics, " +
+    "velocity training, drills, and college throwing development partnerships.",
 };
 
 const ARTICLES = [
@@ -253,7 +256,7 @@ export default async function ArticlesPage() {
     <section>
       <div className="section-head">
         <div className="section-tag">Articles</div>
-        <h2>News &amp; Training Articles</h2>
+        <h1>Softball &amp; Baseball Throwing Articles</h1>
         <p>The latest from High Level Throwing — partnerships, leaderboard updates, and research.</p>
       </div>
       <div className="article-grid">
