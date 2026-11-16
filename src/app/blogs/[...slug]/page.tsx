@@ -85,7 +85,12 @@ function prepare(html: string): string {
     .replace(/<iframe\b[^>]*><\/iframe>|<iframe\b[^>]*\/?>/gi, (tag) =>
       `<span class="article-video">${tag.replace(/\s(?:width|height)="[^"]*"/gi, "")}</span>`
     )
-    .replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy" ');
+    .replace(/<img\b(?![^>]*\bloading=)/gi, '<img loading="lazy" ')
+    // Two articles carry their own <h1> in the body, repeating the headline the
+    // page already renders as its <h1> and leaving those pages with two. The
+    // page heading is the document's one top-level heading; anything the body
+    // brought becomes an <h2>.
+    .replace(/<(\/?)h1\b/gi, "<$1h2");
 }
 
 export async function generateMetadata({
