@@ -7,11 +7,11 @@ import VideoEmbed from "@/components/VideoEmbed";
 import TestimonialSlider from "@/components/TestimonialSlider";
 
 export const metadata: Metadata = {
-  title: "Softball Throwing & Baseball Clinics",
+  title: "Softball Throwing Clinics & Camps",
   // Was 255 characters, so search results cut it off mid-sentence.
   description:
-    "Book softball throwing clinics and baseball clinics for your rec league, travel " +
-    "organization or facility — softball development, mechanics and velocity.",
+    "Book softball clinics, baseball clinics and softball camps for your league, " +
+    "travel organization or facility — softball mechanics, development and velocity.",
 };
 
 export default function Clinics() {

@@ -6,8 +6,8 @@ import TeamGrid from "@/components/TeamGrid";
 export const metadata: Metadata = {
   title: "College Throwing Development",
   description:
-    "College softball development consulting — on-site staff training, roster " +
-    "assessments, softball throwing, strength, movement and arm care on-site.",
+    "College softball development consulting — staff training, roster assessments, " +
+    "softball throwing, softball strength, movement and arm care on-site.",
 };
 
 export default function CollegeConsulting() {
