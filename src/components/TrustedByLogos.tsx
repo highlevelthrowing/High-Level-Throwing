@@ -33,7 +33,7 @@ const LOGOS: { src: string; alt: string; glow?: boolean; bg?: string }[] = [
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/unnamed_4cf7f349-f5e5-49db-b645-27a4124690ea.png?v=1741787632&width=200", alt: "Minority Softball Prospects", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/1754917998054.png?v=1762790102&width=200", alt: "IMG Academy", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/1FE25474-055B-4630-947F-D246F93E710D.png?v=1732736117&width=200", alt: "Florida Gulf Coast League", glow: true },
-  { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/usa-softball-logo-vector.png?v=1700950361&width=200", alt: "USA Softball", glow: true },
+  { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/usa-softball-logo-transparent.png?v=1795103203&width=200", alt: "USA Softball", glow: true },
 ];
 
 export default function TrustedByLogos() {
