@@ -36,6 +36,7 @@ const LOGOS: { src: string; alt: string; glow?: boolean; bg?: string }[] = [
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/usa-softball-logo-transparent.png?v=1795103203&width=200", alt: "USA Softball", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/Eagles_Select_Script_-_Kelly_Green.png?v=1760338465&width=200", alt: "Eagles Select", glow: true },
   { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/kc-rebels-logo-transparent.png?v=1795103771&width=200", alt: "Kansas City Rebels", glow: true },
+  { src: "https://cdn.shopify.com/s/files/1/0771/2948/2547/files/newtown-rock-logo-transparent.png?v=1795121906&width=200", alt: "Newtown Rock", glow: true },
 ];
 
 export default function TrustedByLogos() {
