@@ -62,7 +62,20 @@ const HIDDEN = new Set<string>([
 
 const OVERRIDES: Record<
   string,
-  { blurb?: string; image?: string; registerHref?: string; registerLabel?: string }
+  {
+    blurb?: string;
+    image?: string;
+    registerHref?: string;
+    registerLabel?: string;
+    /**
+     * Corrects the dates the feed reports. The key is still built from the
+     * feed's own date, so changing these does not move the entry's key -- but
+     * HIDDEN is matched after the override is applied, so a hidden clinic whose
+     * date is corrected here must be keyed on the corrected date.
+     */
+    date?: string;
+    end?: string;
+  }
 > = {
   // Registration is open and the calendar now carries the button, but its
   // preview text still reads "Registration opens soon!" beside it, and its
@@ -113,10 +126,18 @@ const OVERRIDES: Record<
     registerHref: "/pages/high-level-throwing-clinic-warminster-pa-january-2027",
     registerLabel: "Athlete & Coach Registration",
   },
+  // The Tockify event is still a single all-day entry on the 14th. A bonus
+  // session was added on Saturday the 13th, so the clinic runs across both
+  // days; correct the dates here until the calendar entry itself is updated.
   "2027-02-14|New Albany, IN": {
     blurb: "Registration is open!",
     registerHref: "/pages/high-level-throwing-clinic-new-albany-in-february-2027",
     registerLabel: "Athlete & Coach Registration",
+    date: "2027-02-13",
+    end: "2027-02-14",
+    // Tockify still serves the original flyer, which reads "February, 14th
+    // 2027". This copy carries the corrected two-day date.
+    image: "/images/clinic-new-albany-2027.jpg",
   },
   "2026-12-05|Tracy, CA": {
     blurb: "Registration is open!",
@@ -252,8 +273,8 @@ export async function getClinics(): Promise<Clinic[]> {
       id: field(block, "UID")?.value.trim() || `${when.start}-${summary.value}`,
       title,
       start: when.start,
-      date,
-      end,
+      date: override?.date ?? date,
+      end: override?.end ?? end,
       allDay: when.allDay,
       blurb: override?.blurb ?? blurb,
       image: override?.image ?? image,
