@@ -289,9 +289,8 @@ export const NATIVE_CLINICS: NativeClinic[] = [
         name: "Session 7",
         day: "Sunday, January 24th",
         time: "1130AM-130PM",
-        ages: "Ages 13+",
-        price: "$160",
-        product: "hlt-clinic-warminster-pa-session-7-sunday-january-24th-1130am-130pm-160",
+        note: "16U BLUE ANGELS - PRIVATE TEAM SESSION",
+        closed: true,
       },
     ],
     coach: {
