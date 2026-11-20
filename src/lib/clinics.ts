@@ -272,7 +272,10 @@ export async function getClinics(): Promise<Clinic[]> {
     clinics.push({
       id: field(block, "UID")?.value.trim() || `${when.start}-${summary.value}`,
       title,
-      start: when.start,
+      // A corrected date has to move `start` too: it is what the schedule's
+      // Event schema publishes as startDate, so leaving it on the feed's value
+      // would tell Google a different date from the one on the card.
+      start: override?.date ?? when.start,
       date: override?.date ?? date,
       end: override?.end ?? end,
       allDay: when.allDay,
