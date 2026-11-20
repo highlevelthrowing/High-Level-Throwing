@@ -303,9 +303,11 @@ export const NATIVE_CLINICS: NativeClinic[] = [
   {
     handle: "high-level-throwing-clinic-new-albany-in-february-2027",
     city: "New Albany, IN",
-    dayAndDate: "Sunday, February 14th",
+    // The bonus session added a Saturday, so the clinic now spans two days.
+    dayAndDate: "February 13th-14th",
     year: "2027",
-    isoDate: "2027-02-14",
+    isoDate: "2027-02-13",
+    endIsoDate: "2027-02-14",
     venue: {
       street: "2043 Silver St.",
       cityLine: "New Albany, IN 47150",
@@ -319,9 +321,20 @@ export const NATIVE_CLINICS: NativeClinic[] = [
     instructorLine:
       "This clinic will be run by Owner/Founder, Austin Wasserman with sessions focusing on the Foundations & Advanced Concepts of High Level Throwing® for Baseball & Softball Athletes!",
     sport: "SOFTBALL",
+    // Listed in time order, so the Saturday bonus session comes first. Every
+    // row carries its own day now that the clinic is no longer a single date.
     sessions: [
       {
+        name: "BONUS Session",
+        day: "Saturday, February 13th",
+        time: "630PM-830PM",
+        ages: "Ages 13+",
+        price: "$160",
+        product: "hlt-clinic-new-albany-in-bonus-session-saturday-february-13th-630pm-830pm-160",
+      },
+      {
         name: "Session 1",
+        day: "Sunday, February 14th",
         time: "9AM-11AM",
         ages: "Ages 9-12",
         price: "$160",
@@ -330,6 +343,7 @@ export const NATIVE_CLINICS: NativeClinic[] = [
       },
       {
         name: "Session 2",
+        day: "Sunday, February 14th",
         time: "1130AM-130PM",
         ages: "Ages 9-12",
         price: "$160",
@@ -337,6 +351,7 @@ export const NATIVE_CLINICS: NativeClinic[] = [
       },
       {
         name: "Session 3",
+        day: "Sunday, February 14th",
         time: "2PM-4PM",
         ages: "Ages 13+",
         price: "$160",
@@ -344,6 +359,7 @@ export const NATIVE_CLINICS: NativeClinic[] = [
       },
       {
         name: "Session 4",
+        day: "Sunday, February 14th",
         time: "430PM-630PM",
         ages: "Ages 13+",
         price: "$160",
