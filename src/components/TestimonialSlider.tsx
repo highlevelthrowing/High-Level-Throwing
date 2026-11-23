@@ -22,19 +22,19 @@ const TESTIMONIALS: Testimonial[] = [
     alt: "Jami Lobpries, Alliance Fastpitch CEO, on High Level Throwing",
   },
   {
-    src: "/images/testimonials/caitlyn-cain.png",
+    src: "/images/testimonials/caitlyn-cain.jpg",
     alt: "Caitlyn Cain, Texas Blaze Softball, on High Level Throwing",
   },
   {
-    src: "/images/testimonials/cat-osterman.png",
+    src: "/images/testimonials/cat-osterman.jpg",
     alt: "Cat Osterman, COSA / RBI Austin, on High Level Throwing",
   },
   {
-    src: "/images/testimonials/kevin-hinde.png",
+    src: "/images/testimonials/kevin-hinde.jpg",
     alt: "Kevin Hinde, Team NC Softball, on High Level Throwing",
   },
   {
-    src: "/images/testimonials/heather-tarr.png",
+    src: "/images/testimonials/heather-tarr.jpg",
     alt: "Heather Tarr, University of Washington Head Coach, on High Level Throwing",
   },
   {
