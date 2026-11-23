@@ -7,6 +7,7 @@ import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import QuickAddButton from "@/components/QuickAddButton";
 import ProductListJsonLd from "@/components/ProductListJsonLd";
+import { cdnImage } from "@/lib/image";
 
 export const metadata: Metadata = {
   title: "Softball Throwing & Strength Equipment",
@@ -55,7 +56,7 @@ export default async function ShopPage() {
               <div className="thumb">
                 {product.featuredImage && (
                   <Image
-                    src={product.featuredImage.url}
+                    src={cdnImage(product.featuredImage.url, 400)}
                     alt={product.featuredImage.altText ?? product.title}
                     width={400}
                     height={400}

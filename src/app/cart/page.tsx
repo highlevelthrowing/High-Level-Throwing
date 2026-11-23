@@ -6,6 +6,7 @@ import { getCart, removeCartLine, updateCartLine } from "@/lib/shopify/cart";
 import { formatPrice } from "@/lib/format";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import CheckoutButton from "@/components/CheckoutButton";
+import { cdnImage } from "@/lib/image";
 
 export const metadata: Metadata = {
   title: "Cart",
@@ -57,7 +58,7 @@ export default async function CartPage() {
           <div className="cart-line" key={line.id}>
             {line.merchandise.image && (
               <Image
-                src={line.merchandise.image.url}
+                src={cdnImage(line.merchandise.image.url, 160)}
                 alt={line.merchandise.image.altText ?? line.merchandise.product.title}
                 width={80}
                 height={80}

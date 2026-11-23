@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import type { ProductMedia } from "@/lib/shopify/types";
+import { cdnImage } from "@/lib/image";
 
 function bestVideoSource(sources: { url: string; mimeType: string }[]) {
   return sources.find((s) => s.mimeType === "video/mp4") ?? sources[0];
@@ -28,7 +29,7 @@ export default function ProductGallery({ media, title }: { media: ProductMedia[]
             <source src={bestVideoSource(active.sources)?.url} />
           </video>
         ) : (
-          <Image src={active.image.url} alt={active.image.altText ?? title} width={800} height={800} unoptimized />
+          <Image src={cdnImage(active.image.url, 800)} alt={active.image.altText ?? title} width={800} height={800} unoptimized />
         )}
       </div>
       {media.length > 1 && (
@@ -44,7 +45,7 @@ export default function ProductGallery({ media, title }: { media: ProductMedia[]
                 onClick={() => setActiveIndex(index)}
                 aria-label={item.type === "VIDEO" ? `Play video ${index + 1}` : `Show image ${index + 1}`}
               >
-                <Image src={thumbUrl} alt={title} width={144} height={144} unoptimized />
+                <Image src={cdnImage(thumbUrl, 144)} alt={title} width={144} height={144} unoptimized />
                 {item.type === "VIDEO" && (
                   <span className="pdp-thumb-play" aria-hidden="true">
                     ▶

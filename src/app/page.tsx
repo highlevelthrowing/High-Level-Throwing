@@ -8,6 +8,7 @@ import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProductByHandle } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import type { Product } from "@/lib/shopify/types";
+import { cdnImage } from "@/lib/image";
 
 const FEATURED_BUNDLE_HANDLES = [
   "lightning-ball-plyo-set-team-bundle-6-sets",
@@ -320,7 +321,7 @@ export default async function Home() {
                   <div className="thumb">
                     {product.featuredImage && (
                       <Image
-                        src={product.featuredImage.url}
+                        src={cdnImage(product.featuredImage.url, 400)}
                         alt={product.featuredImage.altText ?? product.title}
                         width={400}
                         height={400}

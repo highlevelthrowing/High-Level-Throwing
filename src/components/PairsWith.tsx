@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getProductByHandle } from "@/lib/shopify/products";
 import { formatPrice } from "@/lib/format";
 import QuickAddButton from "@/components/QuickAddButton";
+import { cdnImage } from "@/lib/image";
 
 /**
  * The books and warm-ups are where most orders come in — and they are the
@@ -53,7 +54,7 @@ export default async function PairsWith({
             <Link href={`/products/${p.handle}`} className="pairs-with-media">
               {p.featuredImage && (
                 <Image
-                  src={p.featuredImage.url}
+                  src={cdnImage(p.featuredImage.url, 320)}
                   alt={p.featuredImage.altText ?? p.title}
                   width={320}
                   height={320}
