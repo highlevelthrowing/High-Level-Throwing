@@ -140,12 +140,14 @@ h1,h2,h3{color:var(--neon-green);}
 .trusted-grid{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:14px;max-width:1100px;margin:0 auto;}
 .trusted-logo{background:#000;border:1px solid var(--border);border-radius:12px;padding:10px 16px;height:52px;display:flex;align-items:center;justify-content:center;}
 .trusted-logo img{max-height:32px;max-width:100px;width:auto;height:auto;object-fit:contain;display:block;}
+/* Two blurred shadows rather than eight hard-offset ones. Each drop-shadow
+   makes the browser rasterise the image's alpha mask and composite an offset
+   copy; at eight per logo across the whole strip that was ~296 rasterisations
+   in the band just above the footer, which is what made scrolling heavy down
+   there. A blurred shadow spreads in every direction at once, so two give the
+   same white outline for a quarter of the work. */
 .trusted-logo img.logo-glow{
-  filter:
-    drop-shadow(1px 1px 0 #fff) drop-shadow(-1px -1px 0 #fff)
-    drop-shadow(1px -1px 0 #fff) drop-shadow(-1px 1px 0 #fff)
-    drop-shadow(0 1px 0 #fff) drop-shadow(0 -1px 0 #fff)
-    drop-shadow(1px 0 0 #fff) drop-shadow(-1px 0 0 #fff);
+  filter: drop-shadow(0 0 1px #fff) drop-shadow(0 0 1px #fff);
 }
 
 /* SECTION GENERIC */
@@ -919,7 +921,6 @@ section{padding:90px 24px;border-bottom:1px solid var(--border);}
   background:rgba(251,191,36,0.10);border:1px solid rgba(251,191,36,0.40);
   color:#fcd34d;font-size:0.88rem;font-weight:600;text-align:center;
 }
-
 
 /* ===== PAIRS WITH (add-on offer under a digital product) =====
    The books are the cheapest things in the shop and take the most orders, so
