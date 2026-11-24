@@ -196,11 +196,50 @@ const nextConfig: NextConfig = {
   // the browser never to store a response here means the next change to how
   // downloads are served reaches everyone immediately.
   async headers() {
-    // Baseline hardening on every response. No CSP here on purpose: this site
-    // pulls scripts, images and frames from Shopify's CDN, Vimeo, Klaviyo and
-    // the Tockify image host, so a policy written without auditing those would
-    // silently break them. That wants its own pass, report-only first.
+    /**
+     * Content-Security-Policy, REPORT-ONLY.
+     *
+     * Report-only means the browser blocks nothing: it evaluates the policy and
+     * POSTs a report to /api/csp-report describing what it *would* have blocked.
+     * That is deliberate. Several of the third parties here inject further hosts
+     * at runtime that never appear in the served HTML -- Google Tag Manager
+     * pulls analytics and doubleclick, Klaviyo pulls a second tracking domain --
+     * so a policy written from the HTML alone would be wrong in ways that only
+     * show up as a broken checkout or silent analytics.
+     *
+     * The list below is the audited starting point. Watch the reports in the
+     * Vercel runtime logs, fold in anything legitimate, and only then rename the
+     * header to Content-Security-Policy to start enforcing.
+     *
+     * 'unsafe-inline'/'unsafe-eval' are present because Next's hydration and
+     * the tag managers require them; tightening that needs nonces and is a
+     * separate piece of work.
+     */
+    const csp = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.shopify.com https://*.klaviyo.com " +
+        "https://www.googletagmanager.com https://www.google-analytics.com https://connect.facebook.net " +
+        "https://player.vimeo.com https://highlevelthrowingleaderboard.com https://*.vercel-insights.com",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://*.klaviyo.com",
+      "img-src 'self' data: blob: https:",
+      "font-src 'self' data: https://fonts.gstatic.com https://*.klaviyo.com",
+      "frame-src 'self' https://player.vimeo.com https://www.youtube.com https://www.youtube-nocookie.com " +
+        "https://*.klaviyo.com https://*.shopify.com https://tockify.com",
+      "connect-src 'self' https://*.shopify.com https://*.myshopify.com https://*.klaviyo.com " +
+        "https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net " +
+        "https://*.facebook.com https://highlevelthrowingleaderboard.com https://tockify.com " +
+        "https://*.vercel-insights.com https://vitals.vercel-insights.com",
+      "media-src 'self' https:",
+      "object-src 'none'",
+      "base-uri 'self'",
+      "form-action 'self' https://*.myshopify.com https://*.shopify.com https://formsubmit.co",
+      "frame-ancestors 'self'",
+      "report-uri /api/csp-report",
+    ].join("; ");
+
+    // Baseline hardening on every response.
     const security = [
+      { key: "Content-Security-Policy-Report-Only", value: csp },
       { key: "X-Content-Type-Options", value: "nosniff" },
       { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
       // SAMEORIGIN rather than DENY: the clinic registration pages render the
