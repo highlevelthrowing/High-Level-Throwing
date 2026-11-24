@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getArticles } from "@/lib/shopify/articles";
 import Image from "next/image";
 import BackToTop from "@/components/BackToTop";
+import { cdnImage } from "@/lib/image";
 
 export const metadata: Metadata = {
   title: "Softball Throwing & Baseball Articles",
@@ -264,7 +265,7 @@ export default async function ArticlesPage() {
           <Link className="article-card" href={article.href} key={article.href}>
             <div className="thumb">
               {article.image && (
-                <Image src={article.image} alt={article.title} fill unoptimized priority={index < 4} />
+                <Image src={cdnImage(article.image, 600)} alt={article.title} fill unoptimized priority={index < 4} />
               )}
             </div>
             <div className="body">
