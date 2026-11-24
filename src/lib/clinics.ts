@@ -261,7 +261,15 @@ export async function getClinics(): Promise<Clinic[]> {
       if (iso > date) end = iso;
     }
 
-    const image = field(block, "X-TKF-FEATURED-IMAGE")?.value.trim() || null;
+    // Tockify hands out its largest render (scaled_896/scaled_1024, ~100-210KB
+    // each). The cards are square and at most ~380px wide, so scaled_512 is
+    // already retina-sharp and roughly half the bytes. The variant is part of
+    // the filename, and Tockify serves every size, so this is a safe rewrite;
+    // an unrecognised filename is left alone.
+    const rawImage = field(block, "X-TKF-FEATURED-IMAGE")?.value.trim() || null;
+    const image = rawImage
+      ? rawImage.replace(/\/scaled_(?:1024|896|768|640)\.(jpg|jpeg|png|webp)$/i, "/scaled_512.$1")
+      : null;
     const blurb = unescapeText(
       field(block, "X-TKF-CUSTOM-PREVIEW")?.value ?? field(block, "DESCRIPTION")?.value ?? ""
     );
