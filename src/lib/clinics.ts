@@ -201,6 +201,9 @@ function parseDate(block: string, name: "DTSTART" | "DTEND"): { start: string; a
   return null;
 }
 
+const SIXFOUR3_HOSTS = new Set(["bookings.sixfour3.com", "sixfour3.com", "www.sixfour3.com"]);
+const SIXFOUR3_REGISTRATION = "https://sixfour3.base44.app/camps-events/high-level-throwing";
+
 function resolveRegistration(block: string): Pick<Clinic, "registerHref" | "registerLabel" | "external"> {
   const promo = field(block, "X-TKF-PROMOTION-BUTTON");
   const href = promo?.value.trim();
@@ -222,6 +225,16 @@ function resolveRegistration(block: string): Pick<Clinic, "registerHref" | "regi
   if (OUR_HOSTS.has(url.hostname)) {
     return { registerHref: url.pathname + url.search, registerLabel: label, external: false };
   }
+
+  /* SixFour3 moved their registration off bookings.sixfour3.com, where the
+     calendar's buttons still point, onto a single High Level Throwing page.
+     Rewriting by host rather than listing each clinic means the clinics added
+     to Tockify after this keep working without another edit here. Remove once
+     the calendar's own buttons are updated. */
+  if (SIXFOUR3_HOSTS.has(url.hostname)) {
+    return { registerHref: SIXFOUR3_REGISTRATION, registerLabel: label, external: true };
+  }
+
   return { registerHref: url.toString(), registerLabel: label, external: true };
 }
 
