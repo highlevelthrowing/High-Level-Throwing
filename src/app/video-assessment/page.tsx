@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import SaleBanner from "@/components/SaleBanner";
 
 export const metadata: Metadata = {
   title: "Athlete Video Assessments",
@@ -45,6 +46,7 @@ const SPOTLIGHTS = [
 export default function VideoAssessmentPage() {
   return (
     <>
+      <SaleBanner />
       <section className="hero">
         <div className="eyebrow">For Baseball &amp; Softball Athletes Ages 9+</div>
         <h1>
@@ -56,7 +58,7 @@ export default function VideoAssessmentPage() {
         </p>
         <div className="hero-ctas">
           <Link className="btn btn-primary" href={PRODUCT_HREF}>
-            Start Assessment — $150
+            Start Assessment — $105
           </Link>
           <Link className="btn btn-outline" href="/contact">
             Ask About Team Pricing
@@ -91,14 +93,18 @@ export default function VideoAssessmentPage() {
               height={675}
             />
             <div className="big-price">
-              $150
+              <span className="price-sale">
+                <s className="price-was">$150</s>
+                <span className="price-now">$105</span>
+                <span className="price-off">30% OFF</span>
+              </span>
             </div>
             <div className="divider" />
             <p style={{ color: "var(--muted)", fontSize: "0.92rem", marginBottom: 22 }}>
               Get your assessment back in 24&ndash;48 hours and work to have the strongest arm on the field.
             </p>
             <Link className="btn btn-primary" href={PRODUCT_HREF}>
-              Add to Cart — $150
+              Add to Cart — $105
             </Link>
             <p style={{ color: "var(--muted)", fontSize: "0.8rem", marginTop: 16, marginBottom: 0 }}>
               *Team pricing available — <Link href="/contact" style={{ color: "var(--lime)", fontWeight: 700 }}>email for pricing</Link>
@@ -178,7 +184,7 @@ export default function VideoAssessmentPage() {
           Send us your video and get your HLT Report plus a 12-week throwing program back within 24&ndash;48 hours.
         </p>
         <Link className="btn btn-primary" href={PRODUCT_HREF}>
-          Start Assessment — $150
+          Start Assessment — $105
         </Link>
       </section>
     </>
