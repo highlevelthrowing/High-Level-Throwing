@@ -1378,3 +1378,33 @@ html body.klaviyo-prevent-body-scrolling{
   border-radius:3px;
   white-space:nowrap;
 }
+
+/* Black Friday sale banner. Sits above the hero at h1 scale while leaving the
+   page's single real <h1> (the brand term) intact. */
+.bf-banner{
+  display:block;
+  text-align:center;
+  text-decoration:none;
+  background:var(--lime);
+  color:var(--navy);
+  padding:16px 20px 14px;
+  border-bottom:3px solid #000;
+}
+.bf-banner-title{
+  display:block;
+  font-size:clamp(1.5rem,4.6vw,2.6rem);
+  font-weight:900;
+  line-height:1.08;
+  letter-spacing:-0.015em;
+  text-transform:uppercase;
+}
+.bf-banner-sub{
+  display:block;
+  margin-top:7px;
+  font-size:clamp(0.62rem,1.5vw,0.78rem);
+  font-weight:700;
+  letter-spacing:0.07em;
+  text-transform:uppercase;
+  opacity:0.75;
+}
+.bf-banner:hover .bf-banner-title{text-decoration:underline;}

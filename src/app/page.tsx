@@ -205,6 +205,15 @@ export default async function Home() {
           url: SITE_URL,
         }}
       />
+      {/* Sale banner. Rendered at h1 scale but NOT as an <h1> element: the page's
+          one real h1 is the brand term below, and a second h1 would split the
+          home page's heading signal. */}
+      <Link href="/shop" className="bf-banner">
+        <span className="bf-banner-title">Black Friday Sale &mdash; 30% Off</span>
+        <span className="bf-banner-sub">
+          Books &middot; Lightning Ball Plyos &middot; Lightning Bands &middot; Video Assessment
+        </span>
+      </Link>
       <section className="hero section-photo section-photo--banner">
         <div className="eyebrow">For Baseball & Softball Athletes, Coaches, Teams, Organizations and Facilities</div>
         <h1 className="hero-title-oneline">
