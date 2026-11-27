@@ -1385,12 +1385,10 @@ html body.klaviyo-prevent-body-scrolling{
   display:block;
   text-align:center;
   text-decoration:none;
-  background:#0a2a5e;
-  color:#ffffff;
+  background:var(--sky);
+  color:#000000;
   padding:16px 20px 14px;
-  /* The page behind this band is pure black, so a black rule would be
-     invisible; the lime edge is what separates the band from the hero. */
-  border-bottom:3px solid var(--lime);
+  border-bottom:3px solid #000;
 }
 .bf-banner-title{
   display:block;
