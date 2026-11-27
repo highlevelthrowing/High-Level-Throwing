@@ -1352,3 +1352,29 @@ html body.klaviyo-prevent-body-scrolling{
   }
 }
 
+
+/* Marked-down pricing. Every price container (.price, .pdp-price,
+   .pairs-with-price) already paints lime at font-weight 900, so the struck
+   original needs its own colour and weight or it reads as a second sale price
+   rather than the old one. */
+.price-sale{display:inline-flex;align-items:baseline;gap:8px;flex-wrap:wrap;}
+/* --muted is #ffffff in this theme, so it cannot dim anything. The struck
+   original needs a genuinely lower-contrast colour of its own. */
+.price-was{
+  color:rgba(255,255,255,0.55);
+  font-weight:600;
+  font-size:0.82em;
+  text-decoration:line-through;
+  text-decoration-thickness:2px;
+}
+.price-off{
+  background:var(--lime);
+  color:var(--navy);
+  font-weight:800;
+  font-size:0.6em;
+  letter-spacing:0.04em;
+  text-transform:uppercase;
+  padding:3px 7px;
+  border-radius:3px;
+  white-space:nowrap;
+}

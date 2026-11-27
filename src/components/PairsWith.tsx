@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { getProductByHandle } from "@/lib/shopify/products";
-import { formatPrice } from "@/lib/format";
+import SalePrice from "@/components/SalePrice";
 import QuickAddButton from "@/components/QuickAddButton";
 import { cdnImage } from "@/lib/image";
 
@@ -67,10 +67,11 @@ export default async function PairsWith({
                 <h3>{p.title}</h3>
               </Link>
               <div className="pairs-with-price">
-                {formatPrice(
-                  p.priceRange.minVariantPrice.amount,
-                  p.priceRange.minVariantPrice.currencyCode
-                )}
+                <SalePrice
+                  price={p.priceRange.minVariantPrice}
+                  compareAt={p.compareAtPriceRange?.minVariantPrice}
+                  showBadge={false}
+                />
               </div>
               <QuickAddButton
                 variantId={p.variants[0].id}

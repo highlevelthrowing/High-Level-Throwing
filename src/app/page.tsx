@@ -6,7 +6,7 @@ import JsonLd from "@/components/JsonLd";
 import { SITE_URL, SITE_DESCRIPTION } from "@/lib/site";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProductByHandle } from "@/lib/shopify/products";
-import { formatPrice } from "@/lib/format";
+import SalePrice from "@/components/SalePrice";
 import type { Product } from "@/lib/shopify/types";
 import { cdnImage } from "@/lib/image";
 
@@ -332,7 +332,11 @@ export default async function Home() {
                   <div className="body">
                     <h3>{product.title}</h3>
                     <div className="price">
-                      {formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}
+                      <SalePrice
+                        price={product.priceRange.minVariantPrice}
+                        compareAt={product.compareAtPriceRange?.minVariantPrice}
+                        showBadge={false}
+                      />
                     </div>
                   </div>
                 </Link>

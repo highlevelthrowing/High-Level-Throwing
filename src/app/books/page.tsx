@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getCollectionProducts } from "@/lib/shopify/products";
-import { formatPrice } from "@/lib/format";
+import SalePrice from "@/components/SalePrice";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import QuickAddButton from "@/components/QuickAddButton";
 import ProductListJsonLd from "@/components/ProductListJsonLd";
@@ -60,7 +60,11 @@ export default async function BooksPage() {
               <div className="body">
                 <h3>{book.title}</h3>
                 <div className="price">
-                  {formatPrice(book.priceRange.minVariantPrice.amount, book.priceRange.minVariantPrice.currencyCode)}
+                  <SalePrice
+                    price={book.priceRange.minVariantPrice}
+                    compareAt={book.compareAtPriceRange?.minVariantPrice}
+                    showBadge={false}
+                  />
                 </div>
                 {book.variants[0] && (
                   <QuickAddButton

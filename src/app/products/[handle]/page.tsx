@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProductByHandle } from "@/lib/shopify/products";
-import { formatPrice } from "@/lib/format";
+import SalePrice from "@/components/SalePrice";
 import { SITE_URL, metaDescription } from "@/lib/site";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import AddToCart from "@/components/AddToCart";
@@ -123,7 +123,10 @@ export default async function ProductPage({
         <div>
           <h1 className="pdp-title">{product.title}</h1>
           <div className="pdp-price">
-            {formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}
+            <SalePrice
+              price={product.priceRange.minVariantPrice}
+              compareAt={product.compareAtPriceRange?.minVariantPrice}
+            />
           </div>
           {isDigital && (
             <div className="pdp-digital">

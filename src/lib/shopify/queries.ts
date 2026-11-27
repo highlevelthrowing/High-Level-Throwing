@@ -63,6 +63,19 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
         currencyCode
       }
     }
+    # The pre-sale price Shopify calls "Compare at". Without it the storefront
+    # could only ever render the current price, so a markdown looked like a
+    # plain price change rather than a discount.
+    compareAtPriceRange {
+      minVariantPrice {
+        amount
+        currencyCode
+      }
+      maxVariantPrice {
+        amount
+        currencyCode
+      }
+    }
     variants(first: 25) {
       nodes {
         id
@@ -70,6 +83,10 @@ export const PRODUCT_FRAGMENT = /* GraphQL */ `
         availableForSale
         quantityAvailable
         price {
+          amount
+          currencyCode
+        }
+        compareAtPrice {
           amount
           currencyCode
         }

@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { isShopifyConfigured } from "@/lib/shopify/client";
 import { getProducts, SHOP_EQUIPMENT_QUERY } from "@/lib/shopify/products";
-import { formatPrice } from "@/lib/format";
+import SalePrice from "@/components/SalePrice";
 import ShopifySetupNotice from "@/components/ShopifySetupNotice";
 import QuickAddButton from "@/components/QuickAddButton";
 import ProductListJsonLd from "@/components/ProductListJsonLd";
@@ -67,7 +67,11 @@ export default async function ShopPage() {
               <div className="body">
                 <h3>{product.title}</h3>
                 <div className="price">
-                  {formatPrice(product.priceRange.minVariantPrice.amount, product.priceRange.minVariantPrice.currencyCode)}
+                  <SalePrice
+                    price={product.priceRange.minVariantPrice}
+                    compareAt={product.compareAtPriceRange?.minVariantPrice}
+                    showBadge={false}
+                  />
                 </div>
                 {product.variants[0] && (
                   <QuickAddButton

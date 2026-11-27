@@ -20,6 +20,8 @@ export type ProductVariant = {
    */
   quantityAvailable?: number | null;
   price: Money;
+  /** Pre-sale price; null when the variant is not marked down. */
+  compareAtPrice: Money | null;
   image: ShopifyImage | null;
   selectedOptions: { name: string; value: string }[];
 };
@@ -54,6 +56,11 @@ export type Product = {
     minVariantPrice: Money;
     maxVariantPrice: Money;
   };
+  /** Pre-sale range; amounts are "0.0" when nothing is marked down. */
+  compareAtPriceRange: {
+    minVariantPrice: Money;
+    maxVariantPrice: Money;
+  } | null;
   variants: ProductVariant[];
 };
 
